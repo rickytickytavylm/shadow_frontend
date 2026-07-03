@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Исходники изображений — сайт использует только assets/webp/*.webp.
+# Оригиналы остаются локально, в репозиторий не заливаются.
+assets/*.png
+assets/*.PNG
+assets/*.jpg
+assets/*.JPG
+assets/*.jpeg
+assets/*.JPEG
+assets/*.heic
+assets/*.HEIC

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Чемпионат «ТЕНЬ» - 28 ноября 2026, Москва, театр «Золотое кольцо». Пришло время выйти из тени.">
+  <title>ТЕНЬ - чемпионат</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("reveal-ready");</script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header glass-panel" data-header>
+      <a class="brand" href="index.html" aria-label="ТЕНЬ - на главную">ТЕНЬ</a>
+      <nav class="desktop-nav" aria-label="Главная навигация">
+        <a href="#about">О чемпионате</a>
+        <a href="#calendar">Календарь</a>
+        <a href="#path">Путь участника</a>
+        <a href="rules.html">Правила</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-link" href="#ai" data-ai-open>AI-консультант</a>
+        <a class="btn btn-small btn-dark" href="apply.html">Подать заявку</a>
+        <button class="menu-button" type="button" data-menu-button aria-label="Открыть меню"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <div class="mobile-menu glass-panel" data-mobile-menu>
+      <a href="#about">О чемпионате</a>
+      <a href="#calendar">Календарь</a>
+      <a href="#path">Путь участника</a>
+      <a href="rules.html">Правила</a>
+      <a href="#ai" data-ai-open>AI-консультант</a>
+      <a href="apply.html">Подать заявку</a>
+    </div>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <picture class="hero-media">
+          <source media="(max-width: 720px)" srcset="assets/webp/hero_mobile.webp">
+          <img src="assets/webp/teni-main_for_deskstop.webp" alt="Силуэт танцора за матовым стеклом">
+        </picture>
+        <div class="hero-vignette"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Чемпионат сценического искусства</p>
+          <h1 id="hero-title">ТЕНЬ</h1>
+          <p class="hero-meta">28 ноября 2026 · Москва · театр «Золотое кольцо»</p>
+          <div class="hero-actions">
+            <a class="btn btn-light" href="apply.html">Подать заявку</a>
+            <a class="btn btn-glass" href="rules.html">Узнать правила</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Концепция (iOS Widget Style with Blurred Cards over Background) -->
+      <section class="section editorial" id="about">
+        <div class="editorial-heading">
+          <span class="section-kicker">Концепция</span>
+          <h2>Пространство для подлинности, глубины и смелости</h2>
+        </div>
+        <div class="concept-layout">
+          <div class="editorial-lead">
+            <p>Чемпионат «ТЕНЬ» - это настоящее творчество, рождающееся в глубинах разума и чувств. Это место, где можно проявить все грани своего Я и вывести на сцену то, что обычно остаётся скрытым.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Дата и площадка (App Store Event Card) -->
+      <section class="section">
+        <div class="event-card">
+          <div class="event-card-media">
+            <img src="assets/webp/for_event.webp" alt="Театр Золотое Кольцо" class="event-card-img" onerror="this.style.display='none';">
+            <div class="event-media-placeholder">
+              <div class="spotlight"></div>
+              <span class="placeholder-text">Театр «Золотое кольцо»</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <span class="event-kicker">дата и площадка / театр</span>
+            <h2 class="event-title">28 ноября 2026</h2>
+            <p class="event-description">Театр «Золотое кольцо» - площадка, где рождается магия сцены. Пространство, созданное для того, чтобы каждый номер звучал на полную силу.</p>
+            
+            <div class="event-card-divider"></div>
+            
+            <div class="event-card-footer">
+              <div class="event-footer-left">
+                <div class="event-footer-meta">
+                  <span class="event-footer-title">Театр «Золотое кольцо»</span>
+                  <span class="event-footer-subtitle">Москва, ул. Тимирязевская, 17</span>
+                </div>
+              </div>
+              <div class="event-footer-right">
+                <a href="https://yandex.ru/maps/?text=Москва,+ул.+Тимирязевская,+17" target="_blank" rel="noopener noreferrer" class="event-card-btn">Открыть</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Путь участника -->
+      <section class="section editorial" id="path">
+        <div class="editorial-heading">
+          <span class="section-kicker">Путь участника</span>
+          <h2>От заявки до сцены</h2>
+        </div>
+        <div class="steps-list">
+          <article class="step-row"><span class="step-num">01</span><div><h3>Подать заявку</h3><p>Заполнить форму на сайте и отправить видео на отбор.</p></div></article>
+          <article class="step-row"><span class="step-num">02</span><div><h3>Оплатить видеоотбор</h3><p>Оплата производится при подаче заявки.</p></div></article>
+          <article class="step-row"><span class="step-num">03</span><div><h3>Получить подтверждение</h3><p>На почту приходит уведомление, что заявка принята.</p></div></article>
+          <article class="step-row"><span class="step-num">04</span><div><h3>Дождаться результатов</h3><p>Списки появятся в официальных каналах чемпионата.</p></div></article>
+          <article class="step-row"><span class="step-num">05</span><div><h3>Оплатить взнос</h3><p>После отбора есть 7 календарных дней на оплату участия.</p></div></article>
+          <article class="step-row"><span class="step-num">06</span><div><h3>Выйти на сцену</h3><p>Приехать на площадку и получить удовольствие от атмосферы.</p></div></article>
+        </div>
+      </section>
+
+      <!-- Календарь -->
+      <section class="section editorial section-dark" id="calendar">
+        <div class="editorial-heading">
+          <span class="section-kicker">Календарь</span>
+          <h2>Важные даты чемпионата</h2>
+        </div>
+        <div class="timeline-list">
+          <article class="timeline-row"><span class="timeline-date">10 июля</span><h3>Старт приёма заявок</h3><p>Открывается подача заявок на видеоотбор.</p></article>
+          <article class="timeline-row"><span class="timeline-date">7 сентября</span><h3>Окончание приёма заявок</h3><p>Последний день подачи заявки на видеоотбор.</p></article>
+          <article class="timeline-row"><span class="timeline-date">14 сентября</span><h3>Результаты видеоотбора</h3><p>Оглашение списков прошедших видеоотбор.</p></article>
+          <article class="timeline-row"><span class="timeline-date">28 сентября</span><h3>Финальные списки</h3><p>Публикация окончательных списков участников.</p></article>
+          <article class="timeline-row"><span class="timeline-date">7 ноября</span><h3>Финальный дедлайн</h3><p>Приём информации по выступлению, фото, видео, стилисту и реквизиту.</p></article>
+        </div>
+      </section>
+
+      <!-- Акцентный виджет финального дня в стиле iOS -->
+      <section class="section" aria-label="Финальный день чемпионата">
+        <div class="calendar-accent-card">
+          <img src="assets/webp/background2.webp" alt="Финальный день" class="calendar-card-bg">
+          <div class="calendar-card-overlay"></div>
+          
+          <div class="calendar-card-content">
+            <div class="calendar-card-main">
+              <span class="widget-date-pill">28 ноября</span>
+              <h2>Твой шанс выйти из тени</h2>
+            </div>
+            
+            <div class="calendar-card-feature">
+              <span class="feature-badge">Особенности дня</span>
+              <h3>За кулисами магии</h3>
+              <p>Каждого участника ждет профессиональный сценический свет, звук премиум-класса, а также фото- и видеосъемка выступления.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Главные правила -->
+      <section class="section editorial">
+        <div class="editorial-heading">
+          <span class="section-kicker">Главные правила</span>
+          <h2>Сцена требует свободы и ответственности</h2>
+        </div>
+        <div class="editorial-grid">
+          <div class="editorial-lead">
+            <ul class="clean-list">
+              <li>Чемпионат проводится в формате 18+.</li>
+              <li>Участие возможно только через видеоотбор.</li>
+              <li>Регистрационный взнос за видеоотбор не возвращается.</li>
+              <li>Реквизит, декорации и помощники согласуются заранее.</li>
+              <li>Костюм и номер должны соответствовать сценической этике и безопасности.</li>
+            </ul>
+            <a class="btn btn-dark" href="rules.html">Открыть положение</a>
+          </div>
+          <div class="editorial-side">
+            <div class="image-placeholder square" data-label="Фото / визуал правил"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Требования к видеоотбору -->
+      <section class="section editorial section-dark">
+        <div class="editorial-heading">
+          <span class="section-kicker">Видеоотбор</span>
+          <h2>Требования к видео</h2>
+        </div>
+        <div class="editorial-grid">
+          <div class="editorial-lead">
+            <ul class="video-req-list">
+              <li><span class="req-num">01</span><span class="req-text">Хорошее освещение</span></li>
+              <li><span class="req-num">02</span><span class="req-text">Статичная камера</span></li>
+              <li><span class="req-num">03</span><span class="req-text">Без спецэффектов, склеек и нарезок</span></li>
+              <li><span class="req-num">04</span><span class="req-text">Длительность от 1,5 минут</span></li>
+              <li><span class="req-num">05</span><span class="req-text">Только участники на видео</span></li>
+              <li><span class="req-num">06</span><span class="req-text">Для групп - минимум 60% команды</span></li>
+              <li><span class="req-num">07</span><span class="req-text">Видео должно отражать текущий уровень</span></li>
+              <li><span class="req-num">08</span><span class="req-text">Видео не старше 6 месяцев</span></li>
+            </ul>
+          </div>
+          <div class="editorial-side">
+            <div class="image-container editorial-media">
+              <img src="assets/webp/videoControl.webp" alt="Пример кадра для видеоотбора" class="slot-img">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Категории -->
+      <section class="section editorial" id="categories">
+        <div class="editorial-heading">
+          <span class="section-kicker">Категории</span>
+          <h2>Категории чемпионата</h2>
+        </div>
+        <div class="cat-lead">
+          <p>Соло-категории в направлении Pole Exotic делятся по уровню подготовки. Категории от двух участников идут без разделения по уровню. Также в этом сезоне мы представляем две новые категории.</p>
+        </div>
+        <div class="cat-shelf">
+          <div class="cat-shelf-head">
+            <span class="cat-group-tag">Соло · Pole Exotic</span>
+            <h3>По уровню подготовки</h3>
+          </div>
+          <div class="cat-bento" aria-label="Соло-категории по уровню подготовки">
+            <article class="cat-card cat-card--wide">
+              <img src="assets/webp/beginner.webp" alt="Начинающие">
+              <span class="cat-card-num">01</span>
+              <h4>Начинающие</h4>
+            </article>
+            <article class="cat-card">
+              <img src="assets/webp/amateur.webp" alt="Любители">
+              <span class="cat-card-num">02</span>
+              <h4>Любители</h4>
+            </article>
+            <article class="cat-card">
+              <img src="assets/webp/semi-professional.webp" alt="Полупрофессионалы">
+              <span class="cat-card-num">03</span>
+              <h4>Полупрофессионалы</h4>
+            </article>
+            <article class="cat-card">
+              <img src="assets/webp/professional.webp" alt="Профессионалы">
+              <span class="cat-card-num">04</span>
+              <h4>Профессионалы</h4>
+            </article>
+            <article class="cat-card cat-card--xwide">
+              <img src="assets/webp/star.webp" alt="Звёзды">
+              <span class="cat-card-num">05</span>
+              <h4>Звёзды</h4>
+            </article>
+          </div>
+        </div>
+
+        <div class="cat-shelf">
+          <div class="cat-shelf-head">
+            <span class="cat-group-tag">От двух участников</span>
+            <h3>Групповые</h3>
+          </div>
+          <div class="cat-bento cat-bento--pair" aria-label="Групповые категории">
+            <article class="cat-card cat-card--wide cat-card-group">
+              <img src="assets/webp/duet.webp" alt="Дуэты">
+              <span class="cat-card-pill">2 участника</span>
+              <h4>Дуэты</h4>
+            </article>
+            <article class="cat-card cat-card--wide cat-card-group">
+              <img src="assets/webp/teams.webp" alt="Команды">
+              <span class="cat-card-pill">3+ участника</span>
+              <h4>Команды</h4>
+            </article>
+          </div>
+          <p class="cat-note">Групповые категории идут без разделения по уровню подготовки.</p>
+        </div>
+        <div class="cat-new">
+          <div class="cat-new-rail" aria-label="Новые категории чемпионата">
+            <article class="cat-new-card has-bg">
+              <img src="assets/webp/shadow_7.webp" alt="" class="cat-new-bg" aria-hidden="true">
+              <span class="cat-new-badge">Новое</span>
+              <h3>«Тень»</h3>
+              <p>Отдельная категория для перформанса и театра - пространство для самых глубоких и смелых сценических высказываний.</p>
+            </article>
+            <article class="cat-new-card has-bg">
+              <img src="assets/webp/for_battle.webp" alt="" class="cat-new-bg" aria-hidden="true">
+              <span class="cat-new-badge">Новое</span>
+              <h3>Батлы</h3>
+              <p>Прямые сценические поединки в двух уровнях: любители и профессионалы.</p>
+            </article>
+          </div>
+        </div>
+        <p class="cat-disclaimer">По итогам видеоотбора организаторы вправе изменить категорию участника - как выше, так и ниже. Участник может быть переведён выше при призовом месте в этом сезоне на других чемпионатах.</p>
+      </section>
+
+      <!-- Взносы -->
+      <section class="section editorial" id="fees">
+        <div class="editorial-heading">
+          <span class="section-kicker">Взносы</span>
+          <h2>Стоимость участия</h2>
+        </div>
+
+        <p class="fees-intro">Оплата проходит в два шага. Сначала - видеоотбор с личной обратной связью. Затем, после прохождения, - взнос за участие по вашей категории.</p>
+
+        <div class="fees-wrap">
+          <!-- Шаг 1 -->
+          <div class="pricing-step">
+            <div class="pricing-step-head">
+              <span class="pricing-step-num">Шаг 1</span>
+              <h3>Видеоотбор и обратная связь</h3>
+              <p>Оплачивается при подаче заявки. Каждый участник получает личную обратную связь от Кристины Бродецкой - независимо от результата.</p>
+            </div>
+            <div class="price-card price-card-accent">
+              <span class="price-badge">Ранняя подача · до 31.07</span>
+              <div class="price-amount">
+                <span class="price-old">2 000 ₽</span>
+                <span class="price-now">1 700 ₽</span>
+              </div>
+              <p class="price-desc">С 01.08 по 07.09 - 2 000 ₽. Взнос целевой и не возвращается.</p>
+              <a class="btn btn-dark price-card-cta" href="apply.html">Подать заявку</a>
+            </div>
+          </div>
+
+          <!-- Шаг 2 -->
+          <div class="pricing-step">
+            <div class="pricing-step-head">
+              <span class="pricing-step-num">Шаг 2</span>
+              <h3>Взнос участника чемпионата</h3>
+              <p>После оглашения списков - 7 дней на оплату. В сумму входит трек и отчисления в РАО/ВОИС.</p>
+            </div>
+            <div class="plans-group">
+            <div class="plans">
+              <article class="plan">
+                <div class="plan-top">
+                  <h4>Соло</h4>
+                  <span class="plan-sub">Индивидуальное выступление</span>
+                </div>
+                <div class="plan-price"><span class="plan-amount">9 000 ₽</span></div>
+                <ul class="plan-features">
+                  <li>Один участник на сцене</li>
+                  <li>Музыкальный трек включён</li>
+                  <li>Отчисления в РАО/ВОИС</li>
+                </ul>
+                <a class="btn btn-light plan-cta" href="apply.html">Подать заявку</a>
+              </article>
+
+              <article class="plan">
+                <div class="plan-top">
+                  <h4>Батлы</h4>
+                  <span class="plan-sub">Поединок один на один</span>
+                </div>
+                <div class="plan-price"><span class="plan-amount">9 000 ₽</span></div>
+                <ul class="plan-features">
+                  <li>Формат один на один</li>
+                  <li>Уровни: любители и профи</li>
+                  <li>Трек и отчисления включены</li>
+                </ul>
+                <a class="btn btn-light plan-cta" href="apply.html">Подать заявку</a>
+              </article>
+
+              <article class="plan">
+                <div class="plan-top">
+                  <h4>Дуэты</h4>
+                  <span class="plan-sub">Два участника</span>
+                </div>
+                <div class="plan-price"><span class="plan-amount">6 500 ₽</span><span class="plan-per">/ чел</span></div>
+                <ul class="plan-features">
+                  <li>Цена за одного человека</li>
+                  <li>Музыкальный трек включён</li>
+                  <li>Отчисления в РАО/ВОИС</li>
+                </ul>
+                <a class="btn btn-light plan-cta" href="apply.html">Подать заявку</a>
+              </article>
+
+              <article class="plan">
+                <div class="plan-top">
+                  <h4>Команды</h4>
+                  <span class="plan-sub">От трёх участников</span>
+                </div>
+                <div class="plan-price"><span class="plan-amount">4 500 ₽</span><span class="plan-per">/ чел</span></div>
+                <ul class="plan-features">
+                  <li>Цена за одного человека</li>
+                  <li>Музыкальный трек включён</li>
+                  <li>Отчисления в РАО/ВОИС</li>
+                </ul>
+                <a class="btn btn-light plan-cta" href="apply.html">Подать заявку</a>
+              </article>
+            </div>
+            <a class="btn plans-cta" href="apply.html">Подать заявку</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Критерии оценки -->
+      <section class="section editorial">
+        <div class="editorial-heading">
+          <span class="section-kicker">Оценка</span>
+          <h2>Критерии оценки выступления</h2>
+        </div>
+        <p class="criteria-lead">Каждое выступление судьи оценивают по семи направлениям. Нажмите на критерий, чтобы раскрыть, что именно смотрит жюри.</p>
+        <div class="criteria-accordion">
+          <details class="criteria-item">
+            <summary><h3>Техника</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Чистота и сложность исполнения: контроль хвата, стабильность силовых и гибкостных элементов, качество вращений, линий и переходов. Ценятся уверенность, отсутствие сбоев и подстраховок, а также владение сложными связками без потери чистоты движения.</p>
+          </details>
+          <details class="criteria-item">
+            <summary><h3>Артистизм</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Эмоциональная подача и актёрская игра: харизма, вовлечённость, контакт со зрителем и умение удерживать образ от первой до последней секунды. Жюри смотрит, живёт ли артист номером или просто выполняет элементы.</p>
+          </details>
+          <details class="criteria-item">
+            <summary><h3>Музыкальность</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Попадание движений в ритм и акценты трека, работа с динамикой, паузами и нарастаниями. Хореография должна раскрывать музыку, а не идти параллельно ей — важны и точные акценты, и осмысленные паузы.</p>
+          </details>
+          <details class="criteria-item">
+            <summary><h3>Образ</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Целостность сценического образа: костюм, грим, стиль движения и подача работают на единую идею. Все детали должны складываться в одно убедительное высказывание, а не спорить друг с другом.</p>
+          </details>
+          <details class="criteria-item">
+            <summary><h3>Композиция номера</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Драматургия выступления: завязка, развитие, кульминация и финал. Оценивается логика перемещений по сцене, использование пространства и пилона, а также ритм чередования сложных моментов и «дышащих» пауз.</p>
+          </details>
+          <details class="criteria-item">
+            <summary><h3>Оригинальность</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Свежесть идеи и хореографических решений, авторский почерк, нестандартные связки и находки. Приветствуется смелость: жюри выше оценивает то, что удивляет и запоминается, а не повторяет шаблоны.</p>
+          </details>
+          <details class="criteria-item">
+            <summary><h3>Соответствие концепции</h3><span class="criteria-chevron" aria-hidden="true"></span></summary>
+            <p>Раскрытие темы чемпионата «ТЕНЬ»: глубина замысла и смелость сценического высказывания, а также соответствие номера выбранной категории и духу события — выходу из тени на свет сцены.</p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Организаторы -->
+      <section class="section editorial" id="team">
+        <div class="editorial-heading">
+          <span class="section-kicker">Команда</span>
+          <h2>Организаторы чемпионата</h2>
+        </div>
+        <div class="team-grid">
+          <article class="team-card">
+            <div class="team-photo" data-label="Фото · Кристина">
+              <img src="assets/webp/Kristina.webp" alt="Кристина Бродецкая" onerror="this.style.display='none';">
+            </div>
+            <div class="team-info">
+              <h3>Кристина Бродецкая</h3>
+              <span class="team-role">Главный учредитель чемпионата</span>
+              <p>Профессиональный хореограф и тренер по pole dance, автор шоу-спектакля «Виновна ли». Многократная чемпионка российских и международных соревнований, презентер мастер-классов и судья в России и за рубежом. Соучредитель школы танцев PROBRO, участница «Танцев» на ТНТ, создатель бренда одежды KRISBRO.</p>
+              <ul class="team-awards">
+                <li>Победитель Pole Awards 2024 - Танцор Frame Up Exotic</li>
+                <li>Победитель Pole Awards 2024 - Группа года</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <div class="team-photo" data-label="Фото · Анна">
+              <img src="assets/webp/Anna.webp" alt="Анна Васильева" onerror="this.style.display='none';">
+            </div>
+            <div class="team-info">
+              <h3>Анна Васильева</h3>
+              <span class="team-role">Организационная команда</span>
+              <p>Профессиональный хореограф, тренер и танцор, постановщик шоу-программ спортивных и клубных мероприятий. Специализируется на сценических номерах и массовых перформансах. Входит в организационную группу спектакля «Виновна ли?».</p>
+            </div>
+          </article>
+
+          <article class="team-card">
+            <div class="team-photo" data-label="Фото · Светлана">
+              <img src="assets/webp/Svetlana.webp" alt="Светлана Бессарабова" onerror="this.style.display='none';">
+            </div>
+            <div class="team-info">
+              <h3>Светлана Бессарабова</h3>
+              <span class="team-role">Организационная команда</span>
+              <p>Менеджер в области развития и IT с экспертизой в финтехе. Участвует в творческих проектах: спектакль «Виновна ли?», команда PROBRO TEAM. В её жизни органично соединяются технологичная среда финтеха, сцена, движение и творчество.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Финальный CTA -->
+      <section class="final-cta">
+        <div class="final-cta-content">
+          <span class="section-kicker">28 ноября 2026</span>
+          <h2>Готов выйти из тени?</h2>
+          <p>Подай заявку на видеоотбор и сделай первый шаг к сцене чемпионата.</p>
+          <a class="btn btn-light" href="apply.html">Подать заявку</a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <span class="footer-logo">ТЕНЬ</span>
+              <p>Чемпионат сценического искусства</p>
+              <div class="footer-socials">
+                <a href="https://t.me/teni_champ" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Telegram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </a>
+                <a href="https://instagram.com/teni_championship" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.75-.9a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg>
+                </a>
+              </div>
+            </div>
+            
+            <div class="footer-col">
+              <h4>Навигация</h4>
+              <a href="#about">О чемпионате</a>
+              <a href="#calendar">Календарь</a>
+              <a href="#categories">Категории</a>
+              <a href="#fees">Взносы</a>
+              <a href="#team">Организаторы</a>
+            </div>
+            
+            <div class="footer-col">
+              <h4>Участникам</h4>
+              <a href="apply.html">Подать заявку</a>
+              <a href="rules.html">Положение</a>
+              <a href="#path">Путь участника</a>
+            </div>
+            
+            <div class="footer-col">
+              <h4>Контакты</h4>
+              <p class="footer-contact-info">
+                <a href="https://t.me/teni_championship">Telegram: @teni_championship</a><br>
+                <a href="https://instagram.com/teni_championship">Instagram: @teni_championship</a><br>
+                <a href="mailto:teni.champ@mail.com">teni.champ@mail.com</a>
+              </p>
+              <p class="footer-date">28 ноября 2026 · театр «Золотое кольцо», Москва</p>
+            </div>
+          </div>
+          
+          <div class="footer-bottom">
+            <p>© 2026 Чемпионат «ТЕНЬ». Все права защищены. 18+</p>
+            <div class="footer-legal">
+              <a href="privacy.html">Конфиденциальность</a>
+              <a href="offer.html">Публичная оферта</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- AI-консультант (визуальная заглушка, автоответ) -->
+  <button class="ai-fab" type="button" data-ai-open aria-label="Открыть AI-консультанта">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.9 4.9L18.8 8.8 13.9 10.7 12 15.6 10.1 10.7 5.2 8.8 10.1 6.9 12 2zM19 14l.95 2.45L22.4 17.4l-2.45.95L19 20.8l-.95-2.45L15.6 17.4l2.45-.95L19 14zM6 15l.8 2.2L9 18l-2.2.8L6 21l-.8-2.2L3 18l2.2-.8L6 15z"/></svg>
+    <span>AI</span>
+  </button>
+
+  <div class="ai-overlay" data-ai-overlay hidden></div>
+
+  <aside class="ai-panel" data-ai-panel hidden aria-label="AI-консультант чемпионата ТЕНЬ">
+    <header class="ai-head">
+      <div class="ai-head-id">
+        <span class="ai-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l1.9 4.9L18.8 8.8 13.9 10.7 12 15.6 10.1 10.7 5.2 8.8 10.1 6.9 12 2z"/></svg>
+        </span>
+        <div class="ai-head-text">
+          <span class="ai-title">AI-консультант</span>
+          <span class="ai-status"><i class="ai-dot"></i> Скоро в обновлении</span>
+        </div>
+      </div>
+      <button class="ai-close" type="button" data-ai-close aria-label="Закрыть чат">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.3 1.41 1.41 6.3-6.3 6.3 6.3 1.41-1.41-6.3-6.3 6.3-6.3z"/></svg>
+      </button>
+    </header>
+    <div class="ai-messages" data-ai-messages>
+      <div class="ai-msg ai-msg--bot">Привет! Я AI-консультант чемпионата ТЕНЬ. Скоро смогу подсказать по категориям, правилам, взносам и заявке. Спросите что-нибудь уже сейчас.</div>
+    </div>
+    <div class="ai-suggests" data-ai-suggests>
+      <button type="button" class="ai-chip">Как выбрать категорию?</button>
+      <button type="button" class="ai-chip">Сколько стоит участие?</button>
+      <button type="button" class="ai-chip">Что нужно для видео?</button>
+    </div>
+    <form class="ai-input" data-ai-form>
+      <input type="text" placeholder="Напишите вопрос..." data-ai-text autocomplete="off" maxlength="500">
+      <button type="submit" class="ai-send" aria-label="Отправить">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 20.5 21 12 3 3.5 3 10l12 2-12 2z"/></svg>
+      </button>
+    </form>
+  </aside>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

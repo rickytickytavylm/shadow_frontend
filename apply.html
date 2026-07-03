@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Подать заявку - ТЕНЬ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="inner-page">
+  <div class="page-shell">
+    <header class="site-header glass-panel is-scrolled" data-header>
+      <a class="brand" href="index.html" aria-label="ТЕНЬ - на главную">ТЕНЬ</a>
+      <nav class="desktop-nav" aria-label="Главная навигация">
+        <a href="index.html#about">О чемпионате</a>
+        <a href="index.html#calendar">Календарь</a>
+        <a href="index.html#path">Путь участника</a>
+        <a href="rules.html">Правила</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-small btn-dark" href="index.html">На главную</a>
+        <button class="menu-button" type="button" data-menu-button aria-label="Открыть меню"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <div class="mobile-menu glass-panel" data-mobile-menu>
+      <a href="index.html#about">О чемпионате</a>
+      <a href="index.html#calendar">Календарь</a>
+      <a href="index.html#path">Путь участника</a>
+      <a href="rules.html">Правила</a>
+      <a href="apply.html">Подать заявку</a>
+    </div>
+
+    <main>
+      <section class="inner-hero">
+        <span class="section-kicker">Заявка</span>
+        <h1>Подать заявку на видеоотбор</h1>
+        <p class="page-lead">Приём заявок: 10 июля - 7 сентября 2026. Разместите видео на YouTube, VK или другой площадке и укажите ссылку в форме. После отправки заявка поступит организаторам.</p>
+      </section>
+
+      <div class="apply-layout">
+        <section class="glass-card form-shell">
+          <form class="apply-form" id="apply-form" novalidate>
+            <label>
+              <span>Имя и фамилия</span>
+              <input type="text" name="fullName" placeholder="Ваше имя" required>
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="name@example.com" required>
+            </label>
+            <label>
+              <span>Телефон</span>
+              <input type="tel" name="phone" placeholder="+7 900 000-00-00" required>
+            </label>
+            <label>
+              <span>Telegram <em class="field-opt">(необязательно)</em></span>
+              <input type="text" name="telegram" placeholder="@username">
+            </label>
+            <label>
+              <span>Город <em class="field-opt">(необязательно)</em></span>
+              <input type="text" name="city" placeholder="Москва">
+            </label>
+            <label>
+              <span>Категория</span>
+              <select name="category" required>
+                <option value="" selected disabled>Выберите категорию</option>
+                <option value="beginner">Соло · Начинающие</option>
+                <option value="amateur">Соло · Любители</option>
+                <option value="semi-professional">Соло · Полупрофессионалы</option>
+                <option value="professional">Соло · Профессионалы</option>
+                <option value="star">Соло · Звёзды</option>
+                <option value="duet">Дуэты</option>
+                <option value="team">Команды</option>
+                <option value="battle">Батлы</option>
+                <option value="shadow">Тень</option>
+              </select>
+            </label>
+            <label>
+              <span>Ссылка на видео</span>
+              <input type="url" name="videoUrl" placeholder="https://" required>
+            </label>
+            <label>
+              <span>Комментарий <em class="field-opt">(необязательно)</em></span>
+              <textarea name="comment" rows="3" placeholder="Что важно знать организаторам"></textarea>
+            </label>
+            <!-- honeypot: скрытое поле против ботов -->
+            <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="checkbox-list">
+              <label><input type="checkbox" name="age" required> Мне есть 18 лет</label>
+              <label><input type="checkbox" name="rules" required> Я согласен с <a href="rules.html">положением и правилами</a> чемпионата</label>
+              <label><input type="checkbox" name="privacy" required> Я согласен на <a href="privacy.html">обработку персональных данных</a></label>
+              <label><input type="checkbox" name="media" required> Я согласен на фото- и видеосъёмку</label>
+              <label><input type="checkbox" name="refund" required> Я понимаю, что регистрационный взнос за видеоотбор не возвращается</label>
+              <label><input type="checkbox" name="health" required> Я подтверждаю отсутствие противопоказаний к физической нагрузке</label>
+            </div>
+            <button class="btn btn-dark" type="submit" id="apply-submit">Отправить заявку</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+            <p class="page-lead" style="margin: 0;">Оплата видеоотбора через ЮKassa будет подключена на следующем этапе. Сейчас заявка отправляется организаторам.</p>
+          </form>
+        </section>
+
+        <aside class="apply-aside">
+          <div class="apply-info-card">
+            <h2>Стоимость видеоотбора</h2>
+            <div class="fee-line"><span>10.07 - 31.07</span><span>1 700 ₽</span></div>
+            <div class="fee-line"><span>01.08 - 07.09</span><span>2 000 ₽</span></div>
+            <p style="margin-top: 14px;">Каждый участник получает личную обратную связь от Кристины Бродецкой.</p>
+          </div>
+          <div class="apply-info-card">
+            <h2>Что нужно для видео</h2>
+            <ul>
+              <li>Хорошее освещение и статичная камера</li>
+              <li>Без монтажа, склеек и спецэффектов</li>
+              <li>От 1,5 минут, не старше 6 месяцев</li>
+              <li>Только участники на кадре</li>
+            </ul>
+            <p style="margin-top: 14px;"><a href="index.html#categories">Все категории</a> · <a href="rules.html">Полное положение</a></p>
+          </div>
+          <div class="apply-info-card">
+            <h2>После отбора</h2>
+            <p>У прошедших видеоотбор есть 7 дней на оплату участия: соло и батлы - 9 000 ₽, дуэты - 6 500 ₽/чел, команды - 4 500 ₽/чел.</p>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <span class="footer-logo">ТЕНЬ</span>
+              <p>Чемпионат сценического искусства</p>
+              <div class="footer-socials">
+                <a href="https://t.me/teni_champ" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+                <a href="https://instagram.com/teni_championship" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.75-.9a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg></a>
+              </div>
+            </div>
+            <div class="footer-col">
+              <h4>Навигация</h4>
+              <a href="index.html#about">О чемпионате</a>
+              <a href="index.html#calendar">Календарь</a>
+              <a href="index.html#categories">Категории</a>
+              <a href="index.html#fees">Взносы</a>
+              <a href="index.html#team">Организаторы</a>
+            </div>
+            <div class="footer-col">
+              <h4>Участникам</h4>
+              <a href="apply.html">Подать заявку</a>
+              <a href="rules.html">Положение</a>
+              <a href="index.html#path">Путь участника</a>
+            </div>
+            <div class="footer-col">
+              <h4>Контакты</h4>
+              <p class="footer-contact-info">
+                <a href="https://t.me/teni_championship">Telegram: @teni_championship</a><br>
+                <a href="https://instagram.com/teni_championship">Instagram: @teni_championship</a><br>
+                <a href="mailto:teni.champ@mail.com">teni.champ@mail.com</a>
+              </p>
+              <p class="footer-date">28 ноября 2026 · театр «Золотое кольцо», Москва</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <p>© 2026 Чемпионат «ТЕНЬ». Все права защищены. 18+</p>
+            <div class="footer-legal">
+              <a href="privacy.html">Конфиденциальность</a>
+              <a href="offer.html">Публичная оферта</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script src="apply.js"></script>
+</body>
+</html>
