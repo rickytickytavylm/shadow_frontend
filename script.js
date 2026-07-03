@@ -95,6 +95,14 @@ document.addEventListener('keydown', (event) => {
 
   const API_BASE = (window.SHADOW_CONFIG && window.SHADOW_CONFIG.API_BASE) || '';
 
+  // Статус в шапке чата: «Онлайн», если подключён бэкенд, иначе — заглушка.
+  const statusEl = panel.querySelector('.ai-status');
+  if (statusEl) {
+    statusEl.innerHTML = API_BASE
+      ? '<i class="ai-dot"></i> Онлайн'
+      : '<i class="ai-dot"></i> Скоро в обновлении';
+  }
+
   const STUB_REPLY =
     'Спасибо за вопрос! AI-консультант появится в ближайшем обновлении и сразу ответит по существу. ' +
     'А пока: правила - на странице «Положение», категории и взносы - на главной, заявку можно подать через кнопку «Подать заявку».';
