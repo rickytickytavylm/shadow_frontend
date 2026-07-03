@@ -1455,6 +1455,11 @@ img {
   -webkit-backdrop-filter: blur(6px);
 }
 
+.cat-card-text {
+  position: relative;
+  z-index: 2;
+}
+
 .cat-card h4 {
   position: relative;
   z-index: 2;
@@ -1463,6 +1468,11 @@ img {
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.15;
+}
+
+/* Описание категории показываем только в текстовом списке на мобиле */
+.cat-card-desc {
+  display: none;
 }
 
 .cat-note {
@@ -1961,7 +1971,7 @@ img {
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  grid-template-columns: 1.6fr 1fr 1fr;
   gap: 48px;
   align-items: start;
 }
@@ -2914,8 +2924,80 @@ body.inner-page .header-actions .btn-dark:hover {
     grid-template-columns: 1fr;
   }
 
-  /* Категории — горизонтальная лента на мобиле */
-  .cat-bento {
+  /* Соло-категории — аккуратный текстовый список на мобиле (без картинок и скролла) */
+  .cat-bento:not(.cat-bento--pair) {
+    display: flex;
+    flex-direction: column;
+    grid-auto-rows: auto;
+    gap: 0;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card {
+    grid-column: auto;
+    flex: none;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 2px;
+    background: transparent;
+    color: var(--ink);
+    border-radius: 0;
+    border-bottom: 1px solid rgba(10, 10, 11, 0.09);
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card:last-child {
+    border-bottom: 0;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card > img,
+  .cat-bento:not(.cat-bento--pair) .cat-card::after {
+    display: none;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card-num {
+    position: static;
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    background: var(--ink);
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    color: #fff;
+    font-size: 13px;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card h4 {
+    font-size: 17px;
+  }
+
+  .cat-bento:not(.cat-bento--pair) .cat-card-desc {
+    display: block;
+    margin: 0;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  /* Групповые — горизонтальная лента с заметным peek на мобиле */
+  .cat-bento--pair {
     display: flex;
     grid-auto-rows: auto;
     gap: 14px;
@@ -2930,19 +3012,22 @@ body.inner-page .header-actions .btn-dark:hover {
     padding: 0 14px 6px;
   }
 
-  .cat-bento::-webkit-scrollbar {
+  .cat-bento--pair::-webkit-scrollbar {
     display: none;
   }
 
-  .cat-card,
-  .cat-card--wide,
-  .cat-card--xwide,
+  .cat-bento--pair .cat-card,
   .cat-bento--pair .cat-card--wide {
     grid-column: auto;
-    flex: 0 0 min(74vw, 290px);
+    flex: 0 0 min(80vw, 300px);
     height: clamp(360px, 100vw, 460px);
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     padding: 20px 22px;
+  }
+
+  /* У дуэтов показываем правый край снимка */
+  .cat-bento--pair .cat-card:first-child img {
+    object-position: right center;
   }
 
   .cat-new {
@@ -3578,29 +3663,36 @@ body.ai-open .ai-panel {
 @media (max-width: 720px) {
   .tabbar {
     position: fixed;
-    left: 12px;
-    right: 12px;
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    left: 14px;
+    right: 14px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     z-index: 58;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    align-items: end;
+    align-items: center;
     gap: 2px;
-    padding: 9px 8px;
-    border-radius: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 8px 8px;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
     background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.32) 100%
+      180deg,
+      rgba(255, 255, 255, 0.38) 0%,
+      rgba(255, 255, 255, 0.24) 100%
     );
     box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.95),
-      inset 0 -1px 2px rgba(255, 255, 255, 0.4),
-      0 14px 38px rgba(0, 0, 0, 0.22),
-      0 2px 10px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(24px) saturate(200%) brightness(1.08);
-    -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.08);
+      inset 0 1px 1px rgba(255, 255, 255, 0.85),
+      0 10px 30px rgba(0, 0, 0, 0.16);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    /* Скрыт в стартовой позиции — появляется после hero */
+    transform: translateY(calc(100% + 24px));
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+  }
+
+  body.tabbar-shown .tabbar {
+    transform: none;
+    opacity: 1;
   }
 
   .tabbar::after {
@@ -3612,10 +3704,10 @@ body.ai-open .ai-panel {
     padding: 1.5px;
     background: linear-gradient(
       130deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(255, 255, 255, 0) 30%,
-      rgba(255, 255, 255, 0) 66%,
-      rgba(255, 255, 255, 0.6) 100%
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0) 32%,
+      rgba(255, 255, 255, 0) 68%,
+      rgba(255, 255, 255, 0.4) 100%
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -3667,28 +3759,6 @@ body.ai-open .ai-panel {
     transform: scale(0.9);
   }
 
-  /* Центральная AI-кнопка — приподнятый акцент */
-  .tab-ai-orb {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    margin-top: -22px;
-    margin-bottom: 1px;
-    border-radius: 50%;
-    background: linear-gradient(160deg, #26262a 0%, #0a0a0b 100%);
-    box-shadow:
-      0 10px 24px rgba(0, 0, 0, 0.42),
-      inset 0 1px 1px rgba(255, 255, 255, 0.28);
-  }
-
-  .tab-ai-orb svg {
-    width: 24px;
-    height: 24px;
-    color: #fff;
-  }
-
   /* Навигация теперь в таб-баре — прячем бургер и AI-кнопку-пузырь */
   .menu-button {
     display: none !important;
@@ -3701,5 +3771,46 @@ body.ai-open .ai-panel {
   /* Место под фиксированный таб-бар, чтобы контент футера не перекрывался */
   .site-footer {
     padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ══ Немного уменьшенная типографика на мобиле ══ */
+@media (max-width: 720px) {
+  .hero h1 {
+    font-size: clamp(56px, 23vw, 100px);
+  }
+
+  .section h2 {
+    font-size: clamp(26px, 7.4vw, 34px);
+  }
+
+  .final-cta h2 {
+    font-size: 30px;
+  }
+
+  .inner-hero h1 {
+    font-size: 32px;
+  }
+
+  .form-shell h1,
+  .rules-page h1 {
+    font-size: 34px;
+  }
+
+  .cat-new-card h3 {
+    font-size: 23px;
+  }
+
+  .pricing-step-head h3 {
+    font-size: 22px;
+  }
+
+  .editorial-lead,
+  .page-lead {
+    font-size: 15.5px;
+  }
+
+  .section-kicker {
+    font-size: 11px;
   }
 }

@@ -221,3 +221,25 @@ document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && body.classList.contains('ai-open')) closeChat();
   });
 })();
+
+/* ── Нижний таб-бар: скрыт в стартовой позиции, появляется после hero ── */
+(() => {
+  const tabbar = document.querySelector('.tabbar');
+  if (!tabbar) return;
+
+  const hero = document.querySelector('.hero');
+  if (!hero) {
+    // Внутренние страницы без hero — показываем сразу.
+    body.classList.add('tabbar-shown');
+    return;
+  }
+
+  const update = () => {
+    const show = window.scrollY > hero.offsetHeight - 90;
+    body.classList.toggle('tabbar-shown', show);
+  };
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+})();
