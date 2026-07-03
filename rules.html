@@ -3,7 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Полное положение чемпионата «ТЕНЬ»: правила, безопасность, технические требования, регистрация, судейство.">
+  <meta name="theme-color" content="#0a0a0b">
   <title>Положение - ТЕНЬ</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/favicon.svg">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Чемпионат ТЕНЬ">
+  <meta property="og:title" content="Положение — чемпионат ТЕНЬ">
+  <meta property="og:description" content="Полное положение чемпионата «ТЕНЬ»: правила, требования к видео, регистрация и судейство.">
+  <meta property="og:url" content="https://xn----7sbocmxidei1bb9cwe.xn--p1ai/rules.html">
+  <meta property="og:image" content="https://xn----7sbocmxidei1bb9cwe.xn--p1ai/assets/webp/hero_mobile.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://xn----7sbocmxidei1bb9cwe.xn--p1ai/assets/webp/hero_mobile.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
@@ -274,6 +286,69 @@
       </footer>
     </main>
   </div>
+
+  <button class="ai-fab" type="button" data-ai-open aria-label="Открыть AI-консультанта">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.9 4.9L18.8 8.8 13.9 10.7 12 15.6 10.1 10.7 5.2 8.8 10.1 6.9 12 2zM19 14l.95 2.45L22.4 17.4l-2.45.95L19 20.8l-.95-2.45L15.6 17.4l2.45-.95L19 14zM6 15l.8 2.2L9 18l-2.2.8L6 21l-.8-2.2L3 18l2.2-.8L6 15z"/></svg>
+    <span>AI</span>
+  </button>
+
+  <div class="ai-overlay" data-ai-overlay hidden></div>
+
+  <aside class="ai-panel" data-ai-panel hidden aria-label="AI-консультант чемпионата ТЕНЬ">
+    <header class="ai-head">
+      <div class="ai-head-id">
+        <span class="ai-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l1.9 4.9L18.8 8.8 13.9 10.7 12 15.6 10.1 10.7 5.2 8.8 10.1 6.9 12 2z"/></svg>
+        </span>
+        <div class="ai-head-text">
+          <span class="ai-title">AI-консультант</span>
+          <span class="ai-status"><i class="ai-dot"></i> Скоро в обновлении</span>
+        </div>
+      </div>
+      <button class="ai-close" type="button" data-ai-close aria-label="Закрыть чат">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.3 1.41 1.41 6.3-6.3 6.3 6.3 1.41-1.41-6.3-6.3 6.3-6.3z"/></svg>
+      </button>
+    </header>
+    <div class="ai-messages" data-ai-messages>
+      <div class="ai-msg ai-msg--bot">Привет! Я AI-консультант чемпионата ТЕНЬ. Скоро смогу подсказать по категориям, правилам, взносам и заявке. Спросите что-нибудь уже сейчас.</div>
+    </div>
+    <div class="ai-suggests" data-ai-suggests>
+      <button type="button" class="ai-chip">Как выбрать категорию?</button>
+      <button type="button" class="ai-chip">Сколько стоит участие?</button>
+      <button type="button" class="ai-chip">Что нужно для видео?</button>
+    </div>
+    <form class="ai-input" data-ai-form>
+      <input type="text" placeholder="Напишите вопрос..." data-ai-text autocomplete="off" maxlength="500">
+      <button type="submit" class="ai-send" aria-label="Отправить">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 20.5 21 12 3 3.5 3 10l12 2-12 2z"/></svg>
+      </button>
+    </form>
+  </aside>
+
+  <nav class="tabbar" aria-label="Мобильная навигация">
+    <a class="tab" href="index.html#top" data-tab="home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.1 3 10.2V21h6v-6h6v6h6V10.2L12 3.1z"/></svg>
+      <span>Главная</span>
+    </a>
+    <a class="tab" href="index.html#calendar" data-tab="calendar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 7v10H5V9h14z"/></svg>
+      <span>Даты</span>
+    </a>
+    <button class="tab tab-ai" type="button" data-ai-open data-tab="ai" aria-label="AI-консультант">
+      <span class="tab-ai-orb"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2l1.9 4.9L18.8 8.8 13.9 10.7 12 15.6 10.1 10.7 5.2 8.8 10.1 6.9 12 2zM19 15l.7 1.8L21.5 17.5l-1.8.7L19 20l-.7-1.8L16.5 17.5l1.8-.7L19 15z"/></svg></span>
+      <span>AI</span>
+    </button>
+    <a class="tab is-active" href="rules.html" data-tab="rules">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v2H8v-2zm0 4h8v2H8v-2z"/></svg>
+      <span>Правила</span>
+    </a>
+    <a class="tab" href="apply.html" data-tab="apply">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 7 17 3.3a1 1 0 0 0-1.4 0l-1.8 1.8 5.1 5.1 1.8-1.8a1 1 0 0 0 0-1.4zM3 17.2V21h3.8L18 9.8 14.2 6 3 17.2z"/></svg>
+      <span>Заявка</span>
+    </a>
+  </nav>
+
+  <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -124,6 +124,22 @@ document.addEventListener('keydown', (event) => {
     messages.scrollTop = messages.scrollHeight;
   };
 
+  // Чистим Markdown: модель иногда присылает **жирный**, списки и заголовки,
+  // а сообщения выводятся как текст. Убираем разметку, сохраняя переносы строк.
+  const stripMarkdown = (s) =>
+    String(s)
+      .replace(/```[\s\S]*?```/g, (m) => m.replace(/```/g, '').trim())
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/!?\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
+      .replace(/^\s{0,3}#{1,6}\s+/gm, '')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      .replace(/\*([^*]+)\*/g, '$1')
+      .replace(/^\s*[-*+]\s+/gm, '• ')
+      .replace(/^\s*>\s?/gm, '')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+
   const addMessage = (text, who) => {
     const el = document.createElement('div');
     el.className = `ai-msg ai-msg--${who}`;
@@ -165,7 +181,8 @@ document.addEventListener('keydown', (event) => {
 
     const finish = (reply, isBot) => {
       typing.remove();
-      addMessage(reply, 'bot');
+      const clean = isBot ? stripMarkdown(reply) : reply;
+      addMessage(clean, 'bot');
       if (isBot) history.push({ role: 'assistant', content: reply });
     };
 

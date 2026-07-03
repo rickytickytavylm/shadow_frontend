@@ -2201,13 +2201,32 @@ img {
 }
 
 .checkbox-list label {
-  display: flex;
-  grid-template-columns: none;
-  align-items: flex-start;
-  gap: 10px;
+  display: block;
+  position: relative;
+  padding-left: 32px;
   color: var(--muted);
   font-weight: 600;
-  line-height: 1.35;
+  font-size: 15px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.checkbox-list label input[type="checkbox"] {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+
+.checkbox-list label a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .rules-blocks {
@@ -2296,6 +2315,31 @@ body.inner-page .desktop-nav {
 body.inner-page .desktop-nav a:hover,
 body.inner-page .header-link:hover {
   color: #000000;
+}
+
+/* Стеклянная кнопка в шапке внутренних страниц (glass-on-glass, iOS-стиль) */
+body.inner-page .header-actions .btn-dark {
+  color: #1d1d1f;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.62) 0%,
+    rgba(255, 255, 255, 0.34) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.35),
+    0 6px 18px rgba(0, 0, 0, 0.14);
+  backdrop-filter: blur(16px) saturate(190%) brightness(1.06);
+  -webkit-backdrop-filter: blur(16px) saturate(190%) brightness(1.06);
+}
+
+body.inner-page .header-actions .btn-dark:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
 }
 
 .inner-hero {
@@ -3354,6 +3398,8 @@ body.ai-open .ai-panel {
   border-radius: 18px;
   font-size: 14px;
   line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   animation: ai-msg-in 0.25s ease;
 }
 
@@ -3521,5 +3567,139 @@ body.ai-open .ai-panel {
   .reveal-ready .is-visible {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* ══ Мобильная стеклянная навигация (iOS tab bar) ══ */
+.tabbar {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .tabbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 58;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    align-items: end;
+    gap: 2px;
+    padding: 9px 8px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.32) 100%
+    );
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.95),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.4),
+      0 14px 38px rgba(0, 0, 0, 0.22),
+      0 2px 10px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(24px) saturate(200%) brightness(1.08);
+    -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.08);
+  }
+
+  .tabbar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(
+      130deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0) 66%,
+      rgba(255, 255, 255, 0.6) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .tab {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    padding: 4px 0 2px;
+    border: 0;
+    background: transparent;
+    color: rgba(10, 10, 11, 0.5);
+    font: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s ease, transform 0.18s ease;
+  }
+
+  .tab svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .tab span {
+    line-height: 1;
+  }
+
+  .tab.is-active {
+    color: var(--ink);
+  }
+
+  .tab:active {
+    transform: scale(0.9);
+  }
+
+  /* Центральная AI-кнопка — приподнятый акцент */
+  .tab-ai-orb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-top: -22px;
+    margin-bottom: 1px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, #26262a 0%, #0a0a0b 100%);
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.42),
+      inset 0 1px 1px rgba(255, 255, 255, 0.28);
+  }
+
+  .tab-ai-orb svg {
+    width: 24px;
+    height: 24px;
+    color: #fff;
+  }
+
+  /* Навигация теперь в таб-баре — прячем бургер и AI-кнопку-пузырь */
+  .menu-button {
+    display: none !important;
+  }
+
+  .ai-fab {
+    display: none !important;
+  }
+
+  /* Место под фиксированный таб-бар, чтобы контент футера не перекрывался */
+  .site-footer {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
   }
 }
