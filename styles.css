@@ -3542,6 +3542,11 @@ body.ai-open .ai-panel {
   padding: 0 18px 12px;
 }
 
+/* После первого сообщения быстрые кнопки скрываются навсегда */
+.ai-suggests[hidden] {
+  display: none !important;
+}
+
 .ai-chip {
   padding: 8px 13px;
   border-radius: 999px;
