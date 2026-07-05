@@ -439,6 +439,31 @@ img {
   text-transform: uppercase;
 }
 
+/* Заголовок-подпись: без крупного h2, только мелкая функциональная подпись */
+.editorial-heading--label {
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: start;
+  margin-bottom: 40px;
+  padding-bottom: 22px;
+}
+
+.editorial-heading--label .section-kicker {
+  color: rgba(10, 10, 11, 0.62);
+  font-size: 13px;
+}
+
+.section-dark .editorial-heading--label .section-kicker {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+/* Выравнивание текста по ширине */
+.editorial-lead--justify p {
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+}
+
 .section h2 {
   margin: 0;
   font-size: clamp(32px, 5vw, 64px);
@@ -1117,6 +1142,61 @@ img {
   line-height: 1.5;
 }
 
+/* ── Категории: единый текстовый список (десктоп и моб) ── */
+.cat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cat-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 28px;
+  align-items: baseline;
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(10, 10, 11, 0.1);
+}
+
+.cat-row:first-child {
+  border-top: 1px solid rgba(10, 10, 11, 0.1);
+}
+
+.cat-row-num {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: rgba(10, 10, 11, 0.38);
+}
+
+.cat-row-text h4 {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cat-row-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(10, 10, 11, 0.36);
+}
+
+.cat-row-text p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 /* ── Clean list ── */
 
 .clean-list {
@@ -1358,6 +1438,12 @@ img {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: clamp(320px, 32vw, 440px);
   gap: 14px;
+}
+
+/* Единый список всех категорий — одинаковые карточки */
+.cat-bento--all {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: clamp(300px, 26vw, 400px);
 }
 
 .cat-card {
@@ -2924,6 +3010,25 @@ body.inner-page .header-actions .btn-dark:hover {
   .step-row {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .cat-row {
+    grid-template-columns: 34px 1fr;
+    gap: 14px;
+    padding: 18px 0;
+  }
+
+  .cat-row-text h4 {
+    font-size: 18px;
+    gap: 8px;
+  }
+
+  .cat-row-tag {
+    font-size: 10px;
+  }
+
+  .cat-row-text p {
+    font-size: 14px;
   }
 
   .image-slot.half-width {
