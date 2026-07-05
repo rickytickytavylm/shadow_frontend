@@ -13,3 +13,7 @@ assets/*.jpeg
 assets/*.JPEG
 assets/*.heic
 assets/*.HEIC
+
+# Исходники видео — в репозиторий заливаем только сконвертированный mp4.
+assets/*.mov
+assets/*.MOV
