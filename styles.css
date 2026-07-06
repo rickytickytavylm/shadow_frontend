@@ -387,6 +387,18 @@ img {
   text-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
 }
 
+.hero h1.hero-title-brand {
+  font-size: clamp(40px, 8vw, 104px);
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+}
+
+.hero-title-sep {
+  font-weight: 300;
+  opacity: 0.5;
+  margin: 0 0.06em;
+}
+
 .hero-lead {
   margin: 22px 0 0;
   font-size: clamp(27px, 4.4vw, 60px);
@@ -1056,11 +1068,12 @@ img.calendar-card-bg {
 .calendar-card-main h2 {
   margin: 14px 0 12px;
   font-family: "Unbounded", "Inter", sans-serif;
-  font-size: clamp(28px, 3.5vw, 42px);
+  font-size: clamp(23px, 2.6vw, 34px);
   font-weight: 800;
   letter-spacing: -0.04em;
   color: #ffffff;
-  line-height: 1.1;
+  line-height: 1.15;
+  white-space: nowrap;
 }
 
 .calendar-card-lead {
@@ -1889,6 +1902,21 @@ img.calendar-card-bg {
   display: none;
   width: 100%;
   margin-top: 16px;
+}
+
+/* Заблокированная кнопка оплаты взноса (до 14 сентября) */
+.btn.is-locked {
+  opacity: 0.42;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.plans-note {
+  margin: 18px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(10, 10, 11, 0.55);
+  text-align: center;
 }
 
 /* ── Организаторы ── */
@@ -3217,6 +3245,12 @@ body.inner-page .header-actions .btn-dark:hover {
     box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
   }
 
+  .plans-note {
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0 16px 16px;
+    margin-top: 4px;
+  }
+
   .plans {
     grid-template-columns: 1fr;
     gap: 0;
@@ -3305,6 +3339,10 @@ body.inner-page .header-actions .btn-dark:hover {
 
   .calendar-card-feature {
     padding: 0;
+  }
+
+  .calendar-card-main h2 {
+    font-size: clamp(19px, 5.6vw, 26px);
   }
 
   .footer-grid {
@@ -3969,6 +4007,10 @@ body.ai-open .ai-panel {
 @media (max-width: 720px) {
   .hero h1 {
     font-size: clamp(56px, 23vw, 100px);
+  }
+
+  .hero h1.hero-title-brand {
+    font-size: clamp(32px, 11vw, 56px);
   }
 
   .section h2 {
