@@ -388,9 +388,10 @@ img {
 }
 
 .hero h1.hero-title-brand {
-  font-size: clamp(40px, 8vw, 104px);
-  letter-spacing: -0.04em;
-  line-height: 0.94;
+  font-size: clamp(38px, 6.2vw, 82px);
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  overflow-wrap: break-word;
 }
 
 .hero-title-sep {
@@ -4010,7 +4011,7 @@ body.ai-open .ai-panel {
   }
 
   .hero h1.hero-title-brand {
-    font-size: clamp(32px, 11vw, 56px);
+    font-size: clamp(28px, 7.6vw, 44px);
   }
 
   .section h2 {
