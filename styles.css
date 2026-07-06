@@ -1074,7 +1074,6 @@ img.calendar-card-bg {
   letter-spacing: -0.04em;
   color: #ffffff;
   line-height: 1.15;
-  white-space: nowrap;
 }
 
 .calendar-card-lead {
@@ -2102,10 +2101,16 @@ img.calendar-card-bg {
   font-family: "Unbounded", "Inter", system-ui, sans-serif;
   font-size: 24px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: #ffffff;
   display: block;
+}
+
+.footer-logo-sep {
+  font-weight: 300;
+  opacity: 0.5;
+  margin: 0 0.04em;
 }
 
 .footer-brand p {
