@@ -48,6 +48,9 @@
       category: form.category.value,
       videoUrl: form.videoUrl.value.trim(),
       comment: form.comment.value.trim(),
+      deviceId: (window.SHADOW_CONFIG && window.SHADOW_CONFIG.getDeviceId)
+        ? window.SHADOW_CONFIG.getDeviceId()
+        : "",
       website: data.website || "", // honeypot
       consent: true,
     };

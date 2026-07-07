@@ -13,7 +13,47 @@
   const host = location.hostname;
   const isLocal = host === "localhost" || host === "127.0.0.1" || host === "";
 
+  // Устойчивый идентификатор устройства (живёт в localStorage) и идентификатор
+  // текущей сессии чата (на время вкладки). Используются для склейки заявок и
+  // диалогов с ИИ в админке.
+  const uuid = () =>
+    (crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+          const r = (Math.random() * 16) | 0;
+          const v = c === "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        });
+
+  function getDeviceId() {
+    try {
+      let id = localStorage.getItem("shadow_device_id");
+      if (!id) {
+        id = uuid();
+        localStorage.setItem("shadow_device_id", id);
+      }
+      return id;
+    } catch {
+      return "";
+    }
+  }
+
+  function getSessionId() {
+    try {
+      let id = sessionStorage.getItem("shadow_session_id");
+      if (!id) {
+        id = uuid();
+        sessionStorage.setItem("shadow_session_id", id);
+      }
+      return id;
+    } catch {
+      return uuid();
+    }
+  }
+
   window.SHADOW_CONFIG = {
     API_BASE: isLocal ? LOCAL_API_BASE : PROD_API_BASE,
+    getDeviceId,
+    getSessionId,
   };
 })();

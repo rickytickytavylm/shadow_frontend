@@ -166,11 +166,15 @@ document.addEventListener('keydown', (event) => {
     return el;
   };
 
+  const cfg = window.SHADOW_CONFIG || {};
+  const deviceId = cfg.getDeviceId ? cfg.getDeviceId() : '';
+  const sessionId = cfg.getSessionId ? cfg.getSessionId() : '';
+
   const askBackend = async () => {
     const res = await fetch(`${API_BASE}/api/ai/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ messages: history.slice(-10) }),
+      body: JSON.stringify({ messages: history.slice(-10), deviceId, sessionId }),
     });
     if (!res.ok) throw new Error(`AI ${res.status}`);
     const data = await res.json();
