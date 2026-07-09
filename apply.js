@@ -99,10 +99,17 @@
   document.getElementById("format-list")?.addEventListener("change", updateFormatUI);
   updateFormatUI();
 
-  function setStatus(message, type) {
+  function setStatus(message, type, scroll = true) {
     statusEl.hidden = false;
     statusEl.textContent = message;
     statusEl.className = `form-status form-status--${type}`;
+    // Прокручиваем сообщение в центр экрана — иначе оно теряется внизу
+    // и создаётся впечатление, что ничего не произошло.
+    if (scroll) {
+      try {
+        statusEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch {}
+    }
   }
 
   function resetSubmitBtn() {
@@ -119,42 +126,24 @@
     });
   }
 
-  // Возврат с ЮKassa: досылаем сохранённую заявку по факту оплаты.
-  async function handleReturnFromPayment() {
-    const pending = loadPending();
-    if (!pending || !pending.paymentId || !API_BASE) return;
+  const PAID_OK_MSG =
+    "Оплата прошла и заявка отправлена! Мы отправили письмо со сроками рассмотрения на вашу почту. " +
+    "Если письма нет во «Входящих» — проверьте папки «Спам» и «Рассылки/Промоакции».";
 
-    submitBtn.disabled = true;
-    setStatus("Проверяем оплату…", "success");
-
-    // Сначала уточняем статус платежа, чтобы дать понятное сообщение.
-    let status = "";
-    try {
-      const st = await fetch(`${API_BASE}/api/payment/status/${encodeURIComponent(pending.paymentId)}`);
-      if (st.ok) {
-        const b = await st.json().catch(() => ({}));
-        status = b.status || "";
-      }
-    } catch {}
-
-    if (status === "canceled") {
-      clearPending();
-      resetSubmitBtn();
-      return setStatus("Оплата не завершена — заявка не отправлена. Можно заполнить и оплатить снова.", "error");
-    }
-
+  // Досылаем сохранённую заявку на сервер (бэкенд ещё раз проверит оплату).
+  async function finalizeAfterPayment(pending) {
     try {
       const res = await submitApplication(pending.payload, pending.paymentId);
       if (res.ok) {
         clearPending();
         form.reset();
         updateFormatUI();
-        setStatus("Оплата прошла и заявка отправлена! Письмо со сроками рассмотрения ушло на вашу почту.", "success");
+        setStatus(PAID_OK_MSG, "success");
       } else if (res.status === 402) {
-        setStatus("Оплата ещё обрабатывается банком. Обновите страницу через минуту — заявка отправится автоматически.", "error");
+        setStatus("Оплата пока не подтвердилась банком. Если вы оплатили — подождите 1–2 минуты и обновите страницу, заявка отправится автоматически.", "error");
       } else if (res.status === 409) {
         clearPending();
-        setStatus("Эта оплата уже использована для заявки.", "error");
+        setStatus("Эта оплата уже использована — заявка по ней уже принята.", "error");
       } else if (res.status === 422) {
         const b = await res.json().catch(() => ({}));
         clearPending();
@@ -167,6 +156,45 @@
     } finally {
       resetSubmitBtn();
     }
+  }
+
+  // Возврат с ЮKassa: заявку отправляем ТОЛЬКО если платёж реально успешен.
+  async function handleReturnFromPayment() {
+    const pending = loadPending();
+    if (!pending || !pending.paymentId || !API_BASE) return;
+
+    submitBtn.disabled = true;
+    setStatus("Проверяем оплату…", "success");
+
+    let status = "";
+    let known = false;
+    try {
+      const st = await fetch(`${API_BASE}/api/payment/status/${encodeURIComponent(pending.paymentId)}`);
+      if (st.ok) {
+        const b = await st.json().catch(() => ({}));
+        status = b.status || "";
+        known = true;
+      }
+    } catch {}
+
+    if (status === "succeeded") {
+      return finalizeAfterPayment(pending);
+    }
+
+    if (status === "canceled") {
+      clearPending();
+      resetSubmitBtn();
+      return setStatus("Оплата не была завершена — заявка не отправлена. Деньги не списаны. Можно заполнить форму и оплатить снова.", "error");
+    }
+
+    if (known && (status === "pending" || status === "waiting_for_capture")) {
+      // Пользователь ушёл со страницы ЮKassa, не завершив оплату.
+      resetSubmitBtn();
+      return setStatus("Похоже, оплата не завершена — заявка не отправлена. Если вы всё же оплатили, подождите 1–2 минуты и обновите страницу.", "error");
+    }
+
+    // Статус узнать не удалось — доверяемся серверной проверке при отправке.
+    return finalizeAfterPayment(pending);
   }
 
   handleReturnFromPayment();
@@ -233,6 +261,9 @@
         if (!shadowType) return setStatus("Для «Тень» выберите состав.", "error");
         const ideaEl = it.querySelector("#shadow-idea");
         shadowIdeaText = ideaEl ? ideaEl.value.trim() : "";
+        if (!shadowIdeaText) {
+          return setStatus("Для категории «Тень» опишите идею номера.", "error");
+        }
         categories.push("shadow");
       } else {
         categories.push(fmt); // duet, team
