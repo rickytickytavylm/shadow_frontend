@@ -1,3 +1,9 @@
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+
 const body = document.body;
 const header = document.querySelector('[data-header]');
 const menuButtons = document.querySelectorAll('[data-menu-button]');
