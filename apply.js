@@ -34,19 +34,75 @@
 
   const statusEl = document.getElementById("form-status");
   const submitBtn = document.getElementById("apply-submit");
-  const shadowCb = document.getElementById("shadow-cb");
-  const shadowIdeaWrap = document.getElementById("shadow-idea-wrap");
-  const shadowIdea = document.getElementById("shadow-idea");
 
   const REQUIRED_CHECKBOXES = ["age", "rules", "privacy", "media", "refund", "health"];
 
-  // ── Показываем/скрываем поле «Идея для Тень» ──
-  function toggleShadowIdea() {
-    const show = shadowCb && shadowCb.checked;
-    shadowIdeaWrap.hidden = !show;
-    if (shadowIdea) shadowIdea.required = show;
+  // ── Категории: формат → уточнение ──
+  const FORMAT_LABELS = { solo: "Соло", duet: "Дуэт", team: "Команда", battle: "Батл", shadow: "Тень" };
+  const SOLO_LEVEL_LABELS = {
+    beginner: "Начинающие",
+    amateur: "Любители",
+    "semi-professional": "Полупрофессионалы",
+    professional: "Профессионалы",
+    star: "Звёзды",
+  };
+  const BATTLE_LEVEL_LABELS = { amateur: "Любители", professional: "Профи" };
+  const SHADOW_TYPE_LABELS = { solo: "соло", duet: "дуэт", group: "команда" };
+
+  const formatItems = [...document.querySelectorAll(".format-item")];
+  const summaryWrap = document.getElementById("cat-summary");
+  const summaryChips = document.getElementById("cat-summary-chips");
+
+  function getSelectedFormats() {
+    return formatItems.filter((it) => it.querySelector(".format-cb")?.checked);
   }
-  if (shadowCb) shadowCb.addEventListener("change", toggleShadowIdea);
+
+  function radioVal(scope, name) {
+    const el = scope.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : "";
+  }
+
+  function renderSummary() {
+    const chips = [];
+    getSelectedFormats().forEach((it) => {
+      const fmt = it.dataset.format;
+      if (fmt === "solo") {
+        const lvl = radioVal(it, "soloLevel");
+        chips.push("Соло" + (lvl ? " · " + SOLO_LEVEL_LABELS[lvl] : " · выберите уровень"));
+      } else if (fmt === "battle") {
+        const lvl = radioVal(it, "battleLevel");
+        chips.push("Батл" + (lvl ? " · " + BATTLE_LEVEL_LABELS[lvl] : " · выберите уровень"));
+      } else if (fmt === "shadow") {
+        const st = radioVal(it, "shadowType");
+        chips.push("Тень" + (st ? " · " + SHADOW_TYPE_LABELS[st] : " · выберите состав"));
+      } else {
+        chips.push(FORMAT_LABELS[fmt]);
+      }
+    });
+    if (!summaryWrap || !summaryChips) return;
+    if (chips.length === 0) {
+      summaryWrap.hidden = true;
+      summaryChips.innerHTML = "";
+      return;
+    }
+    summaryWrap.hidden = false;
+    summaryChips.innerHTML = chips
+      .map((c) => `<span class="cat-summary-chip">${c}</span>`)
+      .join("");
+  }
+
+  function updateFormatUI() {
+    formatItems.forEach((it) => {
+      const checked = it.querySelector(".format-cb")?.checked;
+      it.classList.toggle("is-selected", !!checked);
+      const body = it.querySelector(".format-body");
+      if (body) body.hidden = !checked;
+    });
+    renderSummary();
+  }
+
+  document.getElementById("format-list")?.addEventListener("change", updateFormatUI);
+  updateFormatUI();
 
   function setStatus(message, type) {
     statusEl.hidden = false;
@@ -90,16 +146,37 @@
       return setStatus("Укажите стаж.", "error");
     }
 
-    // Категории (минимум одна)
-    const categories = [...form.querySelectorAll('input[name="categories"]:checked')].map((cb) => cb.value);
-    if (categories.length === 0) {
-      return setStatus("Выберите хотя бы одну категорию.", "error");
+    // Категории: формат → уточнение
+    const selectedFormats = getSelectedFormats();
+    if (selectedFormats.length === 0) {
+      return setStatus("Выберите хотя бы один формат участия.", "error");
     }
 
-    const hasShadow = categories.includes("shadow");
-    const shadowIdeaText = shadowIdea ? shadowIdea.value.trim() : "";
-    const shadowTypeEl = hasShadow ? form.querySelector('input[name="shadowType"]:checked') : null;
-    // shadowIdea и shadowType необязательны, но если Тень выбрана — подсказываем
+    const categories = [];
+    let battleLevel = "";
+    let shadowType = "";
+    let shadowIdeaText = "";
+
+    for (const it of selectedFormats) {
+      const fmt = it.dataset.format;
+      if (fmt === "solo") {
+        const lvl = radioVal(it, "soloLevel");
+        if (!lvl) return setStatus("Для «Соло» выберите уровень.", "error");
+        categories.push(lvl);
+      } else if (fmt === "battle") {
+        battleLevel = radioVal(it, "battleLevel");
+        if (!battleLevel) return setStatus("Для «Батл» выберите уровень.", "error");
+        categories.push("battle");
+      } else if (fmt === "shadow") {
+        shadowType = radioVal(it, "shadowType");
+        if (!shadowType) return setStatus("Для «Тень» выберите состав.", "error");
+        const ideaEl = it.querySelector("#shadow-idea");
+        shadowIdeaText = ideaEl ? ideaEl.value.trim() : "";
+        categories.push("shadow");
+      } else {
+        categories.push(fmt); // duet, team
+      }
+    }
 
     // Принимаем одну или несколько ссылок (по одной на строку)
     const videoLines = videoUrl.split(/\n/).map((l) => l.trim()).filter(Boolean);
@@ -125,8 +202,9 @@
       awards: form.awards ? form.awards.value.trim() : "",
       categories,
       category: categories[0], // основная категория (первая выбранная) для обратной совместимости
-      shadowIdea: hasShadow ? shadowIdeaText : "",
-      shadowType: hasShadow && shadowTypeEl ? shadowTypeEl.value : "",
+      shadowIdea: shadowIdeaText,
+      shadowType,
+      battleLevel,
       videoUrl,
       comment: form.comment ? form.comment.value.trim() : "",
       paymentId: getPaymentId(),
@@ -159,7 +237,7 @@
       if (res.ok) {
         clearPaymentId();
         form.reset();
-        toggleShadowIdea();
+        updateFormatUI();
         setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
       } else if (res.status === 422) {
         const body = await res.json().catch(() => ({}));

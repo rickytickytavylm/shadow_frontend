@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260709f">
+  <link rel="stylesheet" href="styles.css?v=20260709i">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -113,33 +113,88 @@
 
             <!-- ── Категории ── -->
             <div class="form-section-title" style="margin-top: 28px;">Категории</div>
-            <p class="form-section-hint">Можно выбрать несколько — один взнос покрывает все</p>
-            <div class="categories-grid" id="categories-grid">
-              <label class="cat-check"><input type="checkbox" name="categories" value="beginner"> Соло · Начинающие</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="amateur"> Соло · Любители</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="semi-professional"> Соло · Полупрофессионалы</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="professional"> Соло · Профессионалы</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="star"> Соло · Звёзды</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="duet"> Дуэты</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="team"> Команды</label>
-              <label class="cat-check"><input type="checkbox" name="categories" value="battle"> Батлы</label>
-              <label class="cat-check" id="shadow-checkbox-wrap"><input type="checkbox" name="categories" value="shadow" id="shadow-cb"> Тень</label>
+            <p class="form-section-hint">Выберите формат участия — можно несколько, один взнос покрывает все. <a href="index.html#categories" target="_blank" rel="noopener">Не уверены в уровне? Открыть описание категорий →</a></p>
+
+            <div class="format-list" id="format-list">
+              <!-- Соло -->
+              <div class="format-item" data-format="solo">
+                <label class="format-head">
+                  <input type="checkbox" class="format-cb" value="solo">
+                  <span class="format-name">Соло</span>
+                  <span class="format-desc">Индивидуальное выступление по уровню</span>
+                </label>
+                <div class="format-body" hidden>
+                  <span class="format-sub-label">Ваш уровень</span>
+                  <div class="level-options">
+                    <label class="level-opt"><input type="radio" name="soloLevel" value="beginner"><span class="level-name">Начинающие</span><span class="level-hint">стаж до 3 лет, без призовых мест</span></label>
+                    <label class="level-opt"><input type="radio" name="soloLevel" value="amateur"><span class="level-name">Любители</span><span class="level-hint">стаж 3–5 лет, танцуют в удовольствие</span></label>
+                    <label class="level-opt"><input type="radio" name="soloLevel" value="semi-professional"><span class="level-name">Полупрофессионалы</span><span class="level-hint">стаж 5+ лет или педагог до 3 лет</span></label>
+                    <label class="level-opt"><input type="radio" name="soloLevel" value="professional"><span class="level-name">Профессионалы</span><span class="level-hint">стаж 6+ лет или педагог от 3 лет</span></label>
+                    <label class="level-opt"><input type="radio" name="soloLevel" value="star"><span class="level-name">Звёзды</span><span class="level-hint">победители «Профи», авторский стиль</span></label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Дуэт -->
+              <div class="format-item" data-format="duet">
+                <label class="format-head">
+                  <input type="checkbox" class="format-cb" value="duet">
+                  <span class="format-name">Дуэт</span>
+                  <span class="format-desc">Выступление вдвоём</span>
+                </label>
+              </div>
+
+              <!-- Команда -->
+              <div class="format-item" data-format="team">
+                <label class="format-head">
+                  <input type="checkbox" class="format-cb" value="team">
+                  <span class="format-name">Команда</span>
+                  <span class="format-desc">Групповое выступление</span>
+                </label>
+              </div>
+
+              <!-- Батл -->
+              <div class="format-item" data-format="battle">
+                <label class="format-head">
+                  <input type="checkbox" class="format-cb" value="battle">
+                  <span class="format-name">Батл</span>
+                  <span class="format-desc">Импровизационные баттлы</span>
+                </label>
+                <div class="format-body" hidden>
+                  <span class="format-sub-label">Уровень батла</span>
+                  <div class="level-options level-options--row">
+                    <label class="level-opt"><input type="radio" name="battleLevel" value="amateur"><span class="level-name">Любители</span></label>
+                    <label class="level-opt"><input type="radio" name="battleLevel" value="professional"><span class="level-name">Профи</span></label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Тень -->
+              <div class="format-item" data-format="shadow">
+                <label class="format-head">
+                  <input type="checkbox" class="format-cb" value="shadow">
+                  <span class="format-name">Тень</span>
+                  <span class="format-desc">Театрально-перформативная категория</span>
+                </label>
+                <div class="format-body" hidden>
+                  <span class="format-sub-label">Состав</span>
+                  <div class="level-options level-options--row">
+                    <label class="level-opt"><input type="radio" name="shadowType" value="solo"><span class="level-name">Соло</span></label>
+                    <label class="level-opt"><input type="radio" name="shadowType" value="duet"><span class="level-name">Дуэт</span></label>
+                    <label class="level-opt"><input type="radio" name="shadowType" value="group"><span class="level-name">Команда</span></label>
+                  </div>
+                  <label style="margin-top: 14px;">
+                    <span>Идея номера <em class="field-opt">(необязательно)</em></span>
+                    <textarea name="shadowIdea" id="shadow-idea" rows="3" placeholder="Опишите концепцию номера и почему он подходит для категории «Тень»…"></textarea>
+                  </label>
+                </div>
+              </div>
             </div>
 
-            <!-- Условные поля — только для категории «Тень» -->
-            <div id="shadow-idea-wrap" class="shadow-idea-wrap" hidden>
-              <fieldset class="role-fieldset">
-                <legend>Состав <em class="field-opt">(для категории Тень)</em></legend>
-                <div class="radio-row">
-                  <label class="radio-opt"><input type="radio" name="shadowType" value="solo"> Соло</label>
-                  <label class="radio-opt"><input type="radio" name="shadowType" value="duet"> Дуэт</label>
-                  <label class="radio-opt"><input type="radio" name="shadowType" value="group"> Команда</label>
-                </div>
-              </fieldset>
-              <label>
-                <span>Идея номера <em class="field-opt">(для категории Тень, необязательно)</em></span>
-                <textarea name="shadowIdea" id="shadow-idea" rows="3" placeholder="Опишите концепцию номера и почему считаете, что он подходит для категории «Тень»…"></textarea>
-              </label>
+            <!-- Живая сводка выбора -->
+            <div class="cat-summary" id="cat-summary" hidden>
+              <span class="cat-summary-label">Вы выбрали:</span>
+              <div class="cat-summary-chips" id="cat-summary-chips"></div>
             </div>
 
             <!-- ── Видео ── -->
@@ -292,6 +347,6 @@
 
   <script src="config.js"></script>
   <script src="script.js?v=20260709g"></script>
-  <script src="apply.js?v=20260709g"></script>
+  <script src="apply.js?v=20260709i"></script>
 </body>
 </html>
