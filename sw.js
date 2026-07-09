@@ -3,7 +3,7 @@
    - навигации (HTML) — network-first, чтобы не показывать устаревшие страницы;
    - остальные same-origin GET — stale-while-revalidate;
    - офлайн-фолбэк на закэшированную главную. */
-const CACHE = "shadow-pwa-v1";
+const CACHE = "shadow-pwa-v2";
 const CORE = [
   "./",
   "./index.html",
@@ -53,6 +53,27 @@ self.addEventListener("fetch", (event) => {
         } catch {
           const cached = await caches.match(req);
           return cached || (await caches.match("./index.html")) || Response.error();
+        }
+      })()
+    );
+    return;
+  }
+
+  // Код (скрипты/стили) — network-first, чтобы никогда не показывать
+  // устаревший JS/CSS. Кэш — только офлайн-фолбэк.
+  if (req.destination === "script" || req.destination === "style") {
+    event.respondWith(
+      (async () => {
+        try {
+          const fresh = await fetch(req);
+          if (fresh && fresh.status === 200 && fresh.type === "basic") {
+            const cache = await caches.open(CACHE);
+            cache.put(req, fresh.clone());
+          }
+          return fresh;
+        } catch {
+          const cached = await caches.match(req);
+          return cached || Response.error();
         }
       })()
     );
