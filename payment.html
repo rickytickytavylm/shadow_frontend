@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260709h">
-  <!-- payment flow: yookassa (rebuild 2026-07-09) -->
+  <!-- payment flow: yookassa · card-fix 2026-07-09 -->
   <style>
     .pay-shell {
       min-height: 100dvh;
@@ -25,11 +25,28 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 32px 20px 64px;
+      padding: max(40px, env(safe-area-inset-top)) 20px max(48px, env(safe-area-inset-bottom));
     }
-    .pay-card {
+    /* Переопределяем .glass-card: у него нет скругления/паддингов,
+       а белый бордюр теряется на белом фоне — отсюда «корявые» края. */
+    .pay-card.glass-card {
       width: 100%;
-      max-width: 480px;
+      max-width: 460px;
+      padding: 44px 38px 34px;
+      border-radius: 28px;
+      background: #ffffff;
+      border: 1px solid rgba(10, 10, 11, 0.06);
+      box-shadow:
+        0 32px 80px rgba(0, 0, 0, 0.14),
+        0 6px 18px rgba(0, 0, 0, 0.06);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    @media (max-width: 520px) {
+      .pay-card.glass-card {
+        padding: 34px 24px 28px;
+        border-radius: 24px;
+      }
     }
     .pay-logo {
       font-family: Unbounded, sans-serif;
