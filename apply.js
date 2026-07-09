@@ -3,10 +3,9 @@
 
   const API_BASE = (window.SHADOW_CONFIG && window.SHADOW_CONFIG.API_BASE) || "";
 
-  const WIDGET_SRC = "https://yookassa.ru/checkout-widget/v1/checkout-widget.js";
   const PENDING_KEY = "shadow_pending_app";
 
-  // Сохраняем заполненную заявку на случай обрыва между оплатой и отправкой.
+  // Сохраняем заполненную заявку, пока пользователь оплачивает на ЮKassa.
   function savePending(payload, paymentId) {
     try {
       localStorage.setItem(PENDING_KEY, JSON.stringify({ payload, paymentId, at: Date.now() }));
@@ -23,24 +22,6 @@
     try {
       localStorage.removeItem(PENDING_KEY);
     } catch {}
-  }
-
-  // Подгружаем скрипт виджета ЮKassa по требованию.
-  function loadWidgetScript() {
-    return new Promise((resolve, reject) => {
-      if (window.YooMoneyCheckoutWidget) return resolve();
-      const existing = document.querySelector(`script[src="${WIDGET_SRC}"]`);
-      if (existing) {
-        existing.addEventListener("load", () => resolve());
-        existing.addEventListener("error", () => reject(new Error("widget_load_failed")));
-        return;
-      }
-      const s = document.createElement("script");
-      s.src = WIDGET_SRC;
-      s.onload = () => resolve();
-      s.onerror = () => reject(new Error("widget_load_failed"));
-      document.head.appendChild(s);
-    });
   }
 
   const form = document.getElementById("apply-form");
@@ -129,35 +110,7 @@
     submitBtn.textContent = "Оплатить и отправить заявку";
   }
 
-  // ── Окно оплаты ЮKassa ──
-  const payModal = document.getElementById("pay-modal");
-  const widgetHost = document.getElementById("yk-widget");
-  let ykCheckout = null;
-
-  function openPayModal() {
-    if (payModal) {
-      payModal.hidden = false;
-      document.body.classList.add("menu-open");
-    }
-  }
-  function closePayModal() {
-    if (payModal) payModal.hidden = true;
-    document.body.classList.remove("menu-open");
-    if (ykCheckout) {
-      try { ykCheckout.destroy(); } catch {}
-      ykCheckout = null;
-    }
-    if (widgetHost) widgetHost.innerHTML = "";
-  }
-  document.querySelectorAll("[data-pay-close]").forEach((el) =>
-    el.addEventListener("click", () => {
-      closePayModal();
-      resetSubmitBtn();
-      setStatus("Оплата отменена. Заявка не отправлена — можно оплатить снова.", "error");
-    })
-  );
-
-  // Отправка заявки на сервер (после успешной оплаты).
+  // Отправка заявки на сервер (бэкенд сам проверит факт оплаты по paymentId).
   async function submitApplication(payload, paymentId) {
     return fetch(`${API_BASE}/api/applications`, {
       method: "POST",
@@ -166,47 +119,57 @@
     });
   }
 
-  async function finalizeAfterPayment(payload, paymentId) {
-    setStatus("Оплата прошла. Отправляем заявку…", "success");
+  // Возврат с ЮKassa: досылаем сохранённую заявку по факту оплаты.
+  async function handleReturnFromPayment() {
+    const pending = loadPending();
+    if (!pending || !pending.paymentId || !API_BASE) return;
+
+    submitBtn.disabled = true;
+    setStatus("Проверяем оплату…", "success");
+
+    // Сначала уточняем статус платежа, чтобы дать понятное сообщение.
+    let status = "";
     try {
-      const res = await submitApplication(payload, paymentId);
+      const st = await fetch(`${API_BASE}/api/payment/status/${encodeURIComponent(pending.paymentId)}`);
+      if (st.ok) {
+        const b = await st.json().catch(() => ({}));
+        status = b.status || "";
+      }
+    } catch {}
+
+    if (status === "canceled") {
+      clearPending();
+      resetSubmitBtn();
+      return setStatus("Оплата не завершена — заявка не отправлена. Можно заполнить и оплатить снова.", "error");
+    }
+
+    try {
+      const res = await submitApplication(pending.payload, pending.paymentId);
       if (res.ok) {
         clearPending();
         form.reset();
         updateFormatUI();
-        setStatus("Оплата прошла и заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
+        setStatus("Оплата прошла и заявка отправлена! Письмо со сроками рассмотрения ушло на вашу почту.", "success");
       } else if (res.status === 402) {
-        setStatus("Оплата ещё подтверждается. Не закрывайте страницу — заявка отправится автоматически. Если нет, обновите страницу через минуту.", "error");
+        setStatus("Оплата ещё обрабатывается банком. Обновите страницу через минуту — заявка отправится автоматически.", "error");
       } else if (res.status === 409) {
         clearPending();
         setStatus("Эта оплата уже использована для заявки.", "error");
       } else if (res.status === 422) {
         const b = await res.json().catch(() => ({}));
+        clearPending();
         setStatus("Проверьте поля формы." + (b.details ? " " + b.details.join("; ") : ""), "error");
       } else {
-        setStatus("Оплата прошла, но заявку не удалось отправить. Мы её сохранили — обновите страницу, отправим автоматически.", "error");
+        setStatus("Оплата прошла, но заявку не удалось отправить. Обновите страницу — попробуем снова.", "error");
       }
     } catch {
-      setStatus("Оплата прошла, но нет связи с сервером. Заявка сохранена — отправим при обновлении страницы.", "error");
+      setStatus("Оплата прошла, но нет связи с сервером. Обновите страницу — заявка отправится автоматически.", "error");
     } finally {
       resetSubmitBtn();
     }
   }
 
-  // Восстановление: если оплата прошла, а отправка не долетела — до-отправляем при загрузке.
-  (async () => {
-    const pending = loadPending();
-    if (!pending || !pending.paymentId || !API_BASE) return;
-    try {
-      const res = await submitApplication(pending.payload, pending.paymentId);
-      if (res.ok) {
-        clearPending();
-        setStatus("Ваша оплаченная заявка отправлена. Спасибо!", "success");
-      } else if (res.status === 409) {
-        clearPending(); // уже была отправлена ранее
-      }
-    } catch {}
-  })();
+  handleReturnFromPayment();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -320,7 +283,7 @@
     }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = "Готовим оплату…";
+    submitBtn.textContent = "Переходим к оплате…";
 
     // 1) Создаём платёж на сервере (сумму определяет сервер).
     let createData;
@@ -332,7 +295,7 @@
       });
 
       if (res.status === 503) {
-        // Оплата ещё не подключена на сервере — принимаем заявку без оплаты.
+        // Оплата не подключена на сервере — принимаем заявку без оплаты.
         const appRes = await submitApplication(payload, "");
         if (appRes.ok) {
           form.reset();
@@ -346,44 +309,18 @@
       }
 
       createData = await res.json().catch(() => ({}));
-      if (!res.ok || !createData.confirmationToken || !createData.paymentId) {
+      if (!res.ok || !createData.confirmationUrl || !createData.paymentId) {
         throw new Error(createData.error || "create_failed");
       }
     } catch (err) {
       resetSubmitBtn();
-      return setStatus("Не удалось создать платёж. Попробуйте ещё раз через минуту.", "error");
+      return setStatus("Не удалось перейти к оплате. Попробуйте ещё раз через минуту.", "error");
     }
 
-    // 2) Сохраняем заявку локально (страховка от обрыва) и открываем окно оплаты.
+    // 2) Сохраняем заявку и уходим на страницу оплаты ЮKassa.
+    //    После оплаты ЮKassa вернёт на apply.html?pay=return — заявка отправится.
     savePending(payload, createData.paymentId);
-
-    try {
-      await loadWidgetScript();
-    } catch {
-      resetSubmitBtn();
-      return setStatus("Не удалось загрузить окно оплаты. Проверьте соединение и попробуйте снова.", "error");
-    }
-
-    submitBtn.textContent = "Ожидаем оплату…";
-    openPayModal();
-
-    try {
-      ykCheckout = new window.YooMoneyCheckoutWidget({
-        confirmation_token: createData.confirmationToken,
-        error_callback(err) {
-          console.error("[yookassa widget]", err);
-        },
-      });
-      // 3) После завершения оплаты закрываем окно и отправляем заявку.
-      ykCheckout.on("complete", async () => {
-        closePayModal();
-        await finalizeAfterPayment(payload, createData.paymentId);
-      });
-      ykCheckout.render("yk-widget");
-    } catch (err) {
-      closePayModal();
-      resetSubmitBtn();
-      setStatus("Не удалось открыть окно оплаты. Попробуйте снова.", "error");
-    }
+    setStatus("Переходим на страницу оплаты…", "success");
+    location.href = createData.confirmationUrl;
   });
 })();
