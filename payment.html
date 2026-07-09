@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0a0b">
+  <title>Оплата видеоотбора — ТЕНЬ</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260709a">
+  <style>
+    .pay-shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px 64px;
+    }
+    .pay-card {
+      width: 100%;
+      max-width: 480px;
+    }
+    .pay-logo {
+      font-family: Unbounded, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+    .pay-price-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .pay-price {
+      font-family: Unbounded, sans-serif;
+      font-size: clamp(42px, 12vw, 64px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .pay-price-period {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .pay-includes {
+      list-style: none;
+      margin: 0 0 28px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pay-includes li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .pay-includes li::before {
+      content: "✓";
+      font-size: 14px;
+      font-weight: 700;
+      color: #22c55e;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .pay-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 18px 28px;
+      font-family: Inter, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      border: none;
+      border-radius: 18px;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.18s, transform 0.14s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .pay-btn:active { transform: scale(0.97); opacity: 0.85; }
+    .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .pay-note {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .pay-back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .pay-back:hover { color: var(--ink); }
+  </style>
+</head>
+<body>
+  <main class="pay-shell">
+    <div class="pay-card glass-card">
+      <p class="pay-logo">ЧЕМПИОНАТ <span style="opacity:.4">|</span> ТЕНЬ</p>
+      <p class="pay-price-label">Регистрационный взнос</p>
+      <p class="pay-price" id="pay-price">—</p>
+      <p class="pay-price-period" id="pay-period"></p>
+      <ul class="pay-includes">
+        <li>Участие в видеоотборе</li>
+        <li>Личная обратная связь от Кристины Бродецкой</li>
+        <li>Возможность выбрать несколько категорий</li>
+        <li>Взнос не возвращается</li>
+      </ul>
+      <button class="pay-btn" id="pay-btn" type="button">
+        Оплатить <span id="pay-btn-price"></span>
+      </button>
+      <p class="pay-note">После оплаты вы перейдёте к заполнению заявки</p>
+      <a class="pay-back" href="index.html">← На главную</a>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const now = new Date();
+      const month = now.getMonth() + 1; // 1-based
+      const day = now.getDate();
+      let price = 1700;
+      let period = "10 июля — 31 июля";
+      if (month > 7 || (month === 8)) {
+        price = 2000;
+        period = "1 августа — 7 сентября";
+      }
+      document.getElementById("pay-price").textContent = price.toLocaleString("ru") + " ₽";
+      document.getElementById("pay-period").textContent = "Тарифный период: " + period;
+      document.getElementById("pay-btn-price").textContent = price.toLocaleString("ru") + " ₽";
+
+      document.getElementById("pay-btn").addEventListener("click", function () {
+        this.disabled = true;
+        this.textContent = "Переходим к заявке…";
+        // Фейковая задержка для ощущения обработки
+        setTimeout(() => {
+          location.href = "apply.html?paid=1&amount=" + price;
+        }, 900);
+      });
+    })();
+  </script>
+</body>
+</html>

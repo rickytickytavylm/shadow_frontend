@@ -1,16 +1,33 @@
 (() => {
   "use strict";
 
-  // Адрес бэкенда берём из config.js (window.SHADOW_CONFIG.API_BASE).
   const API_BASE = (window.SHADOW_CONFIG && window.SHADOW_CONFIG.API_BASE) || "";
+
+  // ── Платёжный шлюз: без ?paid редиректим на страницу оплаты ──
+  const params = new URLSearchParams(location.search);
+  if (!params.has("paid")) {
+    location.replace("payment.html");
+    return;
+  }
 
   const form = document.getElementById("apply-form");
   if (!form) return;
 
   const statusEl = document.getElementById("form-status");
   const submitBtn = document.getElementById("apply-submit");
+  const shadowCb = document.getElementById("shadow-cb");
+  const shadowIdeaWrap = document.getElementById("shadow-idea-wrap");
+  const shadowIdea = document.getElementById("shadow-idea");
 
   const REQUIRED_CHECKBOXES = ["age", "rules", "privacy", "media", "refund", "health"];
+
+  // ── Показываем/скрываем поле «Идея для Тень» ──
+  function toggleShadowIdea() {
+    const show = shadowCb && shadowCb.checked;
+    shadowIdeaWrap.hidden = !show;
+    if (shadowIdea) shadowIdea.required = show;
+  }
+  if (shadowCb) shadowCb.addEventListener("change", toggleShadowIdea);
 
   function setStatus(message, type) {
     statusEl.hidden = false;
@@ -22,44 +39,82 @@
     e.preventDefault();
     statusEl.hidden = true;
 
-    const data = Object.fromEntries(new FormData(form).entries());
+    // Базовые обязательные поля
+    const fullName = form.fullName.value.trim();
+    const email = form.email.value.trim();
+    const phone = form.phone.value.trim();
+    const telegram = form.telegram.value.trim();
+    const city = form.city.value.trim();
+    const videoUrl = form.videoUrl.value.trim();
 
-    // Клиентская проверка
-    if (!form.fullName.value.trim() || !form.email.value.trim() || !form.phone.value.trim()) {
+    if (!fullName || !email || !phone) {
       return setStatus("Заполните имя, email и телефон.", "error");
     }
-    if (!form.category.value) {
-      return setStatus("Выберите категорию.", "error");
+    if (!telegram) {
+      return setStatus("Укажите Telegram.", "error");
     }
-    if (!/^https?:\/\/.+/i.test(form.videoUrl.value.trim())) {
+    if (!city) {
+      return setStatus("Укажите город.", "error");
+    }
+
+    // Роль и стаж
+    const roleEl = form.querySelector('input[name="role"]:checked');
+    if (!roleEl) {
+      return setStatus("Выберите: ученик или педагог.", "error");
+    }
+    const experience = form.experience.value.trim();
+    if (!experience) {
+      return setStatus("Укажите стаж.", "error");
+    }
+
+    // Категории (минимум одна)
+    const categories = [...form.querySelectorAll('input[name="categories"]:checked')].map((cb) => cb.value);
+    if (categories.length === 0) {
+      return setStatus("Выберите хотя бы одну категорию.", "error");
+    }
+
+    // Если выбрана «Тень» — идея обязательна
+    const hasShadow = categories.includes("shadow");
+    const shadowIdeaText = shadowIdea ? shadowIdea.value.trim() : "";
+    if (hasShadow && !shadowIdeaText) {
+      return setStatus("Опишите идею номера для категории «Тень».", "error");
+    }
+
+    if (!/^https?:\/\/.+/i.test(videoUrl)) {
       return setStatus("Укажите корректную ссылку на видео (http/https).", "error");
     }
+
     const allChecked = REQUIRED_CHECKBOXES.every((name) => form[name] && form[name].checked);
     if (!allChecked) {
       return setStatus("Подтвердите все обязательные согласия.", "error");
     }
 
     const payload = {
-      fullName: form.fullName.value.trim(),
-      email: form.email.value.trim(),
-      phone: form.phone.value.trim(),
-      telegram: form.telegram.value.trim(),
-      city: form.city.value.trim(),
-      category: form.category.value,
-      videoUrl: form.videoUrl.value.trim(),
-      comment: form.comment.value.trim(),
+      fullName,
+      email,
+      phone,
+      telegram,
+      city,
+      role: roleEl.value,
+      experience,
+      awards: form.awards ? form.awards.value.trim() : "",
+      categories,
+      category: categories[0], // основная категория (первая выбранная) для обратной совместимости
+      shadowIdea: hasShadow ? shadowIdeaText : "",
+      videoUrl,
+      comment: form.comment ? form.comment.value.trim() : "",
       deviceId: (window.SHADOW_CONFIG && window.SHADOW_CONFIG.getDeviceId)
         ? window.SHADOW_CONFIG.getDeviceId()
         : "",
-      website: data.website || "", // honeypot
+      website: form.website ? form.website.value : "", // honeypot
       consent: true,
     };
 
-    // Бэкенд не подключён (например, чистый GitHub Pages) — режим заглушки.
+    // Бэкенд не подключён — режим заглушки.
     if (!API_BASE) {
       form.reset();
       return setStatus(
-        "Спасибо! Приём заявок скоро откроется — форма заработает в ближайшем обновлении.",
+        "Спасибо! Заявка принята — мы скоро свяжемся с вами.",
         "success"
       );
     }
@@ -76,7 +131,8 @@
 
       if (res.ok) {
         form.reset();
-        setStatus("Заявка отправлена. Мы свяжемся с вами по видеоотбору.", "success");
+        toggleShadowIdea();
+        setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
       } else if (res.status === 422) {
         const body = await res.json().catch(() => ({}));
         setStatus(
