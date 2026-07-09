@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260709b">
+  <link rel="stylesheet" href="styles.css?v=20260709c">
   <script>document.documentElement.classList.add("reveal-ready");</script>
 </head>
 <body>
@@ -221,71 +221,81 @@
           <span class="section-kicker">Категории</span>
           <h2>Категории чемпионата</h2>
         </div>
-        <ol class="cat-list" aria-label="Категории чемпионата">
-          <li class="cat-row">
-            <span class="cat-row-num">01</span>
-            <div class="cat-row-text">
-              <h4>Начинающие <span class="cat-row-tag">соло · по уровню</span></h4>
-              <p>Уверенная база, чистое исполнение и готовность впервые или вновь выйти на сцену.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">02</span>
-            <div class="cat-row-text">
-              <h4>Любители <span class="cat-row-tag">соло · по уровню</span></h4>
-              <p>Крепкая техническая база, уверенные связки — для тех, кто танцует в удовольствие.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">03</span>
-            <div class="cat-row-text">
-              <h4>Полупрофессионалы <span class="cat-row-tag">соло · по уровню</span></h4>
-              <p>Сложные элементы и осознанная хореография, есть опыт сценических выступлений.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">04</span>
-            <div class="cat-row-text">
-              <h4>Профессионалы <span class="cat-row-tag">соло · по уровню</span></h4>
-              <p>Высокий уровень техники и трюков, зрелая и выразительная сценическая подача.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">05</span>
-            <div class="cat-row-text">
-              <h4>Звёзды <span class="cat-row-tag">соло · по уровню</span></h4>
-              <p>Мастера направления и медийные артисты — эталон техники и сценического уровня.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">06</span>
-            <div class="cat-row-text">
-              <h4>Дуэты <span class="cat-row-tag">2 участника</span></h4>
-              <p>Два артиста и единый номер. Без деления по уровню подготовки.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">07</span>
-            <div class="cat-row-text">
-              <h4>Команды <span class="cat-row-tag">от 3 участников</span></h4>
-              <p>Массовая хореография, синхрон и общая идея выступления. Без деления по уровню.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">08</span>
-            <div class="cat-row-text">
-              <h4>«Тень» <span class="cat-row-tag">перформанс · соло · дуэты · группы</span></h4>
-              <p>Перформанс и театр — пространство для самых глубоких и смелых сценических высказываний. Доступна в составе соло, дуэты или группы.</p>
-            </div>
-          </li>
-          <li class="cat-row">
-            <span class="cat-row-num">09</span>
-            <div class="cat-row-text">
-              <h4>Батлы <span class="cat-row-tag">поединки</span></h4>
-              <p>Прямые сценические поединки один на один в двух уровнях: любители и профи.</p>
-            </div>
-          </li>
-        </ol>
+        <p class="criteria-lead">Нажмите на категорию, чтобы раскрыть описание и понять, какая подходит именно вам.</p>
+        <div class="cat-accordion" aria-label="Категории чемпионата">
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">01</span>
+              <span class="cat-item-title">Начинающие <span class="cat-row-tag">соло · по уровню</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Уверенная база, чистое исполнение и готовность впервые или вновь выйти на сцену.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">02</span>
+              <span class="cat-item-title">Любители <span class="cat-row-tag">соло · по уровню</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Крепкая техническая база, уверенные связки — для тех, кто танцует в удовольствие.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">03</span>
+              <span class="cat-item-title">Полупрофессионалы <span class="cat-row-tag">соло · по уровню</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Сложные элементы и осознанная хореография, есть опыт сценических выступлений.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">04</span>
+              <span class="cat-item-title">Профессионалы <span class="cat-row-tag">соло · по уровню</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Высокий уровень техники и трюков, зрелая и выразительная сценическая подача.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">05</span>
+              <span class="cat-item-title">Звёзды <span class="cat-row-tag">соло · по уровню</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Мастера направления и медийные артисты — эталон техники и сценического уровня.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">06</span>
+              <span class="cat-item-title">Дуэты <span class="cat-row-tag">2 участника</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Два артиста и единый номер. Без деления по уровню подготовки.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">07</span>
+              <span class="cat-item-title">Команды <span class="cat-row-tag">от 3 участников</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Массовая хореография, синхрон и общая идея выступления. Без деления по уровню.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">08</span>
+              <span class="cat-item-title">«Тень» <span class="cat-row-tag">перформанс · соло · дуэты · группы</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Перформанс и театр — пространство для самых глубоких и смелых сценических высказываний. Доступна в составе соло, дуэты или группы.</p>
+          </details>
+          <details class="cat-item">
+            <summary>
+              <span class="cat-row-num">09</span>
+              <span class="cat-item-title">Батлы <span class="cat-row-tag">поединки</span></span>
+              <span class="cat-chevron" aria-hidden="true"></span>
+            </summary>
+            <p>Прямые сценические поединки один на один в двух уровнях: любители и профи.</p>
+          </details>
+        </div>
         <p class="cat-disclaimer">По итогам видеоотбора организаторы вправе изменить категорию участника - как выше, так и ниже. Участник может быть переведён выше при призовом месте в этом сезоне на других чемпионатах.</p>
       </section>
 

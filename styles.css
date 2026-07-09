@@ -1240,6 +1240,86 @@ img.calendar-card-bg {
   line-height: 1.5;
 }
 
+/* ── Категории: аккордеон ── */
+.cat-accordion {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(10, 10, 11, 0.1);
+}
+.cat-item {
+  border-bottom: 1px solid rgba(10, 10, 11, 0.1);
+}
+.cat-item summary {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 4px;
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-item summary::-webkit-details-marker { display: none; }
+.cat-item-title {
+  font-size: clamp(19px, 2.4vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cat-chevron {
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: rgba(10, 10, 11, 0.5);
+  transition: color 0.2s ease;
+}
+.cat-chevron::before,
+.cat-chevron::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+  border-radius: 2px;
+}
+.cat-chevron::before {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  transform: translateY(-50%);
+}
+.cat-chevron::after {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.cat-item[open] .cat-chevron::after {
+  opacity: 0;
+  transform: translateX(-50%) rotate(90deg);
+}
+.cat-item summary:hover .cat-chevron {
+  color: var(--ink);
+}
+.cat-item > p {
+  margin: 0;
+  padding: 0 4px 24px 68px;
+  max-width: 820px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+  animation: criteria-open 0.35s ease;
+}
+@media (max-width: 620px) {
+  .cat-item summary { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 20px 2px; }
+  .cat-item > p { padding-left: 44px; }
+}
+
 /* ── Clean list ── */
 
 .clean-list {
