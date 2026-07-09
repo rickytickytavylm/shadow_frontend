@@ -21,6 +21,9 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 110px;
+  /* Не даём мобильным браузерам самовольно менять масштаб текста. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -2573,6 +2576,20 @@ img.calendar-card-bg {
 .apply-form textarea:focus {
   outline: none;
   border-color: var(--ink);
+}
+
+/* iOS/Android зумят страницу при фокусе на поле со шрифтом < 16px.
+   На мобиле принудительно ставим 16px — страница перестаёт «прыгать». */
+@media (max-width: 640px) {
+  .apply-form input,
+  .apply-form select,
+  .apply-form textarea,
+  .cat-check,
+  .radio-opt,
+  .level-name,
+  .checkbox-list label {
+    font-size: 16px;
+  }
 }
 
 .field-opt {
