@@ -296,13 +296,12 @@ img {
 
 /* Неактивная кнопка «Купить билет» — видна, но пока недоступна */
 .btn-soon {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.85);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  cursor: not-allowed;
+  text-decoration: none;
   position: relative;
 }
-.btn-soon:hover { transform: none; }
 .site-header.is-scrolled .btn-soon {
   color: rgba(29, 29, 31, 0.55);
   background: rgba(0, 0, 0, 0.05);
@@ -1634,6 +1633,35 @@ img.calendar-card-bg {
   .prize-hero {
     padding: 24px;
   }
+}
+
+/* ── Билеты (скоро) ── */
+
+.ticket-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(10, 10, 11, 0.06);
+  border: 1px solid rgba(10, 10, 11, 0.12);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ticket-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ticket-cta-row .btn {
+  flex: 1;
+  min-width: 120px;
 }
 
 /* ── Placeholder block ── */
