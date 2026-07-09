@@ -10,6 +10,25 @@
     return;
   }
 
+  // Идентификатор оплаченного платежа ЮKassa (сохранён на странице оплаты).
+  function getPaymentId() {
+    try {
+      return (
+        sessionStorage.getItem("shadow_payment_id") ||
+        localStorage.getItem("shadow_payment_id") ||
+        ""
+      );
+    } catch {
+      return "";
+    }
+  }
+  function clearPaymentId() {
+    try {
+      sessionStorage.removeItem("shadow_payment_id");
+      localStorage.removeItem("shadow_payment_id");
+    } catch {}
+  }
+
   const form = document.getElementById("apply-form");
   if (!form) return;
 
@@ -110,6 +129,7 @@
       shadowType: hasShadow && shadowTypeEl ? shadowTypeEl.value : "",
       videoUrl,
       comment: form.comment ? form.comment.value.trim() : "",
+      paymentId: getPaymentId(),
       deviceId: (window.SHADOW_CONFIG && window.SHADOW_CONFIG.getDeviceId)
         ? window.SHADOW_CONFIG.getDeviceId()
         : "",
@@ -137,6 +157,7 @@
       });
 
       if (res.ok) {
+        clearPaymentId();
         form.reset();
         toggleShadowIdea();
         setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
@@ -146,6 +167,15 @@
           "Проверьте поля формы." + (body.details ? " " + body.details.join("; ") : ""),
           "error"
         );
+      } else if (res.status === 402) {
+        const body = await res.json().catch(() => ({}));
+        setStatus(
+          (body.error || "Оплата не найдена или не завершена.") + " Сейчас откроем страницу оплаты…",
+          "error"
+        );
+        setTimeout(() => location.replace("payment.html"), 2200);
+      } else if (res.status === 409) {
+        setStatus("Этот платёж уже использован для другой заявки. Для новой заявки оплатите ещё раз.", "error");
       } else if (res.status === 429) {
         setStatus("Слишком много попыток. Подождите минуту и попробуйте снова.", "error");
       } else {

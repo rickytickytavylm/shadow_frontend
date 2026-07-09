@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260709b">
+  <link rel="stylesheet" href="styles.css?v=20260709g">
   <style>
     .pay-shell {
       min-height: 100dvh;
@@ -138,14 +138,15 @@
     </div>
   </main>
 
+  <script src="config.js"></script>
   <script>
     (() => {
+      const API_BASE = (window.SHADOW_CONFIG && window.SHADOW_CONFIG.API_BASE) || "";
       const now = new Date();
       const month = now.getMonth() + 1; // 1-based
-      const day = now.getDate();
       let price = 1700;
       let period = "10 июля — 31 июля";
-      if (month > 7 || (month === 8)) {
+      if (month > 7) {
         price = 2000;
         period = "1 августа — 7 сентября";
       }
@@ -153,13 +154,50 @@
       document.getElementById("pay-period").textContent = "Тарифный период: " + period;
       document.getElementById("pay-btn-price").textContent = price.toLocaleString("ru") + " ₽";
 
-      document.getElementById("pay-btn").addEventListener("click", function () {
-        this.disabled = true;
-        this.textContent = "Переходим к заявке…";
-        // Фейковая задержка для ощущения обработки
-        setTimeout(() => {
-          location.href = "apply.html?paid=1&amount=" + price;
-        }, 900);
+      const btn = document.getElementById("pay-btn");
+      const note = document.querySelector(".pay-note");
+
+      btn.addEventListener("click", async function () {
+        btn.disabled = true;
+        btn.textContent = "Создаём платёж…";
+
+        // Бэкенд не задан — режим предпросмотра: пропускаем к заявке.
+        if (!API_BASE) {
+          location.href = "apply.html?paid=1";
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_BASE}/api/payment/create`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: "{}",
+          });
+
+          if (res.status === 503) {
+            // Оплата ещё не подключена на сервере — не блокируем подачу.
+            location.href = "apply.html?paid=1";
+            return;
+          }
+
+          const data = await res.json().catch(() => ({}));
+          if (res.ok && data.confirmationUrl && data.paymentId) {
+            try {
+              sessionStorage.setItem("shadow_payment_id", data.paymentId);
+              localStorage.setItem("shadow_payment_id", data.paymentId);
+            } catch {}
+            location.href = data.confirmationUrl;
+          } else {
+            throw new Error(data.error || "create_failed");
+          }
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = "Оплатить " + price.toLocaleString("ru") + " ₽";
+          if (note) {
+            note.textContent = "Не удалось создать платёж. Попробуйте ещё раз через минуту.";
+            note.style.color = "#dc2626";
+          }
+        }
       });
     })();
   </script>
