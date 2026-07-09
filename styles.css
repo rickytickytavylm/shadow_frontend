@@ -2808,6 +2808,69 @@ img.calendar-card-bg {
   padding: 4px 12px;
 }
 
+/* Подпись под кнопкой отправки */
+.form-hint-under-btn {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.45;
+}
+
+/* ── Окно оплаты ЮKassa ── */
+.pay-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.pay-modal[hidden] { display: none; }
+.pay-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 11, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.pay-modal-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+  padding: 18px 18px 22px;
+}
+.pay-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.pay-modal-close {
+  border: none;
+  background: rgba(10, 10, 11, 0.06);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.pay-modal-close:hover { background: rgba(10, 10, 11, 0.12); }
+.yk-widget { min-height: 200px; }
+
 /* ── Категории: чекбокс-сетка ── */
 .categories-grid {
   display: grid;

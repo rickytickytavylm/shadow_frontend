@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260709i">
+  <link rel="stylesheet" href="styles.css?v=20260709j">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -59,7 +59,7 @@
       <section class="inner-hero">
         <span class="section-kicker">Заявка</span>
         <h1>Подать заявку на видеоотбор</h1>
-        <p class="page-lead">Приём заявок: 10 июля - 7 сентября 2026. Разместите видео на YouTube, VK или другой площадке и укажите ссылку в форме. После отправки заявка поступит организаторам.</p>
+        <p class="page-lead">Приём заявок: 10 июля - 7 сентября 2026. Разместите видео на YouTube, VK или другой площадке и укажите ссылку в форме. Заполните анкету и оплатите взнос за видеоотбор — заявка отправляется организаторам сразу после успешной оплаты.</p>
       </section>
 
       <div class="apply-layout">
@@ -223,7 +223,8 @@
               <label><input type="checkbox" name="health" required> Я подтверждаю отсутствие противопоказаний к физической нагрузке</label>
             </div>
 
-            <button class="btn btn-dark" type="submit" id="apply-submit">Отправить заявку</button>
+            <button class="btn btn-dark" type="submit" id="apply-submit">Оплатить и отправить заявку</button>
+            <p class="form-hint-under-btn">Заявка отправится автоматически сразу после успешной оплаты.</p>
             <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
           </form>
         </section>
@@ -345,8 +346,20 @@
     </button>
   </nav>
 
+  <!-- Окно оплаты ЮKassa -->
+  <div class="pay-modal" id="pay-modal" hidden>
+    <div class="pay-modal-backdrop" data-pay-close></div>
+    <div class="pay-modal-card" role="dialog" aria-modal="true" aria-label="Оплата видеоотбора">
+      <div class="pay-modal-head">
+        <span>Оплата видеоотбора</span>
+        <button class="pay-modal-close" type="button" data-pay-close aria-label="Закрыть">&times;</button>
+      </div>
+      <div id="yk-widget" class="yk-widget"></div>
+    </div>
+  </div>
+
   <script src="config.js"></script>
   <script src="script.js?v=20260709g"></script>
-  <script src="apply.js?v=20260709i"></script>
+  <script src="apply.js?v=20260709j"></script>
 </body>
 </html>

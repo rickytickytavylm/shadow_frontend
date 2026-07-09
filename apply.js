@@ -3,30 +3,44 @@
 
   const API_BASE = (window.SHADOW_CONFIG && window.SHADOW_CONFIG.API_BASE) || "";
 
-  // ── Платёжный шлюз: без ?paid редиректим на страницу оплаты ──
-  const params = new URLSearchParams(location.search);
-  if (!params.has("paid")) {
-    location.replace("payment.html");
-    return;
-  }
+  const WIDGET_SRC = "https://yookassa.ru/checkout-widget/v1/checkout-widget.js";
+  const PENDING_KEY = "shadow_pending_app";
 
-  // Идентификатор оплаченного платежа ЮKassa (сохранён на странице оплаты).
-  function getPaymentId() {
+  // Сохраняем заполненную заявку на случай обрыва между оплатой и отправкой.
+  function savePending(payload, paymentId) {
     try {
-      return (
-        sessionStorage.getItem("shadow_payment_id") ||
-        localStorage.getItem("shadow_payment_id") ||
-        ""
-      );
+      localStorage.setItem(PENDING_KEY, JSON.stringify({ payload, paymentId, at: Date.now() }));
+    } catch {}
+  }
+  function loadPending() {
+    try {
+      return JSON.parse(localStorage.getItem(PENDING_KEY) || "null");
     } catch {
-      return "";
+      return null;
     }
   }
-  function clearPaymentId() {
+  function clearPending() {
     try {
-      sessionStorage.removeItem("shadow_payment_id");
-      localStorage.removeItem("shadow_payment_id");
+      localStorage.removeItem(PENDING_KEY);
     } catch {}
+  }
+
+  // Подгружаем скрипт виджета ЮKassa по требованию.
+  function loadWidgetScript() {
+    return new Promise((resolve, reject) => {
+      if (window.YooMoneyCheckoutWidget) return resolve();
+      const existing = document.querySelector(`script[src="${WIDGET_SRC}"]`);
+      if (existing) {
+        existing.addEventListener("load", () => resolve());
+        existing.addEventListener("error", () => reject(new Error("widget_load_failed")));
+        return;
+      }
+      const s = document.createElement("script");
+      s.src = WIDGET_SRC;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("widget_load_failed"));
+      document.head.appendChild(s);
+    });
   }
 
   const form = document.getElementById("apply-form");
@@ -109,6 +123,90 @@
     statusEl.textContent = message;
     statusEl.className = `form-status form-status--${type}`;
   }
+
+  function resetSubmitBtn() {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Оплатить и отправить заявку";
+  }
+
+  // ── Окно оплаты ЮKassa ──
+  const payModal = document.getElementById("pay-modal");
+  const widgetHost = document.getElementById("yk-widget");
+  let ykCheckout = null;
+
+  function openPayModal() {
+    if (payModal) {
+      payModal.hidden = false;
+      document.body.classList.add("menu-open");
+    }
+  }
+  function closePayModal() {
+    if (payModal) payModal.hidden = true;
+    document.body.classList.remove("menu-open");
+    if (ykCheckout) {
+      try { ykCheckout.destroy(); } catch {}
+      ykCheckout = null;
+    }
+    if (widgetHost) widgetHost.innerHTML = "";
+  }
+  document.querySelectorAll("[data-pay-close]").forEach((el) =>
+    el.addEventListener("click", () => {
+      closePayModal();
+      resetSubmitBtn();
+      setStatus("Оплата отменена. Заявка не отправлена — можно оплатить снова.", "error");
+    })
+  );
+
+  // Отправка заявки на сервер (после успешной оплаты).
+  async function submitApplication(payload, paymentId) {
+    return fetch(`${API_BASE}/api/applications`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...payload, paymentId }),
+    });
+  }
+
+  async function finalizeAfterPayment(payload, paymentId) {
+    setStatus("Оплата прошла. Отправляем заявку…", "success");
+    try {
+      const res = await submitApplication(payload, paymentId);
+      if (res.ok) {
+        clearPending();
+        form.reset();
+        updateFormatUI();
+        setStatus("Оплата прошла и заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
+      } else if (res.status === 402) {
+        setStatus("Оплата ещё подтверждается. Не закрывайте страницу — заявка отправится автоматически. Если нет, обновите страницу через минуту.", "error");
+      } else if (res.status === 409) {
+        clearPending();
+        setStatus("Эта оплата уже использована для заявки.", "error");
+      } else if (res.status === 422) {
+        const b = await res.json().catch(() => ({}));
+        setStatus("Проверьте поля формы." + (b.details ? " " + b.details.join("; ") : ""), "error");
+      } else {
+        setStatus("Оплата прошла, но заявку не удалось отправить. Мы её сохранили — обновите страницу, отправим автоматически.", "error");
+      }
+    } catch {
+      setStatus("Оплата прошла, но нет связи с сервером. Заявка сохранена — отправим при обновлении страницы.", "error");
+    } finally {
+      resetSubmitBtn();
+    }
+  }
+
+  // Восстановление: если оплата прошла, а отправка не долетела — до-отправляем при загрузке.
+  (async () => {
+    const pending = loadPending();
+    if (!pending || !pending.paymentId || !API_BASE) return;
+    try {
+      const res = await submitApplication(pending.payload, pending.paymentId);
+      if (res.ok) {
+        clearPending();
+        setStatus("Ваша оплаченная заявка отправлена. Спасибо!", "success");
+      } else if (res.status === 409) {
+        clearPending(); // уже была отправлена ранее
+      }
+    } catch {}
+  })();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -207,7 +305,6 @@
       battleLevel,
       videoUrl,
       comment: form.comment ? form.comment.value.trim() : "",
-      paymentId: getPaymentId(),
       deviceId: (window.SHADOW_CONFIG && window.SHADOW_CONFIG.getDeviceId)
         ? window.SHADOW_CONFIG.getDeviceId()
         : "",
@@ -218,52 +315,75 @@
     // Бэкенд не подключён — режим заглушки.
     if (!API_BASE) {
       form.reset();
-      return setStatus(
-        "Спасибо! Заявка принята — мы скоро свяжемся с вами.",
-        "success"
-      );
+      updateFormatUI();
+      return setStatus("Спасибо! Заявка принята — мы скоро свяжемся с вами.", "success");
     }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = "Отправляем…";
+    submitBtn.textContent = "Готовим оплату…";
 
+    // 1) Создаём платёж на сервере (сумму определяет сервер).
+    let createData;
     try {
-      const res = await fetch(`${API_BASE}/api/applications`, {
+      const res = await fetch(`${API_BASE}/api/payment/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: "{}",
       });
 
-      if (res.ok) {
-        clearPaymentId();
-        form.reset();
-        updateFormatUI();
-        setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
-      } else if (res.status === 422) {
-        const body = await res.json().catch(() => ({}));
-        setStatus(
-          "Проверьте поля формы." + (body.details ? " " + body.details.join("; ") : ""),
-          "error"
-        );
-      } else if (res.status === 402) {
-        const body = await res.json().catch(() => ({}));
-        setStatus(
-          (body.error || "Оплата не найдена или не завершена.") + " Сейчас откроем страницу оплаты…",
-          "error"
-        );
-        setTimeout(() => location.replace("payment.html"), 2200);
-      } else if (res.status === 409) {
-        setStatus("Этот платёж уже использован для другой заявки. Для новой заявки оплатите ещё раз.", "error");
-      } else if (res.status === 429) {
-        setStatus("Слишком много попыток. Подождите минуту и попробуйте снова.", "error");
-      } else {
-        setStatus("Не удалось отправить заявку. Попробуйте позже.", "error");
+      if (res.status === 503) {
+        // Оплата ещё не подключена на сервере — принимаем заявку без оплаты.
+        const appRes = await submitApplication(payload, "");
+        if (appRes.ok) {
+          form.reset();
+          updateFormatUI();
+          setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
+        } else {
+          setStatus("Не удалось отправить заявку. Попробуйте позже.", "error");
+        }
+        resetSubmitBtn();
+        return;
+      }
+
+      createData = await res.json().catch(() => ({}));
+      if (!res.ok || !createData.confirmationToken || !createData.paymentId) {
+        throw new Error(createData.error || "create_failed");
       }
     } catch (err) {
-      setStatus("Нет связи с сервером. Проверьте подключение и попробуйте позже.", "error");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Отправить заявку";
+      resetSubmitBtn();
+      return setStatus("Не удалось создать платёж. Попробуйте ещё раз через минуту.", "error");
+    }
+
+    // 2) Сохраняем заявку локально (страховка от обрыва) и открываем окно оплаты.
+    savePending(payload, createData.paymentId);
+
+    try {
+      await loadWidgetScript();
+    } catch {
+      resetSubmitBtn();
+      return setStatus("Не удалось загрузить окно оплаты. Проверьте соединение и попробуйте снова.", "error");
+    }
+
+    submitBtn.textContent = "Ожидаем оплату…";
+    openPayModal();
+
+    try {
+      ykCheckout = new window.YooMoneyCheckoutWidget({
+        confirmation_token: createData.confirmationToken,
+        error_callback(err) {
+          console.error("[yookassa widget]", err);
+        },
+      });
+      // 3) После завершения оплаты закрываем окно и отправляем заявку.
+      ykCheckout.on("complete", async () => {
+        closePayModal();
+        await finalizeAfterPayment(payload, createData.paymentId);
+      });
+      ykCheckout.render("yk-widget");
+    } catch (err) {
+      closePayModal();
+      resetSubmitBtn();
+      setStatus("Не удалось открыть окно оплаты. Попробуйте снова.", "error");
     }
   });
 })();
