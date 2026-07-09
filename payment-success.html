@@ -34,11 +34,12 @@
       <div class="status-page">
         <div class="status-card">
           <h1>Оплата прошла успешно</h1>
-          <p>Спасибо! Подтверждение придёт на email. Результаты видеоотбора будут опубликованы 14 сентября в Telegram и Instagram.</p>
+          <p>Теперь заполните заявку на видеоотбор. Это обязательный шаг: без заполненной заявки организаторы не смогут рассмотреть ваше участие. Ссылка на заявку также отправлена на вашу почту.</p>
           <div class="status-actions">
-            <a class="btn btn-dark" href="index.html">На главную</a>
-            <a class="btn btn-glass" href="https://t.me/teni_champ" target="_blank" rel="noopener noreferrer">Telegram-канал</a>
+            <a class="btn btn-dark" href="apply.html?paid=1" id="go-apply">Перейти к заявке</a>
+            <a class="btn btn-glass" href="index.html">На главную</a>
           </div>
+          <p class="status-redirect-note" style="margin-top: 18px; font-size: 13px; color: var(--muted);">Автоматически перенаправим вас на форму через несколько секунд…</p>
         </div>
       </div>
 
@@ -51,5 +52,13 @@
       </footer>
     </main>
   </div>
+
+  <script>
+    // Мягкий авто-переход на форму заявки после успешной оплаты.
+    setTimeout(() => {
+      const link = document.getElementById("go-apply");
+      location.href = (link && link.getAttribute("href")) || "apply.html?paid=1";
+    }, 5000);
+  </script>
 </body>
 </html>

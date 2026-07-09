@@ -17,45 +17,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260709h">
-  <!-- payment flow: yookassa · card-fix 2026-07-09 -->
+  <!-- payment flow: yookassa · full-page redesign 2026-07-09 -->
   <style>
-    .pay-shell {
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: max(40px, env(safe-area-inset-top)) 20px max(48px, env(safe-area-inset-bottom));
-    }
-    /* Переопределяем .glass-card: у него нет скругления/паддингов,
-       а белый бордюр теряется на белом фоне — отсюда «корявые» края. */
-    .pay-card.glass-card {
-      width: 100%;
-      max-width: 460px;
-      padding: 44px 38px 34px;
-      border-radius: 28px;
+    .pay-panel {
+      padding: 40px 38px 34px;
+      border-radius: var(--radius-lg);
       background: #ffffff;
       border: 1px solid rgba(10, 10, 11, 0.06);
-      box-shadow:
-        0 32px 80px rgba(0, 0, 0, 0.14),
-        0 6px 18px rgba(0, 0, 0, 0.06);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-    @media (max-width: 520px) {
-      .pay-card.glass-card {
-        padding: 34px 24px 28px;
-        border-radius: 24px;
-      }
-    }
-    .pay-logo {
-      font-family: Unbounded, sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-align: center;
-      color: var(--muted);
-      margin-bottom: 32px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(0, 0, 0, 0.05);
     }
     .pay-price-label {
       font-size: 13px;
@@ -63,21 +32,21 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 8px;
+      margin: 0 0 8px;
     }
     .pay-price {
       font-family: Unbounded, sans-serif;
-      font-size: clamp(42px, 12vw, 64px);
+      font-size: clamp(44px, 10vw, 68px);
       font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--ink);
       line-height: 1;
-      margin-bottom: 6px;
+      margin: 0 0 8px;
     }
     .pay-price-period {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--muted);
-      margin-bottom: 28px;
+      margin: 0 0 26px;
     }
     .pay-includes {
       list-style: none;
@@ -85,20 +54,21 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .pay-includes li {
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      font-size: 15px;
+      font-size: 15.5px;
       color: var(--ink);
+      line-height: 1.4;
     }
     .pay-includes li::before {
       content: "✓";
       font-size: 14px;
       font-weight: 700;
-      color: #22c55e;
+      color: #16a34a;
       flex-shrink: 0;
       margin-top: 2px;
     }
@@ -113,54 +83,111 @@
       font-size: 17px;
       font-weight: 700;
       border: none;
-      border-radius: 18px;
+      border-radius: 16px;
       background: var(--ink);
       color: #fff;
       cursor: pointer;
       transition: opacity 0.18s, transform 0.14s;
       -webkit-tap-highlight-color: transparent;
     }
-    .pay-btn:active { transform: scale(0.97); opacity: 0.85; }
-    .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .pay-btn:hover { opacity: 0.9; }
+    .pay-btn:active { transform: scale(0.98); }
+    .pay-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     .pay-note {
-      margin-top: 16px;
+      margin: 14px 0 0;
       font-size: 13px;
       color: var(--muted);
       text-align: center;
       line-height: 1.5;
     }
-    .pay-back {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-      color: var(--muted);
-      text-decoration: underline;
-      text-underline-offset: 3px;
+    /* Важное пояснение — акцентная плашка */
+    .pay-important {
+      border-left: 3px solid var(--ink);
     }
-    .pay-back:hover { color: var(--ink); }
+    .pay-important h2 { margin-bottom: 8px; }
+    .fee-line.is-current {
+      color: var(--ink);
+    }
+    .fee-badge {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #16a34a;
+      background: rgba(22, 163, 74, 0.12);
+      border-radius: 6px;
+      padding: 2px 7px;
+      vertical-align: middle;
+    }
+    .fee-hint {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    @media (max-width: 720px) {
+      .pay-panel { padding: 30px 22px 26px; }
+    }
   </style>
 </head>
-<body>
-  <main class="pay-shell">
-    <div class="pay-card glass-card">
-      <p class="pay-logo">ЧЕМПИОНАТ <span style="opacity:.4">|</span> ТЕНЬ</p>
-      <p class="pay-price-label">Регистрационный взнос</p>
-      <p class="pay-price" id="pay-price">—</p>
-      <p class="pay-price-period" id="pay-period"></p>
-      <ul class="pay-includes">
-        <li>Участие в видеоотборе</li>
-        <li>Личная обратная связь от Кристины Бродецкой</li>
-        <li>Возможность выбрать несколько категорий</li>
-        <li>Взнос не возвращается</li>
-      </ul>
-      <button class="pay-btn" id="pay-btn" type="button">
-        Оплатить <span id="pay-btn-price"></span>
-      </button>
-      <p class="pay-note">После оплаты вы перейдёте к заполнению заявки</p>
-      <a class="pay-back" href="index.html">← На главную</a>
-    </div>
-  </main>
+<body class="inner-page">
+  <div class="page-shell">
+    <header class="site-header glass-panel is-scrolled" data-header>
+      <a class="brand" href="index.html" aria-label="ТЕНЬ — на главную">ТЕНЬ</a>
+      <div class="header-actions" style="grid-column: 3;">
+        <a class="btn btn-small btn-dark" href="index.html">На главную</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="inner-hero">
+        <span class="section-kicker">Оплата</span>
+        <h1>Оплата видеоотбора</h1>
+        <p class="page-lead">Оплатите взнос за видеоотбор, чтобы перейти к заполнению заявки. После успешной оплаты вы автоматически попадёте на форму, а ссылка на неё продублируется на вашу почту.</p>
+      </section>
+
+      <div class="apply-layout">
+        <section class="pay-panel">
+          <p class="pay-price-label">Регистрационный взнос</p>
+          <p class="pay-price" id="pay-price">—</p>
+          <p class="pay-price-period" id="pay-period"></p>
+          <ul class="pay-includes">
+            <li>Участие в видеоотборе</li>
+            <li>Личная обратная связь от Кристины Бродецкой</li>
+            <li>Возможность выбрать несколько категорий</li>
+            <li>Взнос за видеоотбор не возвращается</li>
+          </ul>
+          <button class="pay-btn" id="pay-btn" type="button">
+            Оплатить <span id="pay-btn-price"></span>
+          </button>
+          <p class="pay-note">После оплаты вы перейдёте к заполнению заявки</p>
+        </section>
+
+        <aside class="apply-aside">
+          <div class="apply-info-card pay-important">
+            <h2>Важно</h2>
+            <p>Оплата участия проходит <b>в два этапа</b>. Сейчас вы оплачиваете <b>взнос за видеоотбор</b>. После прохождения видеоотбора <b>основной взнос за участие</b> оплачивается отдельно.</p>
+          </div>
+          <div class="apply-info-card">
+            <h2>Стоимость видеоотбора</h2>
+            <div class="fee-line" id="fee-row-1"><span>10 июля — 31 июля</span><span>1 700 ₽</span></div>
+            <div class="fee-line" id="fee-row-2"><span>1 августа — 7 сентября</span><span>2 000 ₽</span></div>
+            <p class="fee-hint">Это период действия цены, а не срок подачи заявки. Приём заявок открыт до 7 сентября 2026 года.</p>
+          </div>
+        </aside>
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-bottom" style="margin-top: 0; border: none; padding-top: 0;">
+            <p>© 2026 Чемпионат «ТЕНЬ». Все права защищены. 18+</p>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </div>
 
   <script src="config.js"></script>
   <script>
@@ -170,13 +197,23 @@
       const month = now.getMonth() + 1; // 1-based
       let price = 1700;
       let period = "10 июля — 31 июля";
+      let currentRow = "fee-row-1";
       if (month > 7) {
         price = 2000;
         period = "1 августа — 7 сентября";
+        currentRow = "fee-row-2";
       }
       document.getElementById("pay-price").textContent = price.toLocaleString("ru") + " ₽";
-      document.getElementById("pay-period").textContent = "Тарифный период: " + period;
+      document.getElementById("pay-period").textContent = "Действующая цена · " + period;
       document.getElementById("pay-btn-price").textContent = price.toLocaleString("ru") + " ₽";
+
+      // Подсветим актуальную строку тарифа.
+      const row = document.getElementById(currentRow);
+      if (row) {
+        row.classList.add("is-current");
+        const first = row.querySelector("span");
+        if (first) first.insertAdjacentHTML("beforeend", ' <span class="fee-badge">сейчас</span>');
+      }
 
       const btn = document.getElementById("pay-btn");
       const note = document.querySelector(".pay-note");
