@@ -73,12 +73,10 @@
       return setStatus("Выберите хотя бы одну категорию.", "error");
     }
 
-    // Если выбрана «Тень» — идея обязательна
     const hasShadow = categories.includes("shadow");
     const shadowIdeaText = shadowIdea ? shadowIdea.value.trim() : "";
-    if (hasShadow && !shadowIdeaText) {
-      return setStatus("Опишите идею номера для категории «Тень».", "error");
-    }
+    const shadowTypeEl = hasShadow ? form.querySelector('input[name="shadowType"]:checked') : null;
+    // shadowIdea и shadowType необязательны, но если Тень выбрана — подсказываем
 
     if (!/^https?:\/\/.+/i.test(videoUrl)) {
       return setStatus("Укажите корректную ссылку на видео (http/https).", "error");
@@ -101,6 +99,7 @@
       categories,
       category: categories[0], // основная категория (первая выбранная) для обратной совместимости
       shadowIdea: hasShadow ? shadowIdeaText : "",
+      shadowType: hasShadow && shadowTypeEl ? shadowTypeEl.value : "",
       videoUrl,
       comment: form.comment ? form.comment.value.trim() : "",
       deviceId: (window.SHADOW_CONFIG && window.SHADOW_CONFIG.getDeviceId)

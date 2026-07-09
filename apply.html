@@ -112,10 +112,18 @@
               <label class="cat-check" id="shadow-checkbox-wrap"><input type="checkbox" name="categories" value="shadow" id="shadow-cb"> Тень</label>
             </div>
 
-            <!-- Условное поле — только для категории «Тень» -->
+            <!-- Условные поля — только для категории «Тень» -->
             <div id="shadow-idea-wrap" class="shadow-idea-wrap" hidden>
+              <fieldset class="role-fieldset">
+                <legend>Состав <em class="field-opt">(для категории Тень)</em></legend>
+                <div class="radio-row">
+                  <label class="radio-opt"><input type="radio" name="shadowType" value="solo"> Соло</label>
+                  <label class="radio-opt"><input type="radio" name="shadowType" value="duet"> Дуэт</label>
+                  <label class="radio-opt"><input type="radio" name="shadowType" value="group"> Команда</label>
+                </div>
+              </fieldset>
               <label>
-                <span>Идея номера и почему именно «Тень»</span>
+                <span>Идея номера <em class="field-opt">(для категории Тень, необязательно)</em></span>
                 <textarea name="shadowIdea" id="shadow-idea" rows="3" placeholder="Опишите концепцию номера и почему считаете, что он подходит для категории «Тень»…"></textarea>
               </label>
             </div>
