@@ -1,6 +1,6 @@
 const body = document.body;
 const header = document.querySelector('[data-header]');
-const menuButton = document.querySelector('[data-menu-button]');
+const menuButtons = document.querySelectorAll('[data-menu-button]');
 const mobileMenu = document.querySelector('[data-mobile-menu]');
 
 const setHeaderState = () => {
@@ -11,8 +11,11 @@ const setHeaderState = () => {
 setHeaderState();
 window.addEventListener('scroll', setHeaderState, { passive: true });
 
-menuButton?.addEventListener('click', () => {
-  body.classList.toggle('menu-open');
+menuButtons.forEach((btn) => {
+  btn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    body.classList.toggle('menu-open');
+  });
 });
 
 mobileMenu?.addEventListener('click', (event) => {
@@ -25,6 +28,14 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     body.classList.remove('menu-open');
   }
+});
+
+document.addEventListener('click', (event) => {
+  if (!body.classList.contains('menu-open')) return;
+  const target = event.target;
+  if (mobileMenu?.contains(target)) return;
+  if (target instanceof Element && target.closest('[data-menu-button]')) return;
+  body.classList.remove('menu-open');
 });
 
 /* ── Reveal-анимации при скролле ── */

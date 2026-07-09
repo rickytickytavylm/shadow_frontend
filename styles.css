@@ -3150,8 +3150,7 @@ body.inner-page .header-actions .btn-dark:hover {
   }
 
   /* На мобиле навигацию заменяет нижний таб-бар — шапка не нужна */
-  .site-header,
-  .mobile-menu {
+  .site-header {
     display: none !important;
   }
 
@@ -3238,10 +3237,55 @@ body.inner-page .header-actions .btn-dark:hover {
     display: none;
   }
 
+  /* Мобильное меню-шторка — вызывается кнопкой «Ещё» в таб-баре */
   .mobile-menu {
-    top: 82px;
-    left: 14px;
-    right: 14px;
+    display: flex;
+    position: fixed;
+    top: auto;
+    left: 16px;
+    right: 16px;
+    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    max-height: 62vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(180deg, rgba(38, 38, 42, 0.92) 0%, rgba(12, 12, 14, 0.95) 100%);
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(26px) saturate(180%);
+    -webkit-backdrop-filter: blur(26px) saturate(180%);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px);
+    transition: opacity 0.28s ease,
+      transform 0.28s cubic-bezier(0.2, 0.85, 0.2, 1),
+      visibility 0.28s;
+  }
+
+  body.menu-open .mobile-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .mobile-menu a,
+  .mobile-menu-soon {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Затемнение фона под открытым меню */
+  body.menu-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
 
   .hero {
@@ -4260,10 +4304,10 @@ body.ai-open .ai-panel {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     z-index: 58;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
     gap: 2px;
-    padding: 9px 10px;
+    padding: 9px 8px;
     border-radius: 30px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     /* Тёмное «жидкое стекло»: контрастно и премиально на светлых секциях */
@@ -4327,9 +4371,9 @@ body.ai-open .ai-panel {
     background: transparent;
     color: rgba(255, 255, 255, 0.56);
     font: inherit;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
     text-decoration: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -4337,12 +4381,13 @@ body.ai-open .ai-panel {
   }
 
   .tab svg {
-    width: 23px;
-    height: 23px;
+    width: 22px;
+    height: 22px;
   }
 
   .tab span {
     line-height: 1;
+    white-space: nowrap;
   }
 
   .tab.is-active {
