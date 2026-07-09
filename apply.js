@@ -44,6 +44,7 @@
     const email = form.email.value.trim();
     const phone = form.phone.value.trim();
     const telegram = form.telegram.value.trim();
+    const instagram = form.instagram.value.trim();
     const city = form.city.value.trim();
     const videoUrl = form.videoUrl.value.trim();
 
@@ -52,6 +53,9 @@
     }
     if (!telegram) {
       return setStatus("Укажите Telegram.", "error");
+    }
+    if (!instagram) {
+      return setStatus("Укажите Instagram.", "error");
     }
     if (!city) {
       return setStatus("Укажите город.", "error");
@@ -95,6 +99,7 @@
       email,
       phone,
       telegram,
+      instagram,
       city,
       role: roleEl.value,
       experience,

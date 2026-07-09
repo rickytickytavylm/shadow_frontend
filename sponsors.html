@@ -49,40 +49,51 @@
 
     <main>
       <section class="inner-hero">
-        <span class="section-kicker">Спонсорство и партнёрство</span>
-        <h1>Будем рады сотрудничеству</h1>
-        <p class="page-lead">Чемпионат «ТЕНЬ» — это яркое сценическое событие, которое объединяет артистов, зрителей и бренды. Мы открыты к партнёрству и с удовольствием обсудим форматы сотрудничества, которые будут интересны именно вам.</p>
+        <span class="section-kicker">Партнёрство и спонсорство</span>
+        <h1>Станьте частью чемпионата «ТЕНЬ»</h1>
+        <p class="page-lead">Мы создаём уникальное танцевальное событие и приглашаем к сотрудничеству бренды, компании и проекты, которые готовы заявить о себе творческой, активной и вовлечённой аудитории.</p>
       </section>
 
       <div class="apply-layout">
         <section class="glass-card form-shell">
-          <h2 style="margin-top:0;">Почему «ТЕНЬ»</h2>
+          <h2 style="margin-top:0;">Почему это интересно для вашего бренда</h2>
           <ul class="clean-list">
-            <li>Живое событие в театре «Золотое кольцо» в Москве — премиальная площадка и подготовленная аудитория.</li>
-            <li>Активное комьюнити участников и зрителей в социальных сетях.</li>
-            <li>Профессиональная фото- и видеосъёмка мероприятия — ваш бренд остаётся в контенте.</li>
-            <li>Гибкие форматы: спонсорство номинаций, партнёрские зоны, интеграции и спецпризы.</li>
+            <li><b>Прямой контакт с целевой аудиторией.</b> Ваши продукты и услуги увидят увлечённые танцоры, топовые хореографы, экспертная судейская коллегия, а также зрители в зале и аудитория в социальных сетях.</li>
+            <li><b>Качественный контент.</b> Интеграция вашего бренда в наши социальные сети (Telegram, Instagram) и промо-материалы чемпионата.</li>
+            <li><b>Гибкие форматы участия.</b> От подарков для победителей и размещения полиграфии до полноценных бренд-зон на площадке и специальных номинаций.</li>
           </ul>
-
-          <h2>Форматы сотрудничества</h2>
-          <ul class="clean-list">
-            <li><b>Генеральный партнёр</b> — максимальное присутствие бренда на площадке и в коммуникациях.</li>
-            <li><b>Партнёр категории</b> — ваш бренд закреплён за одной из категорий чемпионата.</li>
-            <li><b>Товарное партнёрство</b> — призы, мерч, бьюти- и спорт-продукция для участников.</li>
-            <li><b>Инфопартнёрство</b> — взаимное продвижение в медиа и социальных сетях.</li>
-          </ul>
-
-          <p class="page-lead" style="margin-bottom:0;">Расскажите о вашем проекте — и мы предложим формат, который подойдёт под ваши задачи и бюджет.</p>
+          <p class="page-lead" style="margin-bottom:0;">Мы открыты к самым разным идеям и форматам интеграции, чтобы сделать наше партнёрство максимально эффективным и полезным для обеих сторон.</p>
         </section>
 
         <aside class="apply-aside">
           <div class="apply-info-card">
-            <h2>Связаться с нами</h2>
-            <p>Напишите нам — ответим и пришлём презентацию с деталями.</p>
-            <p style="margin-top:14px;">
-              <a class="btn btn-dark" href="https://t.me/teni_champ" target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
-            </p>
-            <p style="margin-top:14px;">Telegram: <a href="https://t.me/teni_champ" target="_blank" rel="noopener noreferrer">@teni_champ</a></p>
+            <h2>Хотите стать спонсором?</h2>
+            <p>Заполните форму — заявка уйдёт напрямую организаторам с пометкой «Спонсорство», и мы свяжемся с вами.</p>
+            <form class="apply-form" id="sponsor-form" novalidate style="margin-top:16px;">
+              <label>
+                <span>Ваше имя</span>
+                <input type="text" name="name" placeholder="Имя и фамилия" required>
+              </label>
+              <label>
+                <span>Бренд / компания</span>
+                <input type="text" name="brand" placeholder="Название бренда" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="name@example.com" required>
+              </label>
+              <label>
+                <span>Телефон <em class="field-opt">(необязательно)</em></span>
+                <input type="tel" name="phone" placeholder="+7 900 000-00-00">
+              </label>
+              <label>
+                <span>Сообщение</span>
+                <textarea name="message" rows="4" placeholder="Расскажите о вашем бренде и идеях сотрудничества" required></textarea>
+              </label>
+              <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <button class="btn btn-dark" type="submit" id="sponsor-submit">Отправить заявку</button>
+              <p class="form-status" id="sponsor-status" role="status" aria-live="polite" hidden></p>
+            </form>
           </div>
           <div class="apply-info-card">
             <h2>Событие</h2>
@@ -155,5 +166,6 @@
 
   <script src="config.js"></script>
   <script src="script.js"></script>
+  <script src="sponsors.js"></script>
 </body>
 </html>
