@@ -1306,18 +1306,46 @@ img.calendar-card-bg {
 .cat-item summary:hover .cat-chevron {
   color: var(--ink);
 }
-.cat-item > p {
-  margin: 0;
-  padding: 0 4px 24px 68px;
-  max-width: 820px;
+.cat-item-body {
+  padding: 0 4px 26px 68px;
+  max-width: 860px;
+  animation: criteria-open 0.35s ease;
+}
+.cat-item-body p {
+  margin: 0 0 10px;
   color: var(--muted);
   font-size: 16px;
   line-height: 1.6;
-  animation: criteria-open 0.35s ease;
 }
+.cat-item-body p:last-child { margin-bottom: 0; }
+.cat-item-body ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.cat-item-body li {
+  position: relative;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.cat-item-body li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(10, 10, 11, 0.4);
+}
+.cat-item-body li b { color: var(--ink); font-weight: 700; }
 @media (max-width: 620px) {
   .cat-item summary { grid-template-columns: 32px 1fr auto; gap: 12px; padding: 20px 2px; }
-  .cat-item > p { padding-left: 44px; }
+  .cat-item-body { padding-left: 44px; }
 }
 
 /* ── Clean list ── */
