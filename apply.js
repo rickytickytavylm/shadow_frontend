@@ -78,8 +78,11 @@
     const shadowTypeEl = hasShadow ? form.querySelector('input[name="shadowType"]:checked') : null;
     // shadowIdea и shadowType необязательны, но если Тень выбрана — подсказываем
 
-    if (!/^https?:\/\/.+/i.test(videoUrl)) {
-      return setStatus("Укажите корректную ссылку на видео (http/https).", "error");
+    // Принимаем одну или несколько ссылок (по одной на строку)
+    const videoLines = videoUrl.split(/\n/).map((l) => l.trim()).filter(Boolean);
+    const urlRe = /^https?:\/\/.+/i;
+    if (videoLines.length === 0 || !videoLines.every((l) => urlRe.test(l))) {
+      return setStatus("Укажите корректную ссылку на видео (http/https). Каждая ссылка — с новой строки.", "error");
     }
 
     const allChecked = REQUIRED_CHECKBOXES.every((name) => form[name] && form[name].checked);
