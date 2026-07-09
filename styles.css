@@ -294,6 +294,29 @@ img {
   background: #2c2c2e;
 }
 
+/* Неактивная кнопка «Купить билет» — видна, но пока недоступна */
+.btn-soon {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  cursor: not-allowed;
+  position: relative;
+}
+.btn-soon:hover { transform: none; }
+.site-header.is-scrolled .btn-soon {
+  color: rgba(29, 29, 31, 0.55);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.mobile-menu-soon {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 700;
+  cursor: not-allowed;
+}
+
 .hero {
   position: relative;
   display: flex;
@@ -2812,6 +2835,22 @@ body.inner-page .header-actions .btn-dark:hover {
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+/* Больше пунктов в меню — на узких десктопах прячем в бургер раньше,
+   чтобы шапка не ужималась. Остальную вёрстку не трогаем. */
+@media (max-width: 1120px) {
+  .desktop-nav,
+  .header-link,
+  .btn-soon {
+    display: none;
+  }
+  .site-header {
+    grid-template-columns: 1fr auto;
+  }
+  .menu-button {
+    display: inline-flex;
+  }
 }
 
 @media (max-width: 980px) {

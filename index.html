@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260706c">
+  <link rel="stylesheet" href="styles.css?v=20260709b">
   <script>document.documentElement.classList.add("reveal-ready");</script>
 </head>
 <body>
@@ -30,12 +30,14 @@
       <a class="brand" href="index.html" aria-label="ТЕНЬ - на главную">ТЕНЬ</a>
       <nav class="desktop-nav" aria-label="Главная навигация">
         <a href="#about">О чемпионате</a>
+        <a href="#categories">Категории</a>
         <a href="#calendar">Календарь</a>
         <a href="#path">Путь участника</a>
-        <a href="rules.html">Правила</a>
+        <a href="rules.html">Положение</a>
+        <a href="sponsors.html">Спонсорам</a>
       </nav>
       <div class="header-actions">
-        <a class="header-link" href="#ai" data-ai-open>AI-консультант</a>
+        <button class="btn btn-small btn-soon" type="button" disabled title="Продажи билетов откроются позже">Купить билет</button>
         <a class="btn btn-small btn-dark" href="apply.html">Подать заявку</a>
         <button class="menu-button" type="button" data-menu-button aria-label="Открыть меню"><span></span><span></span><span></span></button>
       </div>
@@ -43,11 +45,14 @@
 
     <div class="mobile-menu glass-panel" data-mobile-menu>
       <a href="#about">О чемпионате</a>
+      <a href="#categories">Категории</a>
       <a href="#calendar">Календарь</a>
       <a href="#path">Путь участника</a>
-      <a href="rules.html">Правила</a>
+      <a href="rules.html">Положение</a>
+      <a href="sponsors.html">Спонсорам</a>
       <a href="#ai" data-ai-open>AI-консультант</a>
       <a href="apply.html">Подать заявку</a>
+      <span class="mobile-menu-soon">Купить билет · скоро</span>
     </div>
 
     <main>
@@ -63,7 +68,7 @@
           <p class="hero-meta">28 ноября 2026 · Москва · театр «Золотое кольцо»</p>
           <div class="hero-actions">
             <a class="btn btn-light" href="apply.html">Подать заявку</a>
-            <a class="btn btn-glass" href="rules.html">Узнать правила</a>
+            <a class="btn btn-glass" href="rules.html">Узнать положение</a>
           </div>
         </div>
       </section>
@@ -123,8 +128,10 @@
           <article class="step-row"><span class="step-num">02</span><div><h3>Оплатить видеоотбор</h3><p>Оплата производится при подаче заявки.</p></div></article>
           <article class="step-row"><span class="step-num">03</span><div><h3>Получить подтверждение</h3><p>На почту приходит уведомление, что заявка принята.</p></div></article>
           <article class="step-row"><span class="step-num">04</span><div><h3>Дождаться результатов</h3><p>Списки появятся в официальных каналах чемпионата.</p></div></article>
-          <article class="step-row"><span class="step-num">05</span><div><h3>Оплатить взнос</h3><p>После отбора есть 7 календарных дней на оплату участия.</p></div></article>
-          <article class="step-row"><span class="step-num">06</span><div><h3>Выйти на сцену</h3><p>Приехать на площадку и получить удовольствие от атмосферы.</p></div></article>
+          <article class="step-row"><span class="step-num">05</span><div><h3>Оплатить взнос</h3><p>После оглашения списков есть 7 календарных дней на оплату взноса за участие.</p></div></article>
+          <article class="step-row"><span class="step-num">06</span><div><h3>Заполнить анкету участника</h3><p>Направить музыку/видео и согласовать реквизит, если он используется.</p></div></article>
+          <article class="step-row"><span class="step-num">07</span><div><h3>Выбрать допуслуги</h3><p>По желанию: фото-, видеосъёмка и стилист оплачиваются отдельно.</p></div></article>
+          <article class="step-row"><span class="step-num">08</span><div><h3>Выйти на сцену</h3><p>Приехать на площадку и получить удовольствие от атмосферы.</p></div></article>
         </div>
       </section>
 
@@ -580,7 +587,7 @@
     </button>
     <a class="tab" href="rules.html" data-tab="rules">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm8 1.5V8h4.5L14 3.5zM8 12h8v2H8v-2zm0 4h8v2H8v-2z"/></svg>
-      <span>Правила</span>
+      <span>Положение</span>
     </a>
     <a class="tab" href="apply.html" data-tab="apply">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 7 17 3.3a1 1 0 0 0-1.4 0l-1.8 1.8 5.1 5.1 1.8-1.8a1 1 0 0 0 0-1.4zM3 17.2V21h3.8L18 9.8 14.2 6 3 17.2z"/></svg>
