@@ -829,6 +829,24 @@ img {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
+.event-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Основная кнопка «Купить билет» — белая заливка */
+.event-card-btn--buy {
+  background: #ffffff;
+  color: #0a0a0b;
+  border-color: #ffffff;
+}
+.event-card-btn--buy:hover {
+  background: #ffffff;
+  color: #0a0a0b;
+  border-color: #ffffff;
+}
+
 /* ── Image slots ── */
 
 .image-slot {
@@ -2558,6 +2576,8 @@ img.calendar-card-bg {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.52);
   font: inherit;
+  /* 16px обязателен: иначе мобильные браузеры зумят страницу при фокусе. */
+  font-size: 16px;
 }
 
 .apply-form textarea {
@@ -2568,6 +2588,7 @@ img.calendar-card-bg {
   color: var(--ink);
   background: rgba(255, 255, 255, 0.52);
   font: inherit;
+  font-size: 16px;
   resize: vertical;
 }
 
@@ -3657,6 +3678,11 @@ body.inner-page .header-actions .btn-dark:hover {
 
   .event-footer-left {
     align-items: flex-start;
+  }
+
+  .event-footer-right {
+    width: 100%;
+    flex-direction: column;
   }
 
   .event-card-btn {
