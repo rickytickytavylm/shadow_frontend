@@ -4958,3 +4958,12 @@ body.ai-open .ai-panel {
 .back-fab:active {
   transform: scale(0.94);
 }
+
+/* На мобиле (≤720px) шапка скрыта — кнопку «назад» ставим в левый верхний угол */
+@media (max-width: 720px) {
+  .back-fab {
+    top: max(14px, env(safe-area-inset-top));
+    bottom: auto;
+    left: max(14px, env(safe-area-inset-left));
+  }
+}
