@@ -933,6 +933,69 @@ img {
 .promo-card:hover .promo-btn {
   transform: translateX(3px);
 }
+
+/* ── Бегущая лента партнёров ── */
+.partners-section {
+  overflow: hidden;
+}
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 9%,
+    #000 91%,
+    transparent 100%
+  );
+}
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee-scroll 34s linear infinite;
+}
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: clamp(44px, 7vw, 96px);
+  padding-right: clamp(44px, 7vw, 96px);
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-logo {
+  flex: 0 0 auto;
+  height: clamp(30px, 4.5vw, 46px);
+  width: auto;
+  opacity: 0.68;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.marquee-logo:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
 @media (max-width: 640px) {
   .promo-card {
     flex-direction: column;
