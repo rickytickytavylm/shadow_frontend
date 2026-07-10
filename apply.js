@@ -380,7 +380,9 @@
         const res = await fetch(`${API_BASE}/api/payment/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: payload.email }),
+          // Шлём всю анкету: сервер сохранит её и создаст заявку по факту
+          // оплаты (webhook), даже если пользователь не вернётся на сайт.
+          body: JSON.stringify(payload),
         });
 
         if (res.status === 503) { paymentsDisabled = true; break; }
