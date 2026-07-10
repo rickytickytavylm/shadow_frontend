@@ -3157,6 +3157,9 @@ img.calendar-card-bg {
   background: rgba(10,10,11,0.06);
 }
 .radio-opt input[type="radio"] {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
   accent-color: var(--ink);
   margin: 0;
   cursor: pointer;
