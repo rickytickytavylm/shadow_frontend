@@ -380,7 +380,7 @@
         const res = await fetch(`${API_BASE}/api/payment/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: "{}",
+          body: JSON.stringify({ email: payload.email }),
         });
 
         if (res.status === 503) { paymentsDisabled = true; break; }
