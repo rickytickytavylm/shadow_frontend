@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Служебные страницы оплаты в индекс не нужны
+Disallow: /payment.html
+Disallow: /payment-success.html
+Disallow: /payment-failed.html
+
+Sitemap: https://xn----7sbocmxidei1bb9cwe.xn--p1ai/sitemap.xml
