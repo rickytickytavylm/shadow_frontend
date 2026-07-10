@@ -4966,4 +4966,8 @@ body.ai-open .ai-panel {
     bottom: auto;
     left: max(14px, env(safe-area-inset-left));
   }
+  /* Освобождаем место под кнопкой, чтобы она не наезжала на текст */
+  .has-back .inner-hero {
+    padding-top: 56px;
+  }
 }
