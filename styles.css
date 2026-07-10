@@ -848,6 +848,9 @@ img {
 }
 
 /* ── Промо другого проекта («Виновна ли?») ── */
+.vinovnali-section {
+  margin-bottom: clamp(56px, 9vw, 96px);
+}
 .promo-card {
   display: flex;
   align-items: stretch;
@@ -1001,10 +1004,10 @@ img {
     flex-direction: column;
   }
   .promo-card-media {
-    padding: 26px 0 4px;
+    padding: 0;
   }
   .promo-card-media img {
-    width: min(72%, 240px);
+    width: 100%;
   }
   .promo-card-body {
     padding: 22px 24px 28px;
