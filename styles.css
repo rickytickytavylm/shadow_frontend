@@ -3049,6 +3049,35 @@ img.calendar-card-bg {
   line-height: 1.45;
 }
 
+/* Памятка «Что нужно для видео» над полем ссылки */
+.video-reqs {
+  margin: 0 0 14px;
+  padding: 14px 16px 14px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: 3px solid var(--ink);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+}
+.video-reqs-title {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.video-reqs ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 5px;
+}
+.video-reqs li {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 /* ── Категории: чекбокс-сетка ── */
 .categories-grid {
   display: grid;
