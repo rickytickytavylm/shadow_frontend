@@ -30,7 +30,7 @@
   const statusEl = document.getElementById("form-status");
   const submitBtn = document.getElementById("apply-submit");
 
-  const REQUIRED_CHECKBOXES = ["age", "rules", "privacy", "media", "refund", "health"];
+  const REQUIRED_CHECKBOXES = ["age", "rules", "privacy", "media", "refund", "offer", "health"];
 
   // ── Категории: формат → уточнение ──
   const FORMAT_LABELS = { solo: "Соло", duet: "Дуэт", team: "Команда", battle: "Батл", shadow: "Тень" };
