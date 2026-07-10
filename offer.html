@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260709b">
+  <link rel="stylesheet" href="styles.css?v=20260710a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -48,6 +48,11 @@
     </div>
 
     <main>
+      <a href="index.html" class="back-fab" data-back aria-label="Назад" title="Назад">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
       <section class="inner-hero">
         <span class="section-kicker">Документ</span>
         <h1>Оферта и условия оплаты</h1>
@@ -129,5 +134,19 @@
     </main>
   </div>
   <script src="script.js"></script>
+  <script>
+    (function () {
+      var b = document.querySelector('[data-back]');
+      if (!b) return;
+      b.addEventListener('click', function (e) {
+        var ref = document.referrer;
+        var sameOrigin = ref && ref.indexOf(location.origin) === 0;
+        if (window.history.length > 1 && sameOrigin) {
+          e.preventDefault();
+          window.history.back();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
