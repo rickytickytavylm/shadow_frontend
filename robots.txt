@@ -6,4 +6,4 @@ Disallow: /payment.html
 Disallow: /payment-success.html
 Disallow: /payment-failed.html
 
-Sitemap: https://xn----7sbocmxidei1bb9cwe.xn--p1ai/sitemap.xml
+Sitemap: https://чемпионат-тень.рф/sitemap.xml
