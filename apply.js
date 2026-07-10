@@ -188,8 +188,9 @@
 
   // Возврат с ЮKassa.
   // Поля НЕ теряем: сразу восстанавливаем их из сохранённой заявки.
-  // Заявку отправляем и показываем плашку ТОЛЬКО при реально успешной оплате.
-  // Если не оплатил/отменил — тихо, без красных сообщений (ЮKassa уже показала результат).
+  // Заявка уже создана при переходе к оплате (на сервере, статус «Не оплачено»);
+  // здесь лишь подтверждаем оплату и показываем зелёную плашку.
+  // Если не оплатил/отменил — тихо, без красных сообщений (ЮKassa уже всё показала).
   async function handleReturnFromPayment() {
     const pending = loadPending();
     if (!pending || !pending.paymentId || !API_BASE) return;
@@ -197,44 +198,30 @@
     // 1) Мгновенно возвращаем всё, что человек заполнил.
     restoreForm(pending.payload);
 
-    // 2) Тихо узнаём статус платежа.
-    let status = "";
+    // 2) Подтверждаем оплату на сервере (он проверит платёж в ЮKassa и
+    //    переведёт заявку в «Оплачено», если этого ещё не сделал webhook).
+    let paid = false;
     try {
-      const st = await fetch(`${API_BASE}/api/payment/status/${encodeURIComponent(pending.paymentId)}`);
-      if (st.ok) {
-        const b = await st.json().catch(() => ({}));
-        status = b.status || "";
+      const res = await fetch(`${API_BASE}/api/payment/finalize`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId: pending.paymentId }),
+      });
+      if (res.ok) {
+        const b = await res.json().catch(() => ({}));
+        paid = Boolean(b.paid);
       }
     } catch {}
 
-    // Не оплачено/отменено/статус неизвестен — молчим. Поля уже на месте,
-    // pending сохраняем: человек может просто снова нажать «Оплатить».
-    if (status !== "succeeded") return;
+    // Не оплачено — молчим. Поля на месте, pending храним: можно снова оплатить.
+    if (!paid) return;
 
-    // 3) Оплата прошла — отправляем заявку.
-    submitBtn.disabled = true;
-    setStatus("Оплата прошла. Отправляем заявку…", "success");
-    try {
-      const res = await submitApplication(pending.payload, pending.paymentId);
-      if (res.ok) {
-        clearPending();
-        form.reset();
-        updateFormatUI();
-        setStatus(PAID_OK_MSG, "success");
-      } else if (res.status === 409) {
-        clearPending();
-        form.reset();
-        updateFormatUI();
-        setStatus("Заявка по этой оплате уже принята.", "success");
-      } else {
-        // Оплата есть — молчать нельзя, но без красной тревоги.
-        setStatus("Оплата прошла. Если сообщение об успешной отправке не появилось — обновите страницу через минуту.", "success");
-      }
-    } catch {
-      setStatus("Оплата прошла. Обновите страницу через минуту, чтобы завершить отправку заявки.", "success");
-    } finally {
-      resetSubmitBtn();
-    }
+    // 3) Оплата подтверждена — очищаем форму и показываем зелёную плашку.
+    clearPending();
+    form.reset();
+    updateFormatUI();
+    setStatus(PAID_OK_MSG, "success");
+    resetSubmitBtn();
   }
 
   handleReturnFromPayment();
