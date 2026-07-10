@@ -239,6 +239,17 @@
 
   handleReturnFromPayment();
 
+  // Возврат кнопкой «Назад» из ЮKassa: браузер восстанавливает страницу из
+  // кэша (bfcache) вместе со старой плашкой «Переходим на страницу оплаты…».
+  // Наш код при этом не перезапускается — поэтому вручную убираем плашку,
+  // разблокируем кнопку и тихо перепроверяем оплату (поля браузер сохраняет сам).
+  window.addEventListener("pageshow", (e) => {
+    if (!e.persisted) return;
+    statusEl.hidden = true;
+    resetSubmitBtn();
+    handleReturnFromPayment();
+  });
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     statusEl.hidden = true;
