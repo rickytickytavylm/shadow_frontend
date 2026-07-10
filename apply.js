@@ -365,42 +365,60 @@
     }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = "Переходим к оплате…";
+    submitBtn.textContent = "Готовим оплату…";
+    setStatus("Готовим оплату, секунду…", "success");
 
-    // 1) Создаём платёж на сервере (сумму определяет сервер).
-    let createData;
-    try {
-      const res = await fetch(`${API_BASE}/api/payment/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: "{}",
-      });
+    // Создаём платёж на сервере (сумму определяет сервер). Первый запрос к
+    // «спящему» серверу бывает медленным или срывается — делаем несколько
+    // тихих повторов, чтобы не показывать ложную ошибку перед переходом.
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    let createData = null;
+    let paymentsDisabled = false;
 
-      if (res.status === 503) {
-        // Оплата не подключена на сервере — принимаем заявку без оплаты.
-        const appRes = await submitApplication(payload, "");
-        if (appRes.ok) {
-          form.reset();
-          updateFormatUI();
-          setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
-        } else {
-          setStatus("Не удалось отправить заявку. Попробуйте позже.", "error");
+    for (let attempt = 0; attempt < 4; attempt++) {
+      try {
+        const res = await fetch(`${API_BASE}/api/payment/create`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "{}",
+        });
+
+        if (res.status === 503) { paymentsDisabled = true; break; }
+
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.confirmationUrl && data.paymentId) {
+          createData = data;
+          break;
         }
-        resetSubmitBtn();
-        return;
+        // 5xx — сервер, вероятно, «просыпается»: подождём и повторим.
+        if (res.status >= 500 && attempt < 3) { await sleep(1500); continue; }
+        break;
+      } catch {
+        if (attempt < 3) { await sleep(1500); continue; }
       }
-
-      createData = await res.json().catch(() => ({}));
-      if (!res.ok || !createData.confirmationUrl || !createData.paymentId) {
-        throw new Error(createData.error || "create_failed");
-      }
-    } catch (err) {
-      resetSubmitBtn();
-      return setStatus("Не удалось перейти к оплате. Попробуйте ещё раз через минуту.", "error");
     }
 
-    // 2) Сохраняем заявку и уходим на страницу оплаты ЮKassa.
-    //    После оплаты ЮKassa вернёт на apply.html?pay=return — заявка отправится.
+    // Оплата не подключена на сервере — принимаем заявку без оплаты.
+    if (paymentsDisabled) {
+      const appRes = await submitApplication(payload, "");
+      if (appRes.ok) {
+        form.reset();
+        updateFormatUI();
+        setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
+      } else {
+        setStatus("Не удалось отправить заявку. Попробуйте позже.", "error");
+      }
+      resetSubmitBtn();
+      return;
+    }
+
+    if (!createData) {
+      resetSubmitBtn();
+      return setStatus("Не удалось перейти к оплате. Проверьте интернет и нажмите «Оплатить» ещё раз.", "error");
+    }
+
+    // Сохраняем заявку и уходим на страницу оплаты ЮKassa.
+    // После оплаты ЮKassa вернёт на apply.html?pay=return — заявка отправится.
     savePending(payload, createData.paymentId);
     setStatus("Переходим на страницу оплаты…", "success");
     location.href = createData.confirmationUrl;
