@@ -2,6 +2,14 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   });
+  // Когда активируется новый service worker (после обновления) — один раз
+  // перезагружаем страницу, чтобы в т.ч. в PWA сразу подхватился свежий код.
+  let swRefreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (swRefreshing) return;
+    swRefreshing = true;
+    window.location.reload();
+  });
 }
 
 const body = document.body;
