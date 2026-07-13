@@ -2644,6 +2644,38 @@ img.calendar-card-bg {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+.social-icon-btn {
+  position: relative;
+}
+
+.social-mark {
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.footer-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 16px 0 0;
+  max-width: 280px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.34);
+}
+
+.footer-disclaimer-mark {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
 .footer-col h4 {
   margin: 0 0 20px;
   font-size: 11px;
