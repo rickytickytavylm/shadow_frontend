@@ -2615,7 +2615,7 @@ img.calendar-card-bg {
 }
 
 .footer-email {
-  margin: -10px 0 20px;
+  margin: 0;
 }
 
 .footer-email a {
@@ -2627,6 +2627,21 @@ img.calendar-card-bg {
 
 .footer-email a:hover {
   color: #ffffff;
+}
+
+.footer-contact {
+  margin-top: 18px;
+  max-width: 320px;
+}
+
+.footer-contact-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
 }
 
 .footer-socials {
