@@ -3507,6 +3507,76 @@ body.inner-page .header-actions .btn-dark:hover {
   color: var(--ink);
 }
 
+/* ── Плашка стоимости заявки ── */
+.price-plaque {
+  padding: 22px 24px 24px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.07);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.price-plaque-badge {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--ink, #0a0a0b);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.price-plaque-amount {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 10px;
+}
+
+.price-plaque-old {
+  font-size: 22px;
+  font-weight: 600;
+  color: rgba(10, 10, 11, 0.32);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+.price-plaque-new {
+  font-family: "Unbounded", "Inter", system-ui, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink, #0a0a0b);
+}
+
+.price-plaque-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.price-plaque--mobile {
+  display: none;
+  margin: 24px 0 4px;
+}
+
+@media (max-width: 720px) {
+  .price-plaque--desktop {
+    display: none;
+  }
+
+  .price-plaque--mobile {
+    display: block;
+  }
+}
+
 .status-page {
   width: min(100% - 48px, var(--max));
   margin: 0 auto 100px;
