@@ -2619,6 +2619,54 @@ img.calendar-card-bg {
   gap: 12px;
 }
 
+.footer-social-note {
+  margin-top: 16px;
+  max-width: 320px;
+}
+
+.footer-social-line {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footer-social-line a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-social-line a:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-note-mark {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+}
+
+.apply-info-card .footer-social-line {
+  color: var(--muted);
+}
+
+.apply-info-card .footer-social-line a {
+  color: var(--ink);
+}
+
+.apply-info-card .footer-note-mark {
+  color: rgba(10, 10, 11, 0.45);
+}
+
+.apply-info-card .footer-disclaimer {
+  color: rgba(10, 10, 11, 0.45);
+}
+
+.apply-info-card .footer-disclaimer-mark {
+  color: rgba(10, 10, 11, 0.55);
+}
+
 .social-icon-btn {
   display: inline-flex;
   align-items: center;
@@ -2644,27 +2692,10 @@ img.calendar-card-bg {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.social-icon-btn {
-  position: relative;
-}
-
-.social-mark {
-  position: absolute;
-  top: 3px;
-  right: 6px;
-  font-size: 11px;
-  line-height: 1;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.5);
-  pointer-events: none;
-}
-
 .footer-disclaimer {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  margin: 16px 0 0;
-  max-width: 280px;
+  display: block;
+  margin: 0;
+  max-width: 320px;
   font-size: 11px;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.34);
@@ -3378,6 +3409,32 @@ body.inner-page .header-actions .btn-dark:hover {
 }
 
 .doc-toc a:hover {
+  color: var(--ink);
+}
+
+.doc-toc a.is-active {
+  color: var(--ink);
+}
+
+.doc-emphasis {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.65;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.doc-emphasis + .doc-emphasis {
+  margin-top: 14px;
+}
+
+.doc-signoff {
+  margin: 28px 0 0;
+  font-family: "Unbounded", "Inter", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--ink);
 }
 

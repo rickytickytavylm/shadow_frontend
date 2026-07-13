@@ -280,3 +280,39 @@ document.addEventListener('click', (event) => {
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update);
 })();
+
+/* ── Положения: подсветка активного раздела в содержании ── */
+(() => {
+  const toc = document.querySelector('.doc-toc');
+  if (!toc) return;
+
+  const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
+  const sections = links
+    .map((link) => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+  if (!sections.length) return;
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      link.classList.toggle('is-active', link.getAttribute('href') === `#${id}`);
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible[0]?.target?.id) setActive(visible[0].target.id);
+    },
+    { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.25, 0.5, 1] }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+
+  if (location.hash) {
+    const target = document.querySelector(location.hash);
+    if (target?.id) setActive(target.id);
+  }
+})();
