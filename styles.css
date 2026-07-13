@@ -2614,6 +2614,21 @@ img.calendar-card-bg {
   line-height: 1.45;
 }
 
+.footer-email {
+  margin: -10px 0 20px;
+}
+
+.footer-email a {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-email a:hover {
+  color: #ffffff;
+}
+
 .footer-socials {
   display: flex;
   gap: 12px;
