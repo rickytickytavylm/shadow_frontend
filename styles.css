@@ -2644,6 +2644,10 @@ img.calendar-card-bg {
   color: rgba(255, 255, 255, 0.38);
 }
 
+.footer-brand--compact {
+  margin-bottom: 24px;
+}
+
 .footer-socials {
   display: flex;
   gap: 12px;
