@@ -112,9 +112,73 @@
     }
   }
 
+  // ── Промокоды (сумма — итоговая, не скидка) ──
+  const PROMO_PRICES = { ZVEZDA: 0, PROBRO: 1500 };
+  let appliedPromo = "";
+  const promoInput = document.getElementById("promo-code");
+  const promoApplyBtn = document.getElementById("promo-apply");
+  const promoStatusEl = document.getElementById("promo-status");
+
+  const fmtRub = (n) => n.toLocaleString("ru-RU") + " ₽";
+
+  function updateSubmitLabel() {
+    if (!(appliedPromo in PROMO_PRICES)) {
+      submitBtn.textContent = "Оплатить и отправить заявку";
+      return;
+    }
+    const amt = PROMO_PRICES[appliedPromo];
+    submitBtn.textContent = amt === 0 ? "Отправить заявку (бесплатно)" : `Оплатить ${fmtRub(amt)} и отправить`;
+  }
+
+  function setPromoStatus(msg, type) {
+    if (!promoStatusEl) return;
+    promoStatusEl.hidden = false;
+    promoStatusEl.textContent = msg;
+    promoStatusEl.className = `promo-status promo-status--${type}`;
+  }
+  function clearPromoStatus() {
+    if (!promoStatusEl) return;
+    promoStatusEl.hidden = true;
+    promoStatusEl.textContent = "";
+  }
+
+  function applyPromo() {
+    const code = (promoInput?.value || "").trim().toUpperCase();
+    if (!code) { appliedPromo = ""; clearPromoStatus(); updateSubmitLabel(); return; }
+    if (code in PROMO_PRICES) {
+      appliedPromo = code;
+      const amt = PROMO_PRICES[code];
+      setPromoStatus(
+        amt === 0
+          ? `Промокод «${code}» применён — подача бесплатна.`
+          : `Промокод «${code}» применён — сумма ${fmtRub(amt)}.`,
+        "success"
+      );
+    } else {
+      appliedPromo = "";
+      setPromoStatus("Промокод не найден. Проверьте написание.", "error");
+    }
+    updateSubmitLabel();
+  }
+
+  if (promoApplyBtn) promoApplyBtn.addEventListener("click", applyPromo);
+  if (promoInput) {
+    promoInput.addEventListener("input", () => {
+      // Изменили поле после применения — сбрасываем, нужно применить заново.
+      if (appliedPromo && promoInput.value.trim().toUpperCase() !== appliedPromo) {
+        appliedPromo = "";
+        clearPromoStatus();
+        updateSubmitLabel();
+      }
+    });
+    promoInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); applyPromo(); }
+    });
+  }
+
   function resetSubmitBtn() {
     submitBtn.disabled = false;
-    submitBtn.textContent = "Оплатить и отправить заявку";
+    updateSubmitLabel();
   }
 
   // Отправка заявки на сервер (бэкенд сам проверит факт оплаты по paymentId).
@@ -337,6 +401,7 @@
       battleLevel,
       videoUrl,
       comment: form.comment ? form.comment.value.trim() : "",
+      promoCode: appliedPromo,
       deviceId: (window.SHADOW_CONFIG && window.SHADOW_CONFIG.getDeviceId)
         ? window.SHADOW_CONFIG.getDeviceId()
         : "",
@@ -361,6 +426,7 @@
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     let createData = null;
     let paymentsDisabled = false;
+    let freeAccepted = false;
 
     for (let attempt = 0; attempt < 4; attempt++) {
       try {
@@ -375,6 +441,8 @@
         if (res.status === 503) { paymentsDisabled = true; break; }
 
         const data = await res.json().catch(() => ({}));
+        // Бесплатная подача по промокоду (0 ₽): заявка уже создана на сервере.
+        if (res.ok && data.free) { freeAccepted = true; break; }
         if (res.ok && data.confirmationUrl && data.paymentId) {
           createData = data;
           break;
@@ -385,6 +453,22 @@
       } catch {
         if (attempt < 3) { await sleep(1500); continue; }
       }
+    }
+
+    // Бесплатная подача по промокоду — оплата не нужна, заявка принята.
+    if (freeAccepted) {
+      clearPending();
+      form.reset();
+      updateFormatUI();
+      appliedPromo = "";
+      clearPromoStatus();
+      setStatus(
+        "Заявка принята бесплатно по промокоду! Мы отправили письмо со сроками рассмотрения на вашу почту. " +
+        "Если письма нет во «Входящих» — проверьте папки «Спам» и «Рассылки/Промоакции».",
+        "success"
+      );
+      resetSubmitBtn();
+      return;
     }
 
     // Оплата не подключена на сервере — принимаем заявку без оплаты.

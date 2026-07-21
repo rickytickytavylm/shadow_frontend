@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260713f">
+  <link rel="stylesheet" href="styles.css?v=20260721a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -245,6 +245,18 @@
               <label><input type="checkbox" name="health" required> Я подтверждаю отсутствие противопоказаний к физической нагрузке</label>
             </div>
 
+            <!-- ── Промокод ── -->
+            <div class="promo-box">
+              <label class="promo-label" for="promo-code">Промокод</label>
+              <div class="promo-row">
+                <input type="text" id="promo-code" name="promoCode" class="field promo-input"
+                       placeholder="Если есть — введите здесь" autocomplete="off"
+                       autocapitalize="characters" autocorrect="off" spellcheck="false" inputmode="text">
+                <button type="button" id="promo-apply" class="btn btn-ghost promo-btn">Применить</button>
+              </div>
+              <p class="promo-status" id="promo-status" role="status" aria-live="polite" hidden></p>
+            </div>
+
             <button class="btn btn-dark" type="submit" id="apply-submit">Оплатить и отправить заявку</button>
             <p class="form-hint-under-btn">Заявка отправится автоматически сразу после успешной оплаты.</p>
             <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
@@ -376,6 +388,6 @@
 
   <script src="config.js"></script>
   <script src="script.js?v=20260710a"></script>
-  <script src="apply.js?v=20260710g"></script>
+  <script src="apply.js?v=20260721a"></script>
 </body>
 </html>

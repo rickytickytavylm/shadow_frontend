@@ -3146,6 +3146,46 @@ img.calendar-card-bg {
   line-height: 1.45;
 }
 
+/* ── Промокод ── */
+.promo-box {
+  margin: 22px 0 4px;
+}
+.promo-label {
+  display: block;
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.promo-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.promo-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-transform: uppercase;
+}
+.promo-input::placeholder { text-transform: none; }
+.promo-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.promo-status {
+  margin: 10px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+.promo-status--success { color: #1a7f37; }
+.promo-status--error { color: #d70015; }
+
+@media (max-width: 520px) {
+  .promo-row { flex-direction: column; }
+  .promo-btn { width: 100%; }
+}
+
 /* Памятка «Что нужно для видео» над полем ссылки */
 .video-reqs {
   margin: 0 0 14px;
