@@ -1,13 +1,12 @@
 // Общая конфигурация фронтенда.
 //
-// PROD_API_BASE — адрес бэкенда (shadow_backend на Railway).
-//   После первого деплоя бэка вставьте сюда его URL, например:
-//   "https://shadow-backend-production.up.railway.app"
-//   Пока пусто ("") — на боевом домене форма и AI-чат работают в режиме заглушки.
+// PROD_API_BASE — адрес бэкенда. Идём через RU-прокси (Timeweb nginx →
+//   Railway), т.к. Railway из РФ без VPN не открывается. Прямой Railway-URL:
+//   https://web-production-0ab2f.up.railway.app (домен: api.чемпионат-тень.рф).
 //
 // Локально (localhost / 127.0.0.1) автоматически используется LOCAL_API_BASE.
 (() => {
-  const PROD_API_BASE = "https://web-production-0ab2f.up.railway.app";
+  const PROD_API_BASE = "https://api.xn----7sbocmxidei1bb9cwe.xn--p1ai";
   const LOCAL_API_BASE = "http://localhost:8090";
 
   const host = location.hostname;
