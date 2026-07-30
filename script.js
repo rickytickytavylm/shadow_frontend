@@ -316,3 +316,35 @@ document.addEventListener('click', (event) => {
     if (target?.id) setActive(target.id);
   }
 })();
+
+/* ── Аналитика: фиксируем клик по «Купить билет» спектакля «Виновна ли» ── */
+(() => {
+  const link = document.querySelector('.promo-card[href*="vinovnali"]');
+  if (!link) return;
+
+  const cfg = window.SHADOW_CONFIG || {};
+  const base = cfg.API_BASE || "";
+  if (!base) return; // без бэкенда трекать некуда
+
+  let sent = false;
+  link.addEventListener("click", () => {
+    if (sent) return; // одна регистрация на клик, чтобы не задваивать
+    sent = true;
+    setTimeout(() => { sent = false; }, 1500);
+
+    const payload = JSON.stringify({
+      type: "vinovnali_click",
+      deviceId: (cfg.getDeviceId && cfg.getDeviceId()) || "",
+      referrer: document.referrer || "",
+    });
+    const url = base + "/api/events";
+    try {
+      // sendBeacon не блокирует переход и срабатывает даже при уходе со страницы.
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(url, new Blob([payload], { type: "application/json" }));
+      } else {
+        fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: payload, keepalive: true }).catch(() => {});
+      }
+    } catch { /* аналитика не должна мешать переходу */ }
+  });
+})();
