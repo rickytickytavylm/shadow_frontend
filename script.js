@@ -327,24 +327,38 @@ document.addEventListener('click', (event) => {
   if (!base) return; // без бэкенда трекать некуда
 
   let sent = false;
-  link.addEventListener("click", () => {
-    if (sent) return; // одна регистрация на клик, чтобы не задваивать
+  const track = () => {
+    if (sent) return;
     sent = true;
-    setTimeout(() => { sent = false; }, 1500);
+    setTimeout(() => { sent = false; }, 2000);
 
     const payload = JSON.stringify({
       type: "vinovnali_click",
       deviceId: (cfg.getDeviceId && cfg.getDeviceId()) || "",
-      referrer: document.referrer || "",
+      referrer: document.referrer || location.href || "",
     });
     const url = base + "/api/events";
     try {
-      // sendBeacon не блокирует переход и срабатывает даже при уходе со страницы.
+      // text/plain — «простой» Content-Type: без CORS-preflight, sendBeacon не глохнет
+      // на кросс-домене (сайт → api.*). application/json раньше тихо падал.
+      const blob = new Blob([payload], { type: "text/plain;charset=UTF-8" });
+      let queued = false;
       if (navigator.sendBeacon) {
-        navigator.sendBeacon(url, new Blob([payload], { type: "application/json" }));
-      } else {
-        fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: payload, keepalive: true }).catch(() => {});
+        try { queued = navigator.sendBeacon(url, blob); } catch { queued = false; }
+      }
+      if (!queued) {
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=UTF-8" },
+          body: payload,
+          keepalive: true,
+          mode: "cors",
+        }).catch(() => {});
       }
     } catch { /* аналитика не должна мешать переходу */ }
-  });
+  };
+
+  // capture: ловим клик даже если внутри карточки кликнули по картинке/кнопке
+  link.addEventListener("click", track, true);
+  link.addEventListener("auxclick", (e) => { if (e.button === 1) track(); }, true);
 })();
