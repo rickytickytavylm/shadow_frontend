@@ -339,22 +339,23 @@ document.addEventListener('click', (event) => {
     });
     const url = base + "/api/events";
     try {
-      // text/plain — «простой» Content-Type: без CORS-preflight, sendBeacon не глохнет
-      // на кросс-домене (сайт → api.*). application/json раньше тихо падал.
-      const blob = new Blob([payload], { type: "text/plain;charset=UTF-8" });
-      let queued = false;
-      if (navigator.sendBeacon) {
-        try { queued = navigator.sendBeacon(url, blob); } catch { queued = false; }
-      }
-      if (!queued) {
-        fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=UTF-8" },
-          body: payload,
-          keepalive: true,
-          mode: "cors",
-        }).catch(() => {});
-      }
+      // Карточка открывается в новой вкладке (target=_blank) — страница не уходит,
+      // поэтому fetch надёжнее sendBeacon: application/json на бэке уже работает,
+      // а sendBeacon+json на кросс-домене раньше тихо глох по CORS.
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true,
+        mode: "cors",
+      }).catch(() => {
+        // Фолбэк: text/plain без preflight (после редеплоя бэка тоже ок).
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(url, new Blob([payload], { type: "text/plain;charset=UTF-8" }));
+          }
+        } catch { /* ignore */ }
+      });
     } catch { /* аналитика не должна мешать переходу */ }
   };
 
