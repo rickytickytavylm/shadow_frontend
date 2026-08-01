@@ -1,9 +1,14 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    // ?v= бамп — браузер/PWA гарантированно тянет новый sw.js, иначе может
+    // месяцами сидеть на старом кэше установленного веб-приложения.
+    navigator.serviceWorker.register('sw.js?v=5').then((reg) => {
+      reg.update().catch(() => {});
+      // Периодически проверяем обновление, пока PWA открыто.
+      setInterval(() => { reg.update().catch(() => {}); }, 60_000);
+    }).catch(() => {});
   });
-  // Когда активируется новый service worker (после обновления) — один раз
-  // перезагружаем страницу, чтобы в т.ч. в PWA сразу подхватился свежий код.
+  // Когда активируется новый service worker — перезагружаем (и в PWA тоже).
   let swRefreshing = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (swRefreshing) return;
