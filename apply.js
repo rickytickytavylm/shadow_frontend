@@ -96,7 +96,26 @@
     renderSummary();
   }
 
-  document.getElementById("format-list")?.addEventListener("change", updateFormatUI);
+  // Соло и дуэт/команда/тень — разные составы, нельзя в одной заявке.
+  function hasSoloGroupConflict() {
+    const selected = getSelectedFormats().map((it) => it.dataset.format);
+    const hasSolo = selected.includes("solo");
+    const hasGroup = selected.some((f) => f === "duet" || f === "team" || f === "shadow");
+    return hasSolo && hasGroup;
+  }
+
+  document.getElementById("format-list")?.addEventListener("change", (e) => {
+    updateFormatUI();
+    if (hasSoloGroupConflict()) {
+      // Откатываем только что включённый чекбокс.
+      const cb = e.target?.closest?.(".format-item")?.querySelector?.(".format-cb");
+      if (cb && cb.checked) {
+        cb.checked = false;
+        updateFormatUI();
+        setStatus("Соло и дуэт/команда/тень нельзя подать в одной заявке. Оформите отдельную заявку.", "error", false);
+      }
+    }
+  });
   updateFormatUI();
 
   function setStatus(message, type, scroll = true) {
@@ -341,6 +360,9 @@
     const selectedFormats = getSelectedFormats();
     if (selectedFormats.length === 0) {
       return setStatus("Выберите хотя бы один формат участия.", "error");
+    }
+    if (hasSoloGroupConflict()) {
+      return setStatus("Соло и дуэт/команда/тень нельзя подать в одной заявке. Оформите отдельную заявку.", "error");
     }
 
     const categories = [];
