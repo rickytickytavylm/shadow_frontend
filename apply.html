@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260801a">
+  <link rel="stylesheet" href="styles.css?v=20260807a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -116,7 +116,7 @@
 
             <!-- ── Категории ── -->
             <div class="form-section-title" style="margin-top: 28px;">Категории</div>
-            <p class="form-section-hint">Выберите формат участия — можно несколько, один взнос покрывает все. <a href="index.html#categories" target="_blank" rel="noopener">Не уверены в уровне? Открыть описание категорий →</a></p>
+            <p class="form-section-hint">Можно выбрать несколько категорий: если состав не меняется, достаточно одной заявки и одного взноса. Если состав меняется — например, соло, дуэт или команда, — на каждый состав подаётся отдельная заявка. <a href="index.html#categories" target="_blank" rel="noopener">Не уверены в уровне? Открыть описание категорий →</a></p>
 
             <div class="format-list" id="format-list">
               <!-- Соло -->
@@ -145,6 +145,7 @@
                   <span class="format-name">Дуэт</span>
                   <span class="format-desc">Выступление вдвоём</span>
                 </label>
+                <p class="format-note">Объединить с «Тень · Дуэт» можно только при полном совпадении пары. Если меняется хотя бы один участник — отдельная заявка.</p>
               </div>
 
               <!-- Команда -->
@@ -154,6 +155,7 @@
                   <span class="format-name">Команда</span>
                   <span class="format-desc">Групповое выступление</span>
                 </label>
+                <p class="format-note">Объединить с «Тень · Команда» можно только при полном совпадении состава. Если меняется хотя бы один участник — отдельная заявка.</p>
               </div>
 
               <!-- Батл -->
@@ -256,8 +258,9 @@
               <p class="promo-status" id="promo-status" role="status" aria-live="polite" hidden></p>
             </div>
 
+            <p class="form-mail-note">После оплаты на вашу почту придёт письмо-подтверждение. Если его нет, проверьте папку «Спам».</p>
             <button class="btn btn-dark" type="submit" id="apply-submit">Оплатить и отправить заявку</button>
-            <p class="form-hint-under-btn">Заявка отправится автоматически сразу после успешной оплаты.</p>
+            <p class="form-hint-under-btn">Заявка отправится автоматически сразу после успешной оплаты. Если письма нет — проверьте «Спам».</p>
             <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
           </form>
         </section>
@@ -385,7 +388,7 @@
   </nav>
 
   <script src="config.js?v=20260722a"></script>
-  <script src="script.js?v=20260801c"></script>
-  <script src="apply.js?v=20260801a"></script>
+  <script src="script.js?v=20260807a"></script>
+  <script src="apply.js?v=20260807a"></script>
 </body>
 </html>

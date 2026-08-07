@@ -96,25 +96,64 @@
     renderSummary();
   }
 
-  // Соло и дуэт/команда/тень — разные составы, нельзя в одной заявке.
-  function hasSoloGroupConflict() {
-    const selected = getSelectedFormats().map((it) => it.dataset.format);
-    const hasSolo = selected.includes("solo");
-    const hasGroup = selected.some((f) => f === "duet" || f === "team" || f === "shadow");
-    return hasSolo && hasGroup;
+  const CONFLICT_MSG =
+    "Эту категорию нельзя добавить в текущую заявку, потому что для неё меняется состав участников. Подайте отдельную заявку и приложите отдельное видео для видеоотбора.";
+
+  // Линия состава: solo (соло+батл+тень·соло) | duet | team.
+  // Соло + Батл + Тень·Соло — можно вместе. Дуэт только с Тень·Дуэт. Команда только с Тень·Команда.
+  function compositionLineOf(it) {
+    const fmt = it.dataset.format;
+    if (fmt === "solo" || fmt === "battle") return "solo";
+    if (fmt === "duet") return "duet";
+    if (fmt === "team") return "team";
+    if (fmt === "shadow") {
+      const st = radioVal(it, "shadowType");
+      if (st === "solo") return "solo";
+      if (st === "duet") return "duet";
+      if (st === "group") return "team";
+      return ""; // состав ещё не выбран
+    }
+    return "";
+  }
+
+  function selectedCompositionLines() {
+    const lines = new Set();
+    for (const it of getSelectedFormats()) {
+      const line = compositionLineOf(it);
+      if (line) lines.add(line);
+    }
+    return lines;
+  }
+
+  function hasCompositionConflict() {
+    return selectedCompositionLines().size > 1;
+  }
+
+  function showFormatConflictNear(itemEl) {
+    document.querySelectorAll(".format-conflict").forEach((n) => n.remove());
+    if (!itemEl) return;
+    const note = document.createElement("p");
+    note.className = "format-conflict";
+    note.textContent = CONFLICT_MSG;
+    itemEl.appendChild(note);
   }
 
   document.getElementById("format-list")?.addEventListener("change", (e) => {
+    const itemEl = e.target?.closest?.(".format-item");
+    const cb = itemEl?.querySelector?.(".format-cb");
     updateFormatUI();
-    if (hasSoloGroupConflict()) {
-      // Откатываем только что включённый чекбокс.
-      const cb = e.target?.closest?.(".format-item")?.querySelector?.(".format-cb");
-      if (cb && cb.checked) {
+    if (hasCompositionConflict()) {
+      // Откатываем именно то, что только что включили/переключили.
+      if (e.target?.classList?.contains("format-cb") && cb) {
         cb.checked = false;
-        updateFormatUI();
-        setStatus("Соло и дуэт/команда/тень нельзя подать в одной заявке. Оформите отдельную заявку.", "error", false);
+      } else if (e.target?.name === "shadowType") {
+        e.target.checked = false;
       }
+      updateFormatUI();
+      showFormatConflictNear(itemEl);
+      return;
     }
+    document.querySelectorAll(".format-conflict").forEach((n) => n.remove());
   });
   updateFormatUI();
 
@@ -132,7 +171,7 @@
   }
 
   // ── Промокоды (сумма — итоговая, не скидка) ──
-  const PROMO_PRICES = { ZVEZDA: 0, PROBRO: 1500 };
+  const PROMO_PRICES = { ZVEZDA: 0, WELCOME: 0, PROBRO: 1500 };
   let appliedPromo = "";
   const promoInput = document.getElementById("promo-code");
   const promoApplyBtn = document.getElementById("promo-apply");
@@ -361,8 +400,13 @@
     if (selectedFormats.length === 0) {
       return setStatus("Выберите хотя бы один формат участия.", "error");
     }
-    if (hasSoloGroupConflict()) {
-      return setStatus("Соло и дуэт/команда/тень нельзя подать в одной заявке. Оформите отдельную заявку.", "error");
+    if (hasCompositionConflict()) {
+      return setStatus(CONFLICT_MSG, "error");
+    }
+    // Тень без выбранного состава — нельзя
+    const shadowItem = selectedFormats.find((it) => it.dataset.format === "shadow");
+    if (shadowItem && !radioVal(shadowItem, "shadowType")) {
+      return setStatus("Для «Тень» выберите состав: соло, дуэт или команда.", "error");
     }
 
     const categories = [];

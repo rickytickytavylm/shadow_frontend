@@ -3138,6 +3138,30 @@ img.calendar-card-bg {
 }
 
 /* Подпись под кнопкой отправки */
+.format-note {
+  margin: 0 16px 12px 44px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--muted, #6e6e73);
+}
+.format-conflict {
+  margin: 0 16px 12px 44px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.form-mail-note {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.04);
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--ink, #1d1d1f);
+}
 .form-hint-under-btn {
   margin: 10px 0 0;
   font-size: 13px;

@@ -2,7 +2,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     // ?v= бамп — браузер/PWA гарантированно тянет новый sw.js, иначе может
     // месяцами сидеть на старом кэше установленного веб-приложения.
-    navigator.serviceWorker.register('sw.js?v=5').then((reg) => {
+    navigator.serviceWorker.register('sw.js?v=6').then((reg) => {
       reg.update().catch(() => {});
       // Периодически проверяем обновление, пока PWA открыто.
       setInterval(() => { reg.update().catch(() => {}); }, 60_000);
