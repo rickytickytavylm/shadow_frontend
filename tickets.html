@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Билеты на чемпионат по пилону «ТЕНЬ» (pole dance, exotic). 28 ноября 2026, Москва, театр «Золотое кольцо». Продажа откроется позже — следите за анонсами.">
+  <meta name="description" content="Купить зрительский билет на чемпионат по пилону «ТЕНЬ». 28 ноября 2026, Москва, театр «Золотое кольцо». 2000 ₽, оплата онлайн.">
   <meta name="keywords" content="билеты pole dance, билеты чемпионат по пилону, pole dance шоу Москва, билеты танцевальный чемпионат">
   <meta name="theme-color" content="#0a0a0b">
   <title>Билеты на чемпионат по пилону «ТЕНЬ» 2026 — Москва</title>
@@ -21,13 +21,13 @@
   <meta property="og:locale" content="ru_RU">
   <meta property="og:site_name" content="Чемпионат по пилону «ТЕНЬ»">
   <meta property="og:title" content="Билеты на чемпионат по пилону «ТЕНЬ» 2026">
-  <meta property="og:description" content="Продажа билетов для зрителей откроется позже. Следите за анонсами.">
+  <meta property="og:description" content="Зрительский билет: 2000 ₽. 28 ноября 2026, театр «Золотое кольцо».">
   <meta property="og:url" content="https://чемпионат-тень.рф/tickets.html">
   <meta property="og:image" content="https://xn----7sbocmxidei1bb9cwe.xn--p1ai/assets/og-hero.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260713f">
+  <link rel="stylesheet" href="styles.css?v=20260819a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -62,20 +62,60 @@
       <section class="inner-hero">
         <span class="section-kicker">Билеты</span>
         <h1>Билеты на чемпионат «ТЕНЬ»</h1>
-        <p class="page-lead">Продажа зрительских билетов ещё не открыта. Мы готовим удобную покупку онлайн и сообщим о старте продаж в наших каналах — подпишитесь, чтобы не пропустить.</p>
+        <p class="page-lead">Зрительский билет на 28 ноября 2026, театр «Золотое кольцо». Отдельного электронного билета не будет: на входе достаточно назвать имя, фамилию и телефон, указанные при покупке.</p>
       </section>
 
       <div class="apply-layout">
         <section class="glass-card form-shell">
-          <span class="ticket-soon-badge">Продажи откроются позже</span>
-          <h2 style="margin-top:16px;">Что вас ждёт на чемпионате</h2>
-          <ul class="clean-list">
-            <li><b>Живые выступления</b> в категориях от начинающих до звёзд и театральная категория «ТЕНЬ».</li>
-            <li><b>Батлы</b> — танцевальные поединки один на один в двух уровнях: «Любители» и «Профи».</li>
-            <li><b>Церемония награждения</b> с призовым фондом 400 000 ₽, короной чемпионата и специальными номинациями.</li>
-            <li><b>Атмосфера театра</b> «Золотое кольцо» — свет, сцена и полный зал зрителей.</li>
-          </ul>
-          <p class="page-lead" style="margin-bottom:0;">Как только продажи откроются, кнопка «Купить билет» станет активной, а здесь появятся категории билетов и цены.</p>
+          <form class="apply-form" id="ticket-form" novalidate>
+            <div class="form-section-title">Покупатель</div>
+            <label>
+              <span>Имя и фамилия</span>
+              <input type="text" name="fullName" placeholder="Как в паспорте" required autocomplete="name">
+            </label>
+            <label>
+              <span>Телефон</span>
+              <input type="tel" name="phone" placeholder="+7 900 000-00-00" required autocomplete="tel">
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="name@example.com" required autocomplete="email">
+            </label>
+
+            <div class="form-section-title" style="margin-top:28px;">Количество билетов</div>
+            <div class="qty-row">
+              <button type="button" class="qty-btn" id="qty-minus" aria-label="Меньше">−</button>
+              <input type="number" name="quantity" id="ticket-qty" value="1" min="1" max="10" inputmode="numeric">
+              <button type="button" class="qty-btn" id="qty-plus" aria-label="Больше">+</button>
+              <div class="qty-price">
+                <span class="qty-price-now" id="ticket-total">2 000 ₽</span>
+                <span class="qty-price-note" id="ticket-unit-note">2 000 ₽ за билет</span>
+              </div>
+            </div>
+            <p class="form-section-hint">Гости проходят вместе с вами по вашим данным — отдельные ФИО на каждый билет не нужны.</p>
+
+            <div class="promo-box">
+              <label class="promo-label" for="ticket-promo">Промокод</label>
+              <div class="promo-row">
+                <input type="text" id="ticket-promo" name="promoCode" class="field promo-input"
+                       placeholder="Если есть — введите здесь" autocomplete="off"
+                       autocapitalize="characters" autocorrect="off" spellcheck="false" inputmode="text">
+                <button type="button" id="ticket-promo-apply" class="btn btn-ghost promo-btn">Применить</button>
+              </div>
+              <p class="promo-status" id="ticket-promo-status" role="status" aria-live="polite" hidden></p>
+            </div>
+
+            <div class="form-section-title" style="margin-top:28px;">Согласия</div>
+            <div class="checkbox-list">
+              <label><input type="checkbox" name="privacy" required> Я согласен на <a href="privacy.html">обработку персональных данных</a></label>
+              <label><input type="checkbox" name="offer" required> Я согласен с <a href="offer.html">публичной офертой</a> и условиями оплаты</label>
+            </div>
+
+            <p class="form-mail-note">После оплаты на почту придёт письмо со списком гостей. Если его нет — проверьте папку «Спам».</p>
+            <button class="btn btn-dark" type="submit" id="ticket-submit">Перейти к оплате · 2 000 ₽</button>
+            <p class="form-hint-under-btn">Перед оплатой покажем детали заказа. Оплата — через ЮKassa.</p>
+            <p class="form-status" id="ticket-status" role="status" aria-live="polite" hidden></p>
+          </form>
         </section>
 
         <aside class="apply-aside">
@@ -85,13 +125,8 @@
             <p style="margin-top:14px;"><a href="https://yandex.ru/maps/?text=Москва,+ул.+Тимирязевская,+17" target="_blank" rel="noopener noreferrer">Открыть на карте</a></p>
           </div>
           <div class="apply-info-card">
-            <h2>Узнать о старте продаж</h2>
-            <p>Подпишитесь на наши каналы — там первыми объявим дату старта продаж билетов.</p>
-            <div class="ticket-cta-row">
-              <a class="btn btn-dark" href="https://telegram.me/teni_champ" target="_blank" rel="noopener noreferrer">Telegram</a>
-            </div>
-            <p class="footer-social-line" style="margin-top:14px;">Instagram<span class="footer-note-mark" aria-hidden="true">*</span> — <a href="https://www.instagram.com/teni_championship" target="_blank" rel="noopener noreferrer">@teni_championship</a></p>
-            <p class="footer-disclaimer" style="margin-top:8px;"><span class="footer-disclaimer-mark">*</span> Принадлежит компании Meta, деятельность которой признана экстремистской и запрещена на территории Российской Федерации.</p>
+            <h2>Как пройти</h2>
+            <p>Электронного билета не будет. На входе назовите имя, фамилию и телефон покупателя — вас найдут в списке гостей.</p>
           </div>
           <div class="apply-info-card">
             <h2>Хотите выступить?</h2>
@@ -173,7 +208,24 @@
     </button>
   </nav>
 
+  <div class="ticket-modal-backdrop" id="ticket-modal" hidden>
+    <div class="ticket-modal glass-card" role="dialog" aria-modal="true" aria-labelledby="ticket-modal-title">
+      <h2 id="ticket-modal-title">Подтвердите заказ</h2>
+      <dl class="ticket-modal-grid" id="ticket-modal-details"></dl>
+      <div class="ticket-modal-notes">
+        <p>Отдельного электронного билета не будет. На входе назовите имя, фамилию и телефон — вас найдут в списке гостей.</p>
+        <p>Если покупаете несколько билетов, гости проходят вместе с вами по вашим данным.</p>
+        <p>После оплаты письмо придёт на почту. Если его нет во «Входящих» — проверьте «Спам».</p>
+      </div>
+      <div class="ticket-modal-actions">
+        <button type="button" class="btn btn-ghost" id="ticket-modal-cancel">Назад</button>
+        <button type="button" class="btn btn-dark" id="ticket-modal-pay">Перейти к оплате</button>
+      </div>
+    </div>
+  </div>
+
   <script src="config.js?v=20260722a"></script>
-  <script src="script.js?v=20260801c"></script>
+  <script src="script.js?v=20260819a"></script>
+  <script src="tickets.js?v=20260819a"></script>
 </body>
 </html>

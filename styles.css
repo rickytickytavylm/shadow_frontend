@@ -1890,6 +1890,126 @@ img.calendar-card-bg {
   min-width: 120px;
 }
 
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0 6px;
+}
+.qty-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid rgba(10, 10, 11, 0.14);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.qty-row input[type="number"] {
+  width: 64px;
+  height: 44px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 14px;
+  border: 1px solid rgba(10, 10, 11, 0.14);
+  background: #fff;
+  -moz-appearance: textfield;
+}
+.qty-row input[type="number"]::-webkit-outer-spin-button,
+.qty-row input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.qty-price {
+  display: flex;
+  flex-direction: column;
+  margin-left: 6px;
+}
+.qty-price-now {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.qty-price-note {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.ticket-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  background: rgba(10, 10, 11, 0.46);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.ticket-modal-backdrop[hidden] { display: none; }
+.ticket-modal {
+  width: min(520px, 100%);
+  max-height: min(88vh, 760px);
+  overflow: auto;
+  padding: 26px 22px 22px;
+  border-radius: 28px;
+}
+.ticket-modal h2 {
+  margin: 0 0 16px;
+  font-size: 24px;
+}
+.ticket-modal-grid {
+  margin: 0 0 16px;
+  display: grid;
+  gap: 10px;
+}
+.ticket-modal-grid div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+}
+.ticket-modal-grid dt {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.ticket-modal-grid dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+.ticket-modal-notes {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 550;
+}
+.ticket-modal-notes p { margin: 0; }
+.ticket-modal-actions {
+  display: flex;
+  gap: 10px;
+}
+.ticket-modal-actions .btn { flex: 1; }
+
+@media (min-width: 720px) {
+  .ticket-modal-backdrop { align-items: center; }
+}
+@media (max-width: 520px) {
+  .ticket-modal-grid div { grid-template-columns: 1fr; gap: 2px; }
+  .ticket-modal-actions { flex-direction: column-reverse; }
+}
+
 /* ── Placeholder block ── */
 
 .placeholder-block {
