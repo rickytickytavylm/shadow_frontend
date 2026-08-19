@@ -1897,16 +1897,25 @@ img.calendar-card-bg {
   margin: 8px 0 6px;
 }
 .qty-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
+  padding: 0;
+  margin: 0;
   border-radius: 14px;
   border: 1px solid rgba(10, 10, 11, 0.14);
   background: rgba(255, 255, 255, 0.7);
   color: var(--ink);
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 1;
+  line-height: 0;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.qty-btn svg {
+  display: block;
+  flex: 0 0 auto;
 }
 .qty-row input[type="number"] {
   width: 64px;
@@ -1945,9 +1954,9 @@ img.calendar-card-bg {
   inset: 0;
   z-index: 80;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  padding: 16px 16px calc(16px + env(safe-area-inset-bottom));
+  padding: max(24px, env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px));
   background: rgba(10, 10, 11, 0.46);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -2002,9 +2011,6 @@ img.calendar-card-bg {
 }
 .ticket-modal-actions .btn { flex: 1; }
 
-@media (min-width: 720px) {
-  .ticket-modal-backdrop { align-items: center; }
-}
 @media (max-width: 520px) {
   .ticket-modal-grid div { grid-template-columns: 1fr; gap: 2px; }
   .ticket-modal-actions { flex-direction: column-reverse; }

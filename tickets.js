@@ -25,6 +25,8 @@
 
   let appliedPromo = "";
   let pendingPayload = null;
+  let paying = false;
+  let scrollLockY = 0;
 
   const fmtRub = (n) => Number(n).toLocaleString("ru-RU") + " ₽";
 
@@ -52,15 +54,37 @@
         : `${fmtRub(q.unitPrice)} за билет`;
     }
     if (submitBtn) submitBtn.textContent = `Перейти к оплате · ${fmtRub(q.amount)}`;
-    if (modalPay) modalPay.textContent = `Оплатить ${fmtRub(q.amount)}`;
+    if (modalPay && !paying) modalPay.textContent = `Оплатить ${fmtRub(q.amount)}`;
   }
 
-  function setStatus(message, type) {
+  function setStatus(message, type, { scroll = true } = {}) {
     if (!statusEl) return;
     statusEl.hidden = false;
     statusEl.textContent = message;
     statusEl.className = `form-status form-status--${type}`;
-    try { statusEl.scrollIntoView({ behavior: "smooth", block: "center" }); } catch {}
+    if (scroll) {
+      try { statusEl.scrollIntoView({ behavior: "smooth", block: "center" }); } catch {}
+    }
+  }
+
+  function lockScroll() {
+    scrollLockY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollLockY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+  }
+
+  function unlockScroll() {
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    document.body.style.overflow = "";
+    window.scrollTo(0, scrollLockY);
   }
 
   function setPromoStatus(msg, type) {
@@ -141,13 +165,13 @@
       <div><dt>Дата</dt><dd>28 ноября 2026 · театр «Золотое кольцо»</dd></div>
     `;
     modal.hidden = false;
-    document.body.style.overflow = "hidden";
+    lockScroll();
     refreshPrice();
   }
 
   function closeModal() {
     modal.hidden = true;
-    document.body.style.overflow = "";
+    unlockScroll();
   }
 
   function esc(text) {
@@ -161,9 +185,10 @@
       setStatus("Оплата временно недоступна.", "error");
       return;
     }
+    paying = true;
     modalPay.disabled = true;
     submitBtn.disabled = true;
-    setStatus("Создаём платёж и переходим в ЮKassa…", "success");
+    modalPay.textContent = "Создаём платёж…";
 
     let lastErr = "";
     for (let i = 0; i < 4; i++) {
@@ -185,9 +210,11 @@
       }
       await new Promise((r) => setTimeout(r, 700 * (i + 1)));
     }
+    paying = false;
     modalPay.disabled = false;
     submitBtn.disabled = false;
-    setStatus(`Не удалось создать платёж. ${lastErr}`, "error");
+    refreshPrice();
+    setStatus(`Не удалось создать платёж. ${lastErr}`, "error", { scroll: false });
   }
 
   async function handleReturnFromPayment() {
@@ -275,6 +302,7 @@
     if (statusEl) statusEl.hidden = true;
     submitBtn.disabled = false;
     modalPay.disabled = false;
+    paying = false;
     closeModal();
     handleReturnFromPayment();
   });
