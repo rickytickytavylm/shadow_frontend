@@ -1,4 +1,7 @@
 if ('serviceWorker' in navigator) {
+  // Был ли SW уже до этой загрузки. Если нет — это первая установка,
+  // страница и так свежая, перезагружать её не нужно.
+  const swHadController = Boolean(navigator.serviceWorker.controller);
   window.addEventListener('load', () => {
     // ?v= бамп — браузер/PWA гарантированно тянет новый sw.js, иначе может
     // месяцами сидеть на старом кэше установленного веб-приложения.
@@ -8,11 +11,16 @@ if ('serviceWorker' in navigator) {
       setInterval(() => { reg.update().catch(() => {}); }, 60_000);
     }).catch(() => {});
   });
-  // Когда активируется новый service worker — перезагружаем (и в PWA тоже).
-  let swRefreshing = false;
+  // Когда активируется новый service worker — перезагружаем один раз.
+  // Защита от цикла: не на первой установке и не чаще раза за сессию
+  // (если sw.js приходит нестабильно — через прокси/провайдера — иначе
+  // страница будет перегружаться по кругу).
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    if (swRefreshing) return;
-    swRefreshing = true;
+    if (!swHadController) return;
+    try {
+      if (sessionStorage.getItem('sw-reloaded') === '1') return;
+      sessionStorage.setItem('sw-reloaded', '1');
+    } catch (_) { /* приватный режим — просто не перезагружаем повторно */ return; }
     window.location.reload();
   });
 }
