@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260807a">
+  <link rel="stylesheet" href="styles.css?v=20260908a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -116,13 +116,14 @@
 
             <!-- ── Категории ── -->
             <div class="form-section-title" style="margin-top: 28px;">Категории</div>
-            <p class="form-section-hint">Можно выбрать несколько категорий: если состав не меняется, достаточно одной заявки и одного взноса. Если состав меняется — например, соло, дуэт или команда, — на каждый состав подаётся отдельная заявка. <a href="index.html#categories" target="_blank" rel="noopener">Не уверены в уровне? Открыть описание категорий →</a></p>
+            <p class="form-section-hint">Приём заявок на соло, дуэт, команду и «Тень» закрыт. Сейчас можно подать только <b>батл</b> — приём до 14 ноября. <a href="index.html#categories" target="_blank" rel="noopener">Описание категорий →</a></p>
+            <p class="form-closed-note" id="format-closed-note">Соло, дуэт, команда и «Тень» больше не принимаются. Если хотите участвовать в батле — выберите «Батл» и уровень.</p>
 
             <div class="format-list" id="format-list">
               <!-- Соло -->
-              <div class="format-item" data-format="solo">
+              <div class="format-item format-item--closed" data-format="solo">
                 <label class="format-head">
-                  <input type="checkbox" class="format-cb" value="solo">
+                  <input type="checkbox" class="format-cb" value="solo" disabled>
                   <span class="format-name">Соло</span>
                   <span class="format-desc">Индивидуальное выступление по уровню</span>
                 </label>
@@ -139,9 +140,9 @@
               </div>
 
               <!-- Дуэт -->
-              <div class="format-item" data-format="duet">
+              <div class="format-item format-item--closed" data-format="duet">
                 <label class="format-head">
-                  <input type="checkbox" class="format-cb" value="duet">
+                  <input type="checkbox" class="format-cb" value="duet" disabled>
                   <span class="format-name">Дуэт</span>
                   <span class="format-desc">Выступление вдвоём</span>
                 </label>
@@ -149,9 +150,9 @@
               </div>
 
               <!-- Команда -->
-              <div class="format-item" data-format="team">
+              <div class="format-item format-item--closed" data-format="team">
                 <label class="format-head">
-                  <input type="checkbox" class="format-cb" value="team">
+                  <input type="checkbox" class="format-cb" value="team" disabled>
                   <span class="format-name">Команда</span>
                   <span class="format-desc">Групповое выступление</span>
                 </label>
@@ -175,9 +176,9 @@
               </div>
 
               <!-- Тень -->
-              <div class="format-item" data-format="shadow">
+              <div class="format-item format-item--closed" data-format="shadow">
                 <label class="format-head">
-                  <input type="checkbox" class="format-cb" value="shadow">
+                  <input type="checkbox" class="format-cb" value="shadow" disabled>
                   <span class="format-name">Тень</span>
                   <span class="format-desc">Театрально-перформативная категория</span>
                 </label>
@@ -200,6 +201,10 @@
             <div class="cat-summary" id="cat-summary" hidden>
               <span class="cat-summary-label">Вы выбрали:</span>
               <div class="cat-summary-chips" id="cat-summary-chips"></div>
+            </div>
+
+            <div id="packages" class="form-closed-note" style="margin-top:28px">
+              Оплата основного взноса за участие откроется 13 сентября. Ссылка из письма приведёт сюда.
             </div>
 
             <!-- ── Видео ── -->
@@ -389,6 +394,6 @@
 
   <script src="config.js?v=20260722a"></script>
   <script src="script.js?v=20260807a"></script>
-  <script src="apply.js?v=20260807a"></script>
+  <script src="apply.js?v=20260908b"></script>
 </body>
 </html>

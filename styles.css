@@ -3140,6 +3140,21 @@ img.calendar-card-bg {
   border-color: var(--ink);
   background: rgba(10, 10, 11, 0.04);
 }
+.format-item--closed {
+  opacity: 0.55;
+  background: rgba(10, 10, 11, 0.03);
+}
+.format-item--closed .format-head { cursor: not-allowed; }
+.format-item--closed .format-cb { cursor: not-allowed; }
+.form-closed-note {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fff4e5;
+  color: #6a3b00;
+  font-size: 14px;
+  line-height: 1.4;
+}
 .format-head {
   display: grid;
   grid-template-columns: auto 1fr;

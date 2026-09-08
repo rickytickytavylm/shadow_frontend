@@ -96,6 +96,10 @@
     renderSummary();
   }
 
+  const CLOSED_FORMATS = new Set(["solo", "duet", "team", "shadow"]);
+  const CLOSED_MSG =
+    "Приём заявок на эту категорию закрыт. Сейчас открыт только батл — до 14 ноября.";
+
   const CONFLICT_MSG =
     "Эту категорию нельзя добавить в текущую заявку, потому что для неё меняется состав участников. Подайте отдельную заявку и приложите отдельное видео для видеоотбора.";
 
@@ -138,9 +142,26 @@
     itemEl.appendChild(note);
   }
 
+  document.getElementById("format-list")?.addEventListener("click", (e) => {
+    const itemEl = e.target?.closest?.(".format-item--closed");
+    if (!itemEl) return;
+    e.preventDefault();
+    showFormatConflictNear(itemEl);
+    const note = itemEl.querySelector(".format-conflict");
+    if (note) note.textContent = CLOSED_MSG;
+  });
+
   document.getElementById("format-list")?.addEventListener("change", (e) => {
     const itemEl = e.target?.closest?.(".format-item");
     const cb = itemEl?.querySelector?.(".format-cb");
+    if (itemEl && CLOSED_FORMATS.has(itemEl.dataset.format) && e.target?.classList?.contains("format-cb")) {
+      if (cb) cb.checked = false;
+      showFormatConflictNear(itemEl);
+      const note = itemEl.querySelector(".format-conflict");
+      if (note) note.textContent = CLOSED_MSG;
+      updateFormatUI();
+      return;
+    }
     updateFormatUI();
     if (hasCompositionConflict()) {
       // Откатываем именно то, что только что включили/переключили.
@@ -399,6 +420,9 @@
     const selectedFormats = getSelectedFormats();
     if (selectedFormats.length === 0) {
       return setStatus("Выберите хотя бы один формат участия.", "error");
+    }
+    if (selectedFormats.some((it) => CLOSED_FORMATS.has(it.dataset.format))) {
+      return setStatus(CLOSED_MSG, "error");
     }
     if (hasCompositionConflict()) {
       return setStatus(CONFLICT_MSG, "error");

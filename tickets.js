@@ -4,7 +4,7 @@
   const API_BASE = (window.SHADOW_CONFIG && window.SHADOW_CONFIG.API_BASE) || "";
   const PENDING_KEY = "shadow_pending_ticket";
   const TICKET_PRICE = 2000;
-  const TICKET_PROMOS = { KRISBRO: 1500 };
+  const TICKET_PROMOS = { KRISBRO: 1500, SEEYOUSOON: 0 };
   const MAX_QTY = 10;
 
   const form = document.getElementById("ticket-form");
@@ -53,8 +53,14 @@
         ? `${fmtRub(q.unitPrice)} × ${q.quantity}`
         : `${fmtRub(q.unitPrice)} за билет`;
     }
-    if (submitBtn) submitBtn.textContent = `Перейти к оплате · ${fmtRub(q.amount)}`;
-    if (modalPay && !paying) modalPay.textContent = `Оплатить ${fmtRub(q.amount)}`;
+    if (submitBtn) {
+      submitBtn.textContent = q.amount === 0
+        ? "Оформить билет · 0 ₽"
+        : `Перейти к оплате · ${fmtRub(q.amount)}`;
+    }
+    if (modalPay && !paying) {
+      modalPay.textContent = q.amount === 0 ? "Оформить билет" : `Оплатить ${fmtRub(q.amount)}`;
+    }
   }
 
   function setStatus(message, type, { scroll = true } = {}) {
@@ -199,6 +205,22 @@
           body: JSON.stringify(payload),
         });
         const data = await res.json().catch(() => ({}));
+        if (res.ok && data.free) {
+          closeModal();
+          form.reset();
+          appliedPromo = "";
+          if (promoStatusEl) promoStatusEl.hidden = true;
+          refreshPrice();
+          setStatus(
+            (data.orderNumber ? `Билет оформлен, заказ ${data.orderNumber}. ` : "Билет оформлен. ") +
+              "Письмо со списком гостей отправлено на почту. Если его нет во «Входящих» — проверьте «Спам».",
+            "success"
+          );
+          paying = false;
+          modalPay.disabled = false;
+          submitBtn.disabled = false;
+          return;
+        }
         if (res.ok && data.confirmationUrl) {
           savePending(payload, data.paymentId);
           location.href = data.confirmationUrl;
