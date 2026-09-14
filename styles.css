@@ -3346,6 +3346,90 @@ img.calendar-card-bg {
 .promo-status--success { color: #1a7f37; }
 .promo-status--error { color: #d70015; }
 
+/* ── Оплата взноса за участие ── */
+.fee-shell {
+  margin: 0 auto 28px;
+}
+.fee-title {
+  margin: 4px 0 10px;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+.fee-form {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  margin-top: 16px;
+}
+.fee-form label {
+  display: grid;
+  gap: 8px;
+  color: rgba(10, 10, 11, 0.72);
+  font-size: 14px;
+  font-weight: 700;
+}
+.fee-form input[type="email"],
+.fee-field input {
+  width: 100%;
+  height: 54px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 18px;
+  padding: 0 18px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.52);
+  font: inherit;
+  font-size: 16px;
+}
+.fee-form input:focus,
+.fee-field input:focus { outline: none; border-color: var(--ink); }
+.fee-prices-note {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+#fee-results { display: grid; gap: 16px; margin-top: 20px; }
+.fee-app {
+  border: 1px solid rgba(10, 10, 11, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.6);
+  display: grid;
+  gap: 14px;
+}
+.fee-app--paid { background: rgba(20, 130, 70, 0.07); border-color: rgba(20, 130, 70, 0.25); }
+.fee-app-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.fee-app-name { font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+.fee-app-cats { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.fee-app-note { margin: 0; font-size: 14px; color: #14713c; line-height: 1.5; }
+.fee-badge {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff4e5;
+  color: #6a3b00;
+}
+.fee-badge--paid { background: rgba(20, 130, 70, 0.14); color: #14713c; }
+.fee-field { display: grid; gap: 8px; color: rgba(10, 10, 11, 0.72); font-size: 14px; font-weight: 700; }
+.fee-lines { display: grid; gap: 8px; padding: 12px 0; border-top: 1px dashed rgba(10, 10, 11, 0.12); border-bottom: 1px dashed rgba(10, 10, 11, 0.12); }
+.fee-line { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.fee-line em { font-style: normal; color: var(--muted); font-size: 13px; }
+.fee-total { display: flex; justify-content: space-between; align-items: baseline; font-size: 16px; font-weight: 700; }
+.fee-total b { font-size: 26px; letter-spacing: -0.03em; }
+.fee-total s { color: var(--muted); font-weight: 500; font-size: 16px; margin-right: 8px; }
+.fee-consents { margin: 4px 0 0; }
+.fee-pay-btn { width: 100%; }
+@media (max-width: 640px) {
+  .fee-form { grid-template-columns: 1fr; }
+  .fee-form .btn { width: 100%; }
+}
+
 @media (max-width: 520px) {
   .promo-row { flex-direction: column; }
   .promo-btn { width: 100%; }

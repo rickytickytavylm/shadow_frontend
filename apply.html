@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260908a">
+  <link rel="stylesheet" href="styles.css?v=20260914a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -63,6 +63,25 @@
         <span class="section-kicker">Заявка</span>
         <h1>Подать заявку на видеоотбор</h1>
         <p class="page-lead">Приём заявок: 10 июля - 7 сентября 2026. Разместите видео с вашим танцевальным номером на YouTube, VK, Google/Яндекс Диске или другой площадке и укажите ссылку в форме. Заполните анкету и оплатите взнос за видеоотбор — заявка отправляется организаторам сразу после успешной оплаты.</p>
+      </section>
+
+      <!-- ── Оплата взноса за участие (для прошедших видеоотбор) ── -->
+      <section class="glass-card form-shell fee-shell" id="packages">
+        <div class="form-section-title">Оплата взноса за участие</div>
+        <h2 class="fee-title">Вы прошли видеоотбор? Оплатите участие</h2>
+        <p class="form-section-hint">Введите email, указанный в заявке, — мы покажем категории, по которым вы прошли отбор, и сумму взноса. Срок оплаты — до <b>21 сентября</b> включительно.</p>
+
+        <form class="fee-form" id="fee-lookup" novalidate>
+          <label>
+            <span>Email из заявки</span>
+            <input type="email" name="email" id="fee-email" placeholder="name@example.com" required autocomplete="email">
+          </label>
+          <button class="btn btn-dark" type="submit" id="fee-lookup-btn">Найти мои заявки</button>
+        </form>
+
+        <div id="fee-results" hidden></div>
+        <p class="form-status" id="fee-status" role="status" aria-live="polite" hidden></p>
+        <p class="fee-prices-note">Соло — 10 000 ₽ · Батлы — 9 000 ₽ · Дуэты — 7 000 ₽/чел · Команды — 4 500 ₽/чел. Взнос за участие не возвращается.</p>
       </section>
 
       <div class="apply-layout">
@@ -201,10 +220,6 @@
             <div class="cat-summary" id="cat-summary" hidden>
               <span class="cat-summary-label">Вы выбрали:</span>
               <div class="cat-summary-chips" id="cat-summary-chips"></div>
-            </div>
-
-            <div id="packages" class="form-closed-note" style="margin-top:28px">
-              Оплата основного взноса за участие откроется 13 сентября. Ссылка из письма приведёт сюда.
             </div>
 
             <!-- ── Видео ── -->
@@ -395,5 +410,6 @@
   <script src="config.js?v=20260722a"></script>
   <script src="script.js?v=20260807a"></script>
   <script src="apply.js?v=20260908b"></script>
+  <script src="fee.js?v=20260914a"></script>
 </body>
 </html>
