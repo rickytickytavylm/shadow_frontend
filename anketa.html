@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0a0a0b">
+  <title>Анкета участника — чемпионат по пилону «ТЕНЬ» 2026</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260914b">
+</head>
+<body class="inner-page">
+  <div class="page-shell">
+    <header class="site-header glass-panel is-scrolled" data-header>
+      <a class="brand" href="index.html" aria-label="ТЕНЬ - на главную">ТЕНЬ</a>
+      <nav class="desktop-nav" aria-label="Главная навигация">
+        <a href="index.html#about">О чемпионате</a>
+        <a href="index.html#calendar">Календарь</a>
+        <a href="rules.html">Положения</a>
+        <a href="apply.html#packages">Оплата участия</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-small btn-dark" href="index.html">На главную</a>
+        <button class="menu-button" type="button" data-menu-button aria-label="Открыть меню"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <div class="mobile-menu glass-panel" data-mobile-menu>
+      <a href="index.html#about">О чемпионате</a>
+      <a href="index.html#calendar">Календарь</a>
+      <a href="rules.html">Положения</a>
+      <a href="apply.html#packages">Оплата участия</a>
+    </div>
+
+    <main>
+      <section class="inner-hero">
+        <span class="section-kicker">Участникам</span>
+        <h1>Анкета участника</h1>
+        <p class="page-lead">Анкета заполняется отдельно на каждый конкурсный номер. Всё, что вы укажете здесь, попадёт в программу, к ведущему и технической команде чемпионата.</p>
+      </section>
+
+      <section class="glass-card form-shell anketa-shell" id="anketa-root">
+        <div class="anketa-loading" id="anketa-loading">Загружаем анкету…</div>
+        <div class="anketa-error form-status form-status--error" id="anketa-error" hidden></div>
+
+        <!-- Выбор категории, если у участника несколько -->
+        <div id="anketa-picker" hidden>
+          <div class="form-section-title">Ваши конкурсные номера</div>
+          <p class="form-section-hint">У вас несколько категорий — на каждую заполняется отдельная анкета. Выберите, с какой начать.</p>
+          <div class="anketa-picker-list" id="anketa-picker-list"></div>
+        </div>
+
+        <!-- Сама анкета -->
+        <form id="anketa-form" class="apply-form anketa-form" novalidate hidden>
+          <div class="anketa-head">
+            <button type="button" class="anketa-back" id="anketa-back" hidden>← Другие номера</button>
+            <div class="anketa-cat"><span class="anketa-cat-label">Категория</span><b id="anketa-cat"></b></div>
+            <div class="anketa-cat"><span class="anketa-cat-label">Формат</span><b id="anketa-format"></b></div>
+            <span class="fee-badge" id="anketa-status"></span>
+          </div>
+
+          <div class="info-block info-block--warn">
+            <div class="info-block-title">Важно · срок</div>
+            <p>Финальный срок предоставления всей информации и материалов по выступлению — <b id="anketa-deadline">7 ноября 2026 года</b> включительно. После этой даты изменения возможны только на условиях раздела «Штрафные санкции».</p>
+            <p>Перед заполнением обязательно ознакомьтесь с <a href="rules.html" target="_blank" rel="noopener">Положением чемпионата →</a></p>
+          </div>
+
+          <div class="info-block info-block--note">
+            <div class="info-block-title">Данные из заявки</div>
+            <dl class="anketa-prefill" id="anketa-prefill"></dl>
+            <p class="anketa-prefill-note">Эти данные подставлены из вашей заявки. Если что-то изменилось — напишите нам ответом на любое письмо чемпионата.</p>
+          </div>
+
+          <div id="anketa-sections"></div>
+
+          <details class="info-block info-block--rider" id="anketa-rider">
+            <summary class="info-block-title">Технический райдер</summary>
+            <div id="anketa-rider-body"></div>
+          </details>
+
+          <div class="info-block info-block--warn" id="anketa-penalties"></div>
+
+          <div class="form-section-title" style="margin-top:28px">Подтверждения и согласия</div>
+          <p class="form-section-hint">Перед отправкой ещё раз: <a href="rules.html" target="_blank" rel="noopener">Положение чемпионата →</a></p>
+          <div class="checkbox-list anketa-consents" id="anketa-consents"></div>
+
+          <div class="anketa-errors form-status form-status--error" id="anketa-errors" hidden></div>
+          <p class="anketa-autosave" id="anketa-autosave"></p>
+          <button class="btn btn-dark" type="submit" id="anketa-submit">Отправить анкету</button>
+          <p class="form-hint-under-btn">После отправки на почту придёт копия ваших ответов. Анкету можно открыть по этой же ссылке и отправить заново, если что-то изменится.</p>
+          <p class="form-status" id="anketa-done" role="status" aria-live="polite" hidden></p>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js?v=20260722a"></script>
+  <script src="script.js?v=20260807a"></script>
+  <script src="anketa.js?v=20260914a"></script>
+</body>
+</html>

@@ -3346,6 +3346,132 @@ img.calendar-card-bg {
 .promo-status--success { color: #1a7f37; }
 .promo-status--error { color: #d70015; }
 
+/* ── Анкета участника ── */
+.anketa-shell { margin: 0 auto 28px; }
+.anketa-loading { color: var(--muted); font-weight: 600; padding: 12px 0; }
+.anketa-picker-list { display: grid; gap: 12px; margin-top: 14px; }
+.anketa-pick {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  text-align: left;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(10, 10, 11, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  font: inherit;
+  cursor: pointer;
+}
+.anketa-pick:hover { border-color: var(--ink); }
+.anketa-pick-cat { font-weight: 800; font-size: 17px; letter-spacing: -0.02em; }
+.anketa-pick-format { color: var(--muted); font-size: 14px; font-weight: 600; }
+.anketa-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 28px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #fff;
+}
+.anketa-cat { display: grid; gap: 2px; }
+.anketa-cat-label { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; }
+.anketa-cat b { font-size: 20px; letter-spacing: -0.02em; }
+.anketa-head .fee-badge { margin-left: auto; }
+.anketa-back {
+  flex: 0 0 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+.info-block {
+  padding: 16px 18px;
+  border-radius: 16px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.info-block p { margin: 0 0 8px; }
+.info-block p:last-child { margin-bottom: 0; }
+.info-block ul { margin: 6px 0 0; padding-left: 20px; }
+.info-block li { margin: 3px 0; }
+.info-block a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.info-block-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.info-block--warn { background: #fff4e5; border-left: 4px solid #e08a1e; }
+.info-block--warn .info-block-title { color: #8a4b00; }
+.info-block--note { background: rgba(10, 10, 11, 0.05); border-left: 4px solid rgba(10, 10, 11, 0.35); }
+.info-block--rider { background: rgba(255, 255, 255, 0.6); border: 1px dashed rgba(10, 10, 11, 0.2); }
+.info-block--rider summary { cursor: pointer; margin-bottom: 0; list-style: none; }
+.info-block--rider summary::before { content: "▸ "; }
+.info-block--rider[open] summary::before { content: "▾ "; }
+.rider-block { margin-top: 12px; }
+.rider-block b { display: block; margin-bottom: 4px; }
+.anketa-prefill { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 20px; margin: 0; }
+.anketa-prefill div { display: grid; gap: 2px; }
+.anketa-prefill dt { font-size: 12px; color: var(--muted); font-weight: 600; }
+.anketa-prefill dd { margin: 0; font-weight: 700; word-break: break-word; }
+.anketa-prefill-note { margin: 12px 0 0 !important; font-size: 13px; color: var(--muted); }
+.anketa-section { display: grid; gap: 16px; padding-top: 28px; margin-top: 12px; border-top: 1px solid rgba(10, 10, 11, 0.1); }
+.anketa-section-title { font-size: 15px; letter-spacing: 0.08em; color: var(--ink); margin-bottom: 0; }
+.q[hidden] { display: none; }
+.q label > span:first-child, .q-label, .q-fieldset legend {
+  display: block;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+.q-hint { display: block; color: var(--muted); font-size: 13.5px; font-weight: 500; line-height: 1.5; margin: -2px 0 4px; white-space: pre-line; }
+.q-fieldset { border: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.q-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.q-options .radio-opt { flex: 1 1 160px; }
+.q-group { display: grid; gap: 8px; }
+.q-list { display: grid; gap: 10px; }
+.q-helper { display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px; }
+.field-req { color: #c0392b; font-style: normal; margin-left: 3px; }
+.field-wrap { position: relative; }
+.field-wrap input, .field-wrap textarea { padding-right: 44px !important; }
+.field-clear {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(10, 10, 11, 0.08);
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  display: none;
+}
+.field-wrap:has(input:not(:placeholder-shown)) .field-clear,
+.field-wrap:has(textarea:not(:placeholder-shown)) .field-clear,
+.field-wrap:focus-within .field-clear { display: block; }
+.anketa-consents label { color: var(--ink); font-weight: 600; }
+.consent-radio { margin-top: 6px; }
+.consent-radio legend { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.anketa-autosave { margin: 0; font-size: 13px; color: var(--muted); min-height: 18px; }
+.anketa-errors ul { margin: 8px 0 0; padding-left: 20px; }
+.anketa-errors a { color: inherit; font-weight: 700; }
+@media (max-width: 640px) {
+  .q-helper { grid-template-columns: 1fr; }
+  .anketa-pick { grid-template-columns: 1fr; }
+}
+
 /* ── Оплата взноса за участие ── */
 .fee-shell {
   margin: 0 auto 28px;

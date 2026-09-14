@@ -3,7 +3,7 @@
    - навигации (HTML) — network-first, чтобы не показывать устаревшие страницы;
    - остальные same-origin GET — stale-while-revalidate;
    - офлайн-фолбэк на закэшированную главную. */
-const CACHE = "shadow-pwa-v8";
+const CACHE = "shadow-pwa-v9";
 const CORE = [
   "./",
   "./index.html",
