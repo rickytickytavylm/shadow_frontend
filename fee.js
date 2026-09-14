@@ -53,6 +53,29 @@
           <p class="fee-app-note">Взнос ${fmt(q.feeAmount)} получен${q.feePaidAt ? " " + new Date(q.feePaidAt).toLocaleDateString("ru-RU") : ""}. Письмо с подтверждением и ссылкой на анкету участника отправлено на почту.</p>
         </article>`;
     }
+    if (!q.lines.length) {
+      const laterOnly = (q.later || []).map((l) => `<div class="fee-line fee-line--later"><span>${esc(l.label)}</span><b>Позже</b></div>`).join("");
+      return `
+        <article class="fee-app" data-app="${esc(q.appId)}">
+          <div class="fee-app-head">
+            <div>
+              <div class="fee-app-name">${esc(q.fullName)}</div>
+              <div class="fee-app-cats">Батлы — оплата позже</div>
+            </div>
+            <span class="fee-badge">Позже</span>
+          </div>
+          <div class="fee-lines">${laterOnly}</div>
+          <p class="fee-later-note">${esc((q.later && q.later[0] && q.later[0].reason) || "Оплата и анкета батлов откроются ближе к ноябрю.")}</p>
+        </article>`;
+    }
+    const laterHtml = (q.later || []).map((l) => `
+      <div class="fee-line fee-line--later">
+        <span>${esc(l.label)}</span>
+        <b>Позже</b>
+      </div>`).join("");
+    const laterNote = (q.later || []).length
+      ? `<p class="fee-later-note">${esc((q.later[0] && q.later[0].reason) || "Оплата батлов откроется ближе к ноябрю.")}</p>`
+      : "";
     const linesHtml = q.lines.map((l) => `
       <div class="fee-line">
         <span>${esc(l.label)}${l.perPerson ? ` <em>· ${fmt(l.unit)} / чел</em>` : ""}</span>
@@ -70,12 +93,13 @@
         <div class="fee-app-head">
           <div>
             <div class="fee-app-name">${esc(q.fullName)}</div>
-            <div class="fee-app-cats">Прошли отбор: ${cats}</div>
+            <div class="fee-app-cats">${cats ? "Сейчас к оплате: " + cats : "Нет категорий к оплате сейчас"}</div>
           </div>
           <span class="fee-badge">К оплате</span>
         </div>
         ${partHtml}
-        <div class="fee-lines">${linesHtml}</div>
+        <div class="fee-lines">${linesHtml}${laterHtml}</div>
+        ${laterNote}
         <div class="fee-promo">
           <label class="fee-field">
             <span>Промокод <em class="field-opt">(если есть)</em></span>

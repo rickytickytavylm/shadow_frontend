@@ -52,9 +52,14 @@
       el.loading.hidden = true;
       if (state.schema.deadline) el.deadline.textContent = state.schema.deadline;
       const cats = ctxRes.categories || [];
-      if (!cats.length) return showError("По этой заявке пока нет категорий, прошедших отбор. Если вы получили письмо о прохождении — напишите нам: teni_champ@mail.ru");
-      if (pickedCat && cats.some((c) => c.category === pickedCat)) return openForm(pickedCat);
-      if (cats.length === 1) return openForm(cats[0].category);
+      const open = cats.filter((c) => !c.locked);
+      const locked = cats.filter((c) => c.locked);
+      if (!open.length && !locked.length) return showError("По этой заявке пока нет категорий, прошедших отбор. Если вы получили письмо о прохождении — напишите нам: teni_champ@mail.ru");
+      if (!open.length) return showError(locked[0].lockReason || "Анкета по этой категории откроется позже.");
+      const picked = cats.find((c) => c.category === pickedCat);
+      if (picked && picked.locked) return renderPicker(cats);
+      if (picked && !picked.locked) return openForm(picked.category);
+      if (open.length === 1 && !locked.length) return openForm(open[0].category);
       renderPicker(cats);
     } catch (err) {
       showError(err.message);
@@ -73,16 +78,27 @@
     document.body.classList.remove("anketa-filling");
     el.picker.hidden = false;
     el.form.hidden = true;
-    el.pickerList.innerHTML = cats.map((c) => `
-      <button type="button" class="anketa-pick anketa-pick--${esc(c.status || "none")}" data-cat="${esc(c.category)}" role="listitem">
+    el.error.hidden = true;
+    el.pickerList.innerHTML = cats.map((c) => {
+      if (c.locked) {
+        return `<div class="anketa-pick anketa-pick--locked" role="listitem" aria-disabled="true">
+          <span class="anketa-pick-main">
+            <span class="anketa-pick-cat">${esc(c.label)}</span>
+            <span class="anketa-pick-sub">Анкета откроется ближе к ноябрю</span>
+          </span>
+          <span class="anketa-pick-lock" aria-hidden="true">✕</span>
+        </div>`;
+      }
+      return `<button type="button" class="anketa-pick anketa-pick--${esc(c.status || "none")}" data-cat="${esc(c.category)}" role="listitem">
         <span class="anketa-pick-main">
           <span class="anketa-pick-cat">${esc(c.label)}</span>
           <span class="anketa-pick-sub">${esc(c.formatLabel)} · ${esc(statusLabel(c.status))}</span>
         </span>
         <span class="anketa-pick-action">${esc(statusAction(c.status))}</span>
         ${CHEVRON}
-      </button>`).join("");
-    el.pickerList.querySelectorAll(".anketa-pick").forEach((b) => b.addEventListener("click", () => openForm(b.dataset.cat)));
+      </button>`;
+    }).join("");
+    el.pickerList.querySelectorAll("button.anketa-pick").forEach((b) => b.addEventListener("click", () => openForm(b.dataset.cat)));
     history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}`);
     scrollToTop(root);
   }
@@ -103,11 +119,12 @@
     document.body.classList.add("anketa-filling");
     el.picker.hidden = true;
     el.form.hidden = false;
-    el.back.hidden = state.ctx.categories.length < 2;
+    el.back.hidden = (state.ctx.categories || []).length < 2;
     el.cat.textContent = meta.label;
     el.format.textContent = meta.formatLabel;
     el.done.hidden = true;
     el.errors.hidden = true;
+    if (el.error) el.error.hidden = true;
 
     // Черновик: сервер → localStorage (что новее).
     let serverForm = null;

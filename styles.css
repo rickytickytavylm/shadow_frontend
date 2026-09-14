@@ -3392,6 +3392,18 @@ img.calendar-card-bg {
 .anketa-pick-sub { color: var(--muted); font-size: 13.5px; font-weight: 500; }
 .anketa-pick-action { font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
 .anketa-pick-chevron { color: rgba(10, 10, 11, 0.35); flex: 0 0 auto; }
+.anketa-pick--locked {
+  cursor: default;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.anketa-pick--locked:hover .anketa-pick-cat { text-decoration: none; }
+.anketa-pick-lock {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1;
+}
 
 .anketa-head { display: grid; gap: 6px; padding: 0 0 4px; }
 .anketa-back {
@@ -3638,6 +3650,8 @@ body.anketa-filling .inner-hero { padding-bottom: 18px; }
 .fee-lines { display: grid; gap: 8px; padding: 12px 0; border-top: 1px dashed rgba(10, 10, 11, 0.12); border-bottom: 1px dashed rgba(10, 10, 11, 0.12); }
 .fee-line { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
 .fee-line em { font-style: normal; color: var(--muted); font-size: 13px; }
+.fee-line--later { color: var(--muted); }
+.fee-later-note { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
 .fee-total { display: flex; justify-content: space-between; align-items: baseline; font-size: 16px; font-weight: 700; }
 .fee-total b { font-size: 26px; letter-spacing: -0.03em; }
 .fee-total s { color: var(--muted); font-weight: 500; font-size: 16px; margin-right: 8px; }
