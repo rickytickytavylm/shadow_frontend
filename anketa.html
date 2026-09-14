@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260914b">
+  <link rel="stylesheet" href="styles.css?v=20260914f">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -50,18 +50,28 @@
 
         <!-- Выбор категории, если у участника несколько -->
         <div id="anketa-picker" hidden>
-          <div class="form-section-title">Ваши конкурсные номера</div>
-          <p class="form-section-hint">У вас несколько категорий — на каждую заполняется отдельная анкета. Выберите, с какой начать.</p>
-          <div class="anketa-picker-list" id="anketa-picker-list"></div>
+          <div class="anketa-picker-head">
+            <span class="anketa-step">Шаг 1 из 2</span>
+            <h2 class="anketa-picker-title">Какой номер заполняем?</h2>
+            <p class="anketa-picker-hint">У вас несколько конкурсных номеров, <b>на каждый — своя анкета</b>. Нажмите на номер, чтобы открыть его анкету. Начать можно с любого.</p>
+          </div>
+          <div class="anketa-picker-list" id="anketa-picker-list" role="list"></div>
         </div>
 
         <!-- Сама анкета -->
         <form id="anketa-form" class="apply-form anketa-form" novalidate hidden>
-          <div class="anketa-head">
-            <button type="button" class="anketa-back" id="anketa-back" hidden>← Другие номера</button>
-            <div class="anketa-cat"><span class="anketa-cat-label">Категория</span><b id="anketa-cat"></b></div>
-            <div class="anketa-cat"><span class="anketa-cat-label">Формат</span><b id="anketa-format"></b></div>
-            <span class="fee-badge" id="anketa-status"></span>
+          <div class="anketa-head" id="anketa-head">
+            <button type="button" class="anketa-back" id="anketa-back" hidden>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+              <span>К списку номеров</span>
+            </button>
+            <span class="anketa-step" id="anketa-step">Анкета участника</span>
+            <h2 class="anketa-title" id="anketa-cat"></h2>
+            <div class="anketa-meta">
+              <span class="anketa-meta-item">Формат: <b id="anketa-format"></b></span>
+              <span class="anketa-meta-sep" aria-hidden="true">·</span>
+              <span class="anketa-meta-item anketa-status" id="anketa-status"></span>
+            </div>
           </div>
 
           <div class="info-block info-block--warn">
@@ -101,6 +111,6 @@
 
   <script src="config.js?v=20260914e"></script>
   <script src="script.js?v=20260807a"></script>
-  <script src="anketa.js?v=20260914a"></script>
+  <script src="anketa.js?v=20260914b"></script>
 </body>
 </html>

@@ -62,19 +62,36 @@
   })();
 
   function statusLabel(s) {
-    return s === "submitted" ? "Отправлена" : (s === "draft" ? "Черновик" : "Не заполнена");
+    return s === "submitted" ? "Отправлена" : (s === "draft" ? "Черновик сохранён" : "Не заполнена");
   }
+  function statusAction(s) {
+    return s === "submitted" ? "Открыть" : (s === "draft" ? "Продолжить" : "Заполнить");
+  }
+  const CHEVRON = `<svg class="anketa-pick-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
 
   function renderPicker(cats) {
     el.picker.hidden = false;
     el.form.hidden = true;
     el.pickerList.innerHTML = cats.map((c) => `
-      <button type="button" class="anketa-pick" data-cat="${esc(c.category)}">
-        <span class="anketa-pick-cat">${esc(c.label)}</span>
-        <span class="anketa-pick-format">${esc(c.formatLabel)}</span>
-        <span class="fee-badge ${c.status === "submitted" ? "fee-badge--paid" : ""}">${esc(statusLabel(c.status))}</span>
+      <button type="button" class="anketa-pick anketa-pick--${esc(c.status || "none")}" data-cat="${esc(c.category)}" role="listitem">
+        <span class="anketa-pick-main">
+          <span class="anketa-pick-cat">${esc(c.label)}</span>
+          <span class="anketa-pick-sub"><span class="anketa-dot"></span>${esc(c.formatLabel)} · ${esc(statusLabel(c.status))}</span>
+        </span>
+        <span class="anketa-pick-action">${esc(statusAction(c.status))}</span>
+        ${CHEVRON}
       </button>`).join("");
     el.pickerList.querySelectorAll(".anketa-pick").forEach((b) => b.addEventListener("click", () => openForm(b.dataset.cat)));
+    history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}`);
+    scrollToTop(el.picker);
+  }
+
+  // Плавно подводим к началу блока с учётом фиксированной шапки сайта.
+  function scrollToTop(target) {
+    const header = document.querySelector(".site-header, header");
+    const offset = (header ? header.getBoundingClientRect().height : 0) + 16;
+    const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   }
 
   async function openForm(cat) {
@@ -84,7 +101,14 @@
     state.format = meta.format;
     el.picker.hidden = true;
     el.form.hidden = false;
-    el.back.hidden = state.ctx.categories.length < 2;
+    const total = state.ctx.categories.length;
+    el.back.hidden = total < 2;
+    const stepEl = document.getElementById("anketa-step");
+    if (stepEl) {
+      stepEl.textContent = total > 1
+        ? `Шаг 2 из 2 · Номер ${state.ctx.categories.indexOf(meta) + 1} из ${total}`
+        : "Анкета участника";
+    }
     el.cat.textContent = meta.label;
     el.format.textContent = meta.formatLabel;
     el.done.hidden = true;
@@ -114,14 +138,15 @@
     renderRider();
     renderConsents();
     history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}&cat=${encodeURIComponent(cat)}`);
-    root.scrollIntoView({ block: "start" });
+    // Ведём к шапке анкеты, а не к началу страницы — чтобы сразу было видно, что открылось.
+    scrollToTop(document.getElementById("anketa-head") || root);
   }
 
   el.back.addEventListener("click", () => { flushSave(); renderPicker(state.ctx.categories); });
 
   function setStatusBadge() {
-    el.status.textContent = statusLabel(state.status);
-    el.status.className = `fee-badge ${state.status === "submitted" ? "fee-badge--paid" : ""}`;
+    el.status.innerHTML = `<span class="anketa-dot"></span>${esc(statusLabel(state.status))}`;
+    el.status.className = `anketa-meta-item anketa-status anketa-status--${state.status || "none"}`;
     el.submit.textContent = state.status === "submitted" ? "Отправить анкету заново" : "Отправить анкету";
   }
 
