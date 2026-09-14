@@ -3347,32 +3347,24 @@ img.calendar-card-bg {
 .promo-status--error { color: #d70015; }
 
 /* ── Анкета участника ── */
+.apply-form[hidden],
+#anketa-form[hidden],
+#anketa-picker[hidden],
+.anketa-back[hidden] {
+  display: none !important;
+}
 .anketa-shell { margin: 0 auto 28px; }
 .anketa-loading { color: var(--muted); font-weight: 600; padding: 12px 0; }
-/* Шаг 1 — выбор номера (список строк «название · статус · действие ›») */
-.anketa-step {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.anketa-picker-head { display: grid; gap: 8px; margin-bottom: 18px; }
 .anketa-picker-title {
-  margin: 0;
-  font-size: clamp(24px, 4vw, 32px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  margin: -4px 0 8px;
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
 }
-.anketa-picker-hint { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
-.anketa-picker-hint b { color: var(--ink); font-weight: 700; }
 .anketa-picker-list {
   display: grid;
-  border: 1px solid rgba(10, 10, 11, 0.1);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.72);
-  overflow: hidden;
+  margin-top: 6px;
+  border-top: 1px solid rgba(10, 10, 11, 0.1);
 }
 .anketa-pick {
   display: grid;
@@ -3380,110 +3372,116 @@ img.calendar-card-bg {
   gap: 12px;
   align-items: center;
   width: 100%;
-  min-height: 72px;
+  min-height: 68px;
   text-align: left;
-  padding: 16px 16px 16px 18px;
+  padding: 16px 4px 16px 0;
   border: none;
-  border-bottom: 1px solid rgba(10, 10, 11, 0.08);
+  border-bottom: 1px solid rgba(10, 10, 11, 0.1);
   background: transparent;
   color: var(--ink);
   font: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: background 0.15s ease;
 }
-.anketa-pick:last-child { border-bottom: none; }
-.anketa-pick:hover, .anketa-pick:focus-visible { background: rgba(10, 10, 11, 0.04); outline: none; }
-.anketa-pick:active { background: rgba(10, 10, 11, 0.08); }
-.anketa-pick-main { display: grid; gap: 4px; min-width: 0; }
+.anketa-pick:last-child { border-bottom: 1px solid rgba(10, 10, 11, 0.1); }
+.anketa-pick:hover, .anketa-pick:focus-visible { outline: none; }
+.anketa-pick:hover .anketa-pick-cat,
+.anketa-pick:hover .anketa-pick-action { text-decoration: underline; text-underline-offset: 3px; }
+.anketa-pick-main { display: grid; gap: 3px; min-width: 0; }
 .anketa-pick-cat { font-weight: 700; font-size: 17px; letter-spacing: -0.02em; line-height: 1.25; }
-.anketa-pick-sub { display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: 13.5px; font-weight: 500; }
-.anketa-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #c7c7cc; flex: 0 0 auto; }
-.anketa-pick--draft .anketa-dot, .anketa-status--draft .anketa-dot { background: #e08a1e; }
-.anketa-pick--submitted .anketa-dot, .anketa-status--submitted .anketa-dot { background: #1a9a52; }
-.anketa-pick-action {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  white-space: nowrap;
-}
-.anketa-pick-chevron { color: rgba(10, 10, 11, 0.4); flex: 0 0 auto; }
-.anketa-pick:hover .anketa-pick-chevron { color: var(--ink); }
+.anketa-pick-sub { color: var(--muted); font-size: 13.5px; font-weight: 500; }
+.anketa-pick-action { font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.anketa-pick-chevron { color: rgba(10, 10, 11, 0.35); flex: 0 0 auto; }
 
-/* Шаг 2 — шапка анкеты */
-.anketa-head {
-  display: grid;
-  gap: 8px;
-  padding: 0 0 20px;
-  border-bottom: 1px solid rgba(10, 10, 11, 0.1);
-  scroll-margin-top: 96px;
-}
+.anketa-head { display: grid; gap: 6px; padding: 0 0 4px; }
 .anketa-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   justify-self: start;
-  margin-bottom: 6px;
-  padding: 8px 12px 8px 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(10, 10, 11, 0.12);
-  background: rgba(255, 255, 255, 0.7);
-  color: var(--ink);
+  margin: 0 0 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--muted);
   font: inherit;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
-.anketa-back:hover { border-color: var(--ink); }
+.anketa-back:hover { color: var(--ink); }
 .anketa-title {
   margin: 0;
-  font-size: clamp(24px, 4vw, 34px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
 }
-.anketa-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--muted); font-size: 14.5px; }
-.anketa-meta b { color: var(--ink); font-weight: 700; }
-.anketa-meta-sep { opacity: 0.5; }
-.anketa-status { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; }
-.anketa-status--submitted { color: #14713c; }
-.anketa-status--draft { color: #8a4b00; }
-
-/* Информационные блоки — спокойные, без цветных полос */
-.info-block {
-  padding: 16px 18px;
-  border-radius: 14px;
+.anketa-meta {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  color: var(--muted);
   font-size: 14.5px;
-  line-height: 1.55;
-  color: var(--ink);
-  background: rgba(10, 10, 11, 0.04);
 }
-.info-block p { margin: 0 0 8px; }
-.info-block p:last-child { margin-bottom: 0; }
-.info-block ul { margin: 6px 0 0; padding-left: 20px; }
-.info-block li { margin: 3px 0; }
-.info-block a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
-.info-block-title {
+.anketa-meta-sep { opacity: 0.45; }
+.anketa-status--submitted { color: #14713c; font-weight: 600; }
+.anketa-status--draft { color: var(--ink); font-weight: 600; }
+.anketa-deadline-line {
+  margin: 4px 0 0;
+  max-width: 640px;
+  color: var(--muted);
   font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 6px;
+  line-height: 1.5;
 }
-.info-block--warn { background: #fdf3e4; }
-.info-block--warn .info-block-title { color: #8a4b00; }
-.info-block--note { background: rgba(10, 10, 11, 0.04); }
-.info-block--rider { background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(10, 10, 11, 0.12); }
-.info-block--rider summary { cursor: pointer; margin-bottom: 0; list-style: none; display: flex; align-items: center; justify-content: space-between; }
-.info-block--rider summary::-webkit-details-marker { display: none; }
-.info-block--rider summary::after { content: "Показать"; font-size: 13px; font-weight: 600; color: var(--muted); }
-.info-block--rider[open] summary::after { content: "Скрыть"; }
-.info-block--rider[open] summary { margin-bottom: 8px; }
-.rider-block { margin-top: 12px; }
-.rider-block b { display: block; margin-bottom: 4px; }
-.anketa-prefill { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px 20px; margin: 0; }
+.anketa-deadline-line b { color: var(--ink); font-weight: 700; }
+.anketa-deadline-line a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.anketa-prefill-wrap { padding-top: 18px; }
+.anketa-prefill { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 20px; margin: 0; }
 .anketa-prefill div { display: grid; gap: 2px; }
 .anketa-prefill dt { font-size: 12px; color: var(--muted); font-weight: 600; }
 .anketa-prefill dd { margin: 0; font-weight: 700; word-break: break-word; }
-.anketa-prefill-note { margin: 12px 0 0 !important; font-size: 13px; color: var(--muted); }
+.anketa-prefill-note { margin: 10px 0 0 !important; font-size: 13px; color: var(--muted); }
+
+.anketa-note {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.anketa-note p { margin: 0 0 8px; }
+.anketa-note ul { margin: 0; padding-left: 18px; }
+.anketa-note li { margin: 3px 0; }
+.anketa-details {
+  padding-top: 8px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.anketa-details summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 700;
+  list-style: none;
+}
+.anketa-details summary::-webkit-details-marker { display: none; }
+.anketa-details summary::after {
+  content: " — открыть";
+  font-weight: 500;
+  color: var(--muted);
+}
+.anketa-details[open] summary::after { content: " — скрыть"; }
+.rider-block { margin-top: 12px; }
+.rider-block b { display: block; margin-bottom: 4px; color: var(--ink); }
+
+body.anketa-filling .inner-hero .page-lead { display: none; }
+body.anketa-filling .inner-hero { padding-bottom: 18px; }
+@media (max-width: 640px) {
+  body.anketa-filling .inner-hero { display: none; }
+}
 .anketa-section { display: grid; gap: 16px; padding-top: 28px; margin-top: 12px; border-top: 1px solid rgba(10, 10, 11, 0.1); }
 .anketa-section-title { font-size: 15px; letter-spacing: 0.08em; color: var(--ink); margin-bottom: 0; }
 .q[hidden] { display: none; }
@@ -3529,10 +3527,9 @@ img.calendar-card-bg {
 .anketa-errors a { color: inherit; font-weight: 700; }
 @media (max-width: 640px) {
   .q-helper { grid-template-columns: 1fr; }
-  .anketa-pick { gap: 8px; padding: 14px 10px 14px 16px; }
+  .anketa-pick { gap: 8px; padding: 15px 0; }
   .anketa-pick-cat { font-size: 16px; }
   .anketa-pick-action { font-size: 13px; }
-  .anketa-head { scroll-margin-top: 80px; }
 }
 
 /* ── Оплата взноса за участие ── */

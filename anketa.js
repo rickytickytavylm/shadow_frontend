@@ -70,20 +70,21 @@
   const CHEVRON = `<svg class="anketa-pick-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>`;
 
   function renderPicker(cats) {
+    document.body.classList.remove("anketa-filling");
     el.picker.hidden = false;
     el.form.hidden = true;
     el.pickerList.innerHTML = cats.map((c) => `
       <button type="button" class="anketa-pick anketa-pick--${esc(c.status || "none")}" data-cat="${esc(c.category)}" role="listitem">
         <span class="anketa-pick-main">
           <span class="anketa-pick-cat">${esc(c.label)}</span>
-          <span class="anketa-pick-sub"><span class="anketa-dot"></span>${esc(c.formatLabel)} · ${esc(statusLabel(c.status))}</span>
+          <span class="anketa-pick-sub">${esc(c.formatLabel)} · ${esc(statusLabel(c.status))}</span>
         </span>
         <span class="anketa-pick-action">${esc(statusAction(c.status))}</span>
         ${CHEVRON}
       </button>`).join("");
     el.pickerList.querySelectorAll(".anketa-pick").forEach((b) => b.addEventListener("click", () => openForm(b.dataset.cat)));
     history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}`);
-    scrollToTop(el.picker);
+    scrollToTop(root);
   }
 
   // Плавно подводим к началу блока с учётом фиксированной шапки сайта.
@@ -99,16 +100,10 @@
     if (!meta) return;
     state.cat = cat;
     state.format = meta.format;
+    document.body.classList.add("anketa-filling");
     el.picker.hidden = true;
     el.form.hidden = false;
-    const total = state.ctx.categories.length;
-    el.back.hidden = total < 2;
-    const stepEl = document.getElementById("anketa-step");
-    if (stepEl) {
-      stepEl.textContent = total > 1
-        ? `Шаг 2 из 2 · Номер ${state.ctx.categories.indexOf(meta) + 1} из ${total}`
-        : "Анкета участника";
-    }
+    el.back.hidden = state.ctx.categories.length < 2;
     el.cat.textContent = meta.label;
     el.format.textContent = meta.formatLabel;
     el.done.hidden = true;
@@ -138,15 +133,14 @@
     renderRider();
     renderConsents();
     history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}&cat=${encodeURIComponent(cat)}`);
-    // Ведём к шапке анкеты, а не к началу страницы — чтобы сразу было видно, что открылось.
-    scrollToTop(document.getElementById("anketa-head") || root);
+    scrollToTop(root);
   }
 
   el.back.addEventListener("click", () => { flushSave(); renderPicker(state.ctx.categories); });
 
   function setStatusBadge() {
-    el.status.innerHTML = `<span class="anketa-dot"></span>${esc(statusLabel(state.status))}`;
-    el.status.className = `anketa-meta-item anketa-status anketa-status--${state.status || "none"}`;
+    el.status.textContent = statusLabel(state.status);
+    el.status.className = `anketa-status anketa-status--${state.status || "none"}`;
     el.submit.textContent = state.status === "submitted" ? "Отправить анкету заново" : "Отправить анкету";
   }
 
@@ -175,8 +169,8 @@
   function infoHtml(info) {
     if (!info || !info.length) return "";
     return info.map((b) => `
-      <div class="info-block info-block--${esc(b.tone || "note")}">
-        ${b.title ? `<div class="info-block-title">${esc(b.title)}</div>` : ""}
+      <div class="anketa-note">
+        ${b.title ? `<div class="form-section-title">${esc(b.title)}</div>` : ""}
         ${b.text ? `<p>${esc(b.text)}</p>` : ""}
         ${b.items ? `<ul>${b.items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>` : ""}
       </div>`).join("");
@@ -226,7 +220,7 @@
       const qs = s.questions.filter((q) => !q.formats || q.formats.includes(state.format));
       if (!qs.length) return "";
       return `<section class="anketa-section" data-section="${esc(s.id)}">
-        <div class="form-section-title anketa-section-title">${esc(s.title)}</div>
+        <div class="form-section-title">${esc(s.title)}</div>
         ${infoHtml(s.info)}
         ${qs.map(questionHtml).join("")}
       </section>`;
@@ -238,7 +232,7 @@
     const r = state.schema.rider;
     el.riderBody.innerHTML = (r?.blocks || []).map((b) => `<div class="rider-block"><b>${esc(b.title)}</b><ul>${b.items.map((i) => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
     const p = state.schema.penalties;
-    el.penalties.innerHTML = `<div class="info-block-title">${esc(p?.title || "Штрафные санкции")}</div><ul>${(p?.items || []).map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
+    el.penalties.innerHTML = `<div class="form-section-title">${esc(p?.title || "Штрафные санкции")}</div><ul>${(p?.items || []).map((i) => `<li>${esc(i)}</li>`).join("")}</ul>`;
   }
 
   function renderConsents() {
