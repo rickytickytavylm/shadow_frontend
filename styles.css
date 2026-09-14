@@ -3310,6 +3310,12 @@ img.calendar-card-bg {
   text-align: center;
   line-height: 1.45;
 }
+.pay-vpn-note {
+  margin: 12px 0 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
 
 /* ── Промокод ── */
 .promo-box {

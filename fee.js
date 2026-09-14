@@ -118,6 +118,7 @@
           <label><input type="checkbox" data-consent="privacy"> Я согласен на <a href="privacy.html" target="_blank" rel="noopener">обработку персональных данных</a> и получение писем от организаторов чемпионата</label>
           <label><input type="checkbox" data-consent="offer"> Я согласен с <a href="offer.html" target="_blank" rel="noopener">публичной офертой</a>, <a href="rules.html" target="_blank" rel="noopener">положениями</a> и понимаю, что взнос за участие не возвращается</label>
         </div>
+        <p class="pay-vpn-note">* ЮKassa не работает с VPN. Если VPN включён — отключите его.</p>
         <button type="button" class="btn btn-dark fee-pay-btn" data-pay>Оплатить ${q.participantsMissing ? "" : fmt(q.total)}</button>
         <p class="form-hint-under-btn">После оплаты придёт письмо с подтверждением и ссылкой на анкету участника. Если письма нет — проверьте «Спам».</p>
       </article>`;
