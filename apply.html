@@ -65,26 +65,6 @@
         <p class="page-lead">Приём заявок: 10 июля - 7 сентября 2026. Разместите видео с вашим танцевальным номером на YouTube, VK, Google/Яндекс Диске или другой площадке и укажите ссылку в форме. Заполните анкету и оплатите взнос за видеоотбор — заявка отправляется организаторам сразу после успешной оплаты.</p>
       </section>
 
-      <!-- ── Оплата взноса за участие (для прошедших видеоотбор) ── -->
-      <section class="glass-card form-shell fee-shell" id="packages">
-        <div class="form-section-title">Оплата взноса за участие</div>
-        <h2 class="fee-title">Вы прошли видеоотбор? Оплатите участие</h2>
-        <p class="form-section-hint">Введите email, указанный в заявке, — мы покажем категории, по которым вы прошли отбор, и сумму взноса. Срок оплаты — до <b>21 сентября</b> включительно.</p>
-
-        <form class="fee-form" id="fee-lookup" novalidate>
-          <label>
-            <span>Email из заявки</span>
-            <input type="email" name="email" id="fee-email" placeholder="name@example.com" required autocomplete="email">
-          </label>
-          <p class="fee-email-hint"><b>Не помните почту?</b> Это та же почта, на которую пришло письмо с результатами видеоотбора — вы попали на эту страницу по ссылке из него.</p>
-          <button class="btn btn-dark" type="submit" id="fee-lookup-btn">Найти мои заявки</button>
-        </form>
-
-        <div id="fee-results" hidden></div>
-        <p class="form-status" id="fee-status" role="status" aria-live="polite" hidden></p>
-        <p class="fee-prices-note">Соло — 10 000 ₽ · Дуэты — 7 000 ₽/чел · Команды — 4 500 ₽/чел. Батлы — оплата откроется ближе к ноябрю. Взнос за участие не возвращается.</p>
-      </section>
-
       <div class="apply-layout">
         <section class="glass-card form-shell">
           <form class="apply-form" id="apply-form" novalidate>
@@ -411,6 +391,10 @@
   <script src="config.js?v=20260914e"></script>
   <script src="script.js?v=20260807a"></script>
   <script src="apply.js?v=20260908b"></script>
-  <script src="fee.js?v=20260914b"></script>
+  <script>
+    if (location.hash === "#packages" || /(?:^|[?&])fee=/.test(location.search)) {
+      location.replace("pay.html" + location.search + location.hash);
+    }
+  </script>
 </body>
 </html>

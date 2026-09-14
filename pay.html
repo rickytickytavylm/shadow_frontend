@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0a0a0b">
+  <title>Оплата участия — чемпионат по пилону «ТЕНЬ» 2026</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260914j">
+</head>
+<body class="inner-page">
+  <div class="page-shell">
+    <header class="site-header glass-panel is-scrolled" data-header>
+      <a class="brand" href="index.html" aria-label="ТЕНЬ - на главную">ТЕНЬ</a>
+      <nav class="desktop-nav" aria-label="Главная навигация">
+        <a href="index.html#about">О чемпионате</a>
+        <a href="index.html#calendar">Календарь</a>
+        <a href="rules.html">Положения</a>
+        <a href="pay.html">Оплата участия</a>
+      </nav>
+      <div class="header-actions">
+        <a class="btn btn-small btn-dark" href="index.html">На главную</a>
+        <button class="menu-button" type="button" data-menu-button aria-label="Открыть меню"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <div class="mobile-menu glass-panel" data-mobile-menu>
+      <a href="index.html#about">О чемпионате</a>
+      <a href="index.html#calendar">Календарь</a>
+      <a href="rules.html">Положения</a>
+      <a href="pay.html">Оплата участия</a>
+    </div>
+
+    <main>
+      <section class="inner-hero">
+        <span class="section-kicker">Участникам</span>
+        <h1>Оплата участия</h1>
+        <p class="page-lead">Только взнос за участие для прошедших видеоотбор. Форма заявки на видеоотбор здесь не открывается.</p>
+      </section>
+
+      <section class="glass-card form-shell fee-shell" id="packages">
+        <div class="form-section-title">Оплата взноса за участие</div>
+        <h2 class="fee-title">Введите email из заявки</h2>
+        <p class="form-section-hint">Покажем категории, по которым вы прошли отбор, и сумму. Срок оплаты — до <b>21 сентября</b> включительно.</p>
+
+        <form class="fee-form" id="fee-lookup" novalidate>
+          <label>
+            <span>Email из заявки</span>
+            <input type="email" name="email" id="fee-email" placeholder="name@example.com" required autocomplete="email">
+          </label>
+          <p class="fee-email-hint"><b>Не помните почту?</b> Это та же почта, на которую пришло письмо с результатами видеоотбора — вы попали сюда по ссылке из него.</p>
+          <button class="btn btn-dark" type="submit" id="fee-lookup-btn">Найти мои заявки</button>
+        </form>
+
+        <div id="fee-results" hidden></div>
+        <p class="form-status" id="fee-status" role="status" aria-live="polite" hidden></p>
+        <p class="fee-prices-note">Соло — 10 000 ₽ · Дуэты — 7 000 ₽/чел · Команды — 4 500 ₽/чел. Батлы — оплата откроется ближе к ноябрю. Взнос за участие не возвращается.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="config.js?v=20260914e"></script>
+  <script src="script.js?v=20260807a"></script>
+  <script src="fee.js?v=20260914c"></script>
+</body>
+</html>
