@@ -3640,6 +3640,7 @@ body.anketa-filling .inner-hero { padding-bottom: 18px; }
 .fee-app-name { font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
 .fee-app-cats { color: var(--muted); font-size: 14px; margin-top: 4px; }
 .fee-app-note { margin: 0; font-size: 14px; color: #14713c; line-height: 1.5; }
+.fee-app--paid .fee-pay-btn { margin-top: 4px; }
 .fee-badge {
   flex: 0 0 auto;
   font-size: 12px;
