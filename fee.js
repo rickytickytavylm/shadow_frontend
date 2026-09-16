@@ -50,8 +50,7 @@
             </div>
             <span class="fee-badge fee-badge--paid">Оплачено</span>
           </div>
-          <p class="fee-app-note">Взнос ${fmt(q.feeAmount)} получен${q.feePaidAt ? " " + new Date(q.feePaidAt).toLocaleDateString("ru-RU") : ""}. Ссылка на анкету — ниже. Копия также в письме на почте.</p>
-          <a class="btn btn-dark fee-pay-btn" href="anketa.html?id=${encodeURIComponent(q.appId)}">Заполнить анкету участника</a>
+          <p class="fee-app-note">Взнос ${fmt(q.feeAmount)} получен${q.feePaidAt ? " " + new Date(q.feePaidAt).toLocaleDateString("ru-RU") : ""}. Письмо с подтверждением и ссылкой на анкету участника отправлено на почту.</p>
         </article>`;
     }
     if (!q.lines.length) {
