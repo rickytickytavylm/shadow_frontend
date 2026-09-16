@@ -282,6 +282,11 @@
     if (saved && !emailInput.value) emailInput.value = saved;
   } catch {}
 
+  const bootParams = new URLSearchParams(location.search);
+  const emailParam = (bootParams.get("email") || "").trim();
+  if (emailParam) emailInput.value = emailParam;
+
   handleReturn();
+  if (emailParam && bootParams.get("fee") !== "return") lookup(emailParam, true);
   if (location.hash === "#packages") shell.scrollIntoView({ block: "start" });
 })();
