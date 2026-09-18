@@ -19,7 +19,18 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const params = new URLSearchParams(location.search);
   const appId = (params.get("id") || "").trim();
+  const formKey = (params.get("key") || "").trim();
   let pickedCat = (params.get("cat") || "").trim();
+
+  function withKey(path) {
+    if (!formKey) return path;
+    return `${path}${path.includes("?") ? "&" : "?"}key=${encodeURIComponent(formKey)}`;
+  }
+  function pageQuery(extra = {}) {
+    const q = new URLSearchParams({ id: appId, ...extra });
+    if (formKey) q.set("key", formKey);
+    return `${location.pathname}?${q}`;
+  }
 
   const state = { schema: null, ctx: null, cat: null, format: "solo", answers: {}, consents: {}, status: "none", saveTimer: null, dirty: false };
   const draftKey = () => `shadow_anketa_${appId}_${state.cat}`;
@@ -31,7 +42,7 @@
   }
 
   async function api(path, opts = {}) {
-    const res = await fetch(`${API_BASE}${path}`, {
+    const res = await fetch(`${API_BASE}${withKey(path)}`, {
       headers: { "Content-Type": "application/json" },
       ...opts,
     });
@@ -99,7 +110,7 @@
       </button>`;
     }).join("");
     el.pickerList.querySelectorAll("button.anketa-pick").forEach((b) => b.addEventListener("click", () => openForm(b.dataset.cat)));
-    history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}`);
+    history.replaceState(null, "", pageQuery());
     scrollToTop(root);
   }
 
@@ -149,7 +160,7 @@
     renderSections();
     renderRider();
     renderConsents();
-    history.replaceState(null, "", `${location.pathname}?id=${encodeURIComponent(appId)}&cat=${encodeURIComponent(cat)}`);
+    history.replaceState(null, "", pageQuery({ cat }));
     scrollToTop(root);
   }
 
