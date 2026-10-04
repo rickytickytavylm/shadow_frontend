@@ -3121,6 +3121,22 @@ img.calendar-card-bg {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+.stage-name-box {
+  border: 1px solid rgba(10, 10, 11, 0.12);
+  border-radius: 18px;
+  margin-top: 18px;
+  padding: 18px;
+}
+.stage-name-box .form-section-title { margin-bottom: 10px; }
+.stage-name-box .form-section-hint { margin: 0 0 14px; }
+.stage-name-toggle {
+  align-items: flex-start;
+  display: flex !important;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.stage-name-toggle input { flex: 0 0 auto; margin-top: 3px; }
+.stage-name-toggle span { font-size: 14px; font-weight: 600; line-height: 1.4; }
 
 /* ── Категории: формат → уточнение ── */
 .format-list {

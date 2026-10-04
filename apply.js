@@ -29,8 +29,19 @@
 
   const statusEl = document.getElementById("form-status");
   const submitBtn = document.getElementById("apply-submit");
+  const useLegalName = document.getElementById("use-legal-name");
+  const stageNameField = document.getElementById("stage-name-field");
+  const stageNameInput = document.getElementById("stage-name");
 
   const REQUIRED_CHECKBOXES = ["age", "rules", "privacy", "media", "refund", "offer", "health"];
+
+  function updateStageNameUI() {
+    const useLegal = useLegalName?.checked !== false;
+    if (stageNameField) stageNameField.hidden = useLegal;
+    if (stageNameInput) stageNameInput.required = !useLegal;
+  }
+  useLegalName?.addEventListener("change", updateStageNameUI);
+  updateStageNameUI();
 
   // ── Категории: формат → уточнение ──
   const FORMAT_LABELS = { solo: "Соло", duet: "Дуэт", team: "Команда", battle: "Батл", shadow: "Тень" };
@@ -98,7 +109,7 @@
 
   const CLOSED_FORMATS = new Set(["solo", "duet", "team", "shadow"]);
   const CLOSED_MSG =
-    "Приём заявок на эту категорию закрыт. Сейчас открыт только батл — до 14 ноября.";
+    "Приём заявок на эту категорию закрыт. Сейчас открыт только батл — до 7 ноября включительно.";
 
   const CONFLICT_MSG =
     "Эту категорию нельзя добавить в текущую заявку, потому что для неё меняется состав участников. Подайте отдельную заявку и приложите отдельное видео для видеоотбора.";
@@ -288,7 +299,11 @@
   }
   function restoreForm(p) {
     if (!p) return;
-    setInputValue("fullName", p.fullName);
+    setInputValue("firstName", p.firstName);
+    setInputValue("lastName", p.lastName);
+    setInputValue("stageName", p.stageName);
+    if (useLegalName) useLegalName.checked = p.useLegalName !== false;
+    updateStageNameUI();
     setInputValue("email", p.email);
     setInputValue("phone", p.phone);
     setInputValue("telegram", p.telegram);
@@ -362,6 +377,7 @@
     // 3) Оплата подтверждена — очищаем форму и показываем зелёную плашку.
     clearPending();
     form.reset();
+    updateStageNameUI();
     updateFormatUI();
     setStatus(PAID_OK_MSG, "success");
     resetSubmitBtn();
@@ -385,7 +401,11 @@
     statusEl.hidden = true;
 
     // Базовые обязательные поля
-    const fullName = form.fullName.value.trim();
+    const firstName = form.firstName.value.trim();
+    const lastName = form.lastName.value.trim();
+    const fullName = `${firstName} ${lastName}`.trim();
+    const useLegal = form.useLegalName.checked;
+    const stageName = useLegal ? fullName : form.stageName.value.trim();
     const email = form.email.value.trim();
     const phone = form.phone.value.trim();
     const telegram = form.telegram.value.trim();
@@ -393,8 +413,11 @@
     const city = form.city.value.trim();
     const videoUrl = form.videoUrl.value.trim();
 
-    if (!fullName || !email || !phone) {
-      return setStatus("Заполните имя, email и телефон.", "error");
+    if (!firstName || !lastName || !email || !phone) {
+      return setStatus("Заполните отдельно имя, фамилию, email и телефон.", "error");
+    }
+    if (!stageName) {
+      return setStatus("Укажите имя или псевдоним для представления и диплома.", "error");
     }
     if (!telegram) {
       return setStatus("Укажите Telegram.", "error");
@@ -476,6 +499,10 @@
 
     const payload = {
       fullName,
+      firstName,
+      lastName,
+      stageName,
+      useLegalName: useLegal,
       email,
       phone,
       telegram,
@@ -502,6 +529,7 @@
     // Бэкенд не подключён — режим заглушки.
     if (!API_BASE) {
       form.reset();
+      updateStageNameUI();
       updateFormatUI();
       return setStatus("Спасибо! Заявка принята — мы скоро свяжемся с вами.", "success");
     }
@@ -549,6 +577,7 @@
     if (freeAccepted) {
       clearPending();
       form.reset();
+      updateStageNameUI();
       updateFormatUI();
       appliedPromo = "";
       clearPromoStatus();
@@ -566,6 +595,7 @@
       const appRes = await submitApplication(payload, "");
       if (appRes.ok) {
         form.reset();
+        updateStageNameUI();
         updateFormatUI();
         setStatus("Заявка отправлена! Мы свяжемся с вами по видеоотбору.", "success");
       } else {

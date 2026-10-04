@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Подать заявку на видеоотбор чемпионата по пилону «ТЕНЬ» (pole dance, exotic). Приём заявок: 10 июля - 7 сентября 2026. Москва, 28 ноября 2026.">
+  <meta name="description" content="Подать заявку на видеоотбор батлов чемпионата по пилону «ТЕНЬ». Приём заявок на батлы — до 7 ноября 2026 года. Москва, 28 ноября 2026.">
   <meta name="keywords" content="заявка pole dance, видеоотбор чемпионат по пилону, pole dance соревнования заявка, exotic чемпионат, участие pole dance Москва">
   <meta name="theme-color" content="#0a0a0b">
   <title>Подать заявку на видеоотбор — чемпионат по пилону «ТЕНЬ» 2026</title>
@@ -21,7 +21,7 @@
   <meta property="og:locale" content="ru_RU">
   <meta property="og:site_name" content="Чемпионат по пилону «ТЕНЬ»">
   <meta property="og:title" content="Подать заявку — чемпионат по пилону «ТЕНЬ»">
-  <meta property="og:description" content="Видеоотбор чемпионата «ТЕНЬ». Приём заявок: 10 июля - 7 сентября 2026.">
+  <meta property="og:description" content="Видеоотбор батлов чемпионата «ТЕНЬ». Приём заявок — до 7 ноября 2026 года.">
   <meta property="og:url" content="https://чемпионат-тень.рф/apply.html">
   <meta property="og:image" content="https://xn----7sbocmxidei1bb9cwe.xn--p1ai/assets/og-hero.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260914k">
+  <link rel="stylesheet" href="styles.css?v=20261004a">
 </head>
 <body class="inner-page">
   <div class="page-shell">
@@ -62,7 +62,7 @@
       <section class="inner-hero">
         <span class="section-kicker">Заявка</span>
         <h1>Подать заявку на видеоотбор</h1>
-        <p class="page-lead">Приём заявок: 10 июля - 7 сентября 2026. Разместите видео с вашим танцевальным номером на YouTube, VK, Google/Яндекс Диске или другой площадке и укажите ссылку в форме. Заполните анкету и оплатите взнос за видеоотбор — заявка отправляется организаторам сразу после успешной оплаты.</p>
+        <p class="page-lead">Приём заявок на батлы — до 7 ноября 2026 года включительно. Разместите видео с вашим танцевальным номером на YouTube, VK, Google/Яндекс Диске или другой площадке и укажите ссылку в форме. Заявка отправляется организаторам сразу после успешной оплаты видеоотбора.</p>
       </section>
 
       <div class="apply-layout">
@@ -72,8 +72,12 @@
             <!-- ── Контактная информация ── -->
             <div class="form-section-title">Контактная информация</div>
             <label>
-              <span>Имя и фамилия</span>
-              <input type="text" name="fullName" placeholder="Ваше имя" required>
+              <span>Имя</span>
+              <input type="text" name="firstName" placeholder="Кристина" autocomplete="given-name" required>
+            </label>
+            <label>
+              <span>Фамилия</span>
+              <input type="text" name="lastName" placeholder="Бродецкая" autocomplete="family-name" required>
             </label>
             <label>
               <span>Email</span>
@@ -96,6 +100,19 @@
               <input type="text" name="city" placeholder="Москва" required>
             </label>
 
+            <div class="stage-name-box">
+              <div class="form-section-title">Имя для представления</div>
+              <p class="form-section-hint">Так вас представят среди финалистов и укажут в дипломе.</p>
+              <label class="stage-name-toggle">
+                <input type="checkbox" name="useLegalName" id="use-legal-name" checked>
+                <span>Использовать указанные имя и фамилию</span>
+              </label>
+              <label id="stage-name-field" hidden>
+                <span>Имя или псевдоним для представления и диплома</span>
+                <input type="text" name="stageName" id="stage-name" placeholder="Как вас представить">
+              </label>
+            </div>
+
             <!-- ── О себе ── -->
             <div class="form-section-title" style="margin-top: 28px;">О себе</div>
             <fieldset class="role-fieldset">
@@ -116,7 +133,7 @@
 
             <!-- ── Категории ── -->
             <div class="form-section-title" style="margin-top: 28px;">Категории</div>
-            <p class="form-section-hint">Приём заявок на соло, дуэт, команду и «Тень» закрыт. Сейчас можно подать только <b>батл</b> — приём до 14 ноября. <a href="index.html#categories" target="_blank" rel="noopener">Описание категорий →</a></p>
+            <p class="form-section-hint">Приём заявок на соло, дуэт, команду и «Тень» закрыт. Сейчас можно подать только <b>батл</b> — приём до 7 ноября включительно. <a href="index.html#categories" target="_blank" rel="noopener">Описание категорий →</a></p>
             <p class="form-closed-note" id="format-closed-note">Соло, дуэт, команда и «Тень» больше не принимаются. Если хотите участвовать в батле — выберите «Батл» и уровень.</p>
 
             <div class="format-list" id="format-list">
@@ -228,7 +245,7 @@
             <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <div class="price-plaque price-plaque--mobile">
-              <span class="price-plaque-badge">Видеоотбор · до 07.09</span>
+              <span class="price-plaque-badge">Видеоотбор · до 07.11 · только батлы</span>
               <div class="price-plaque-amount">
                 <span class="price-plaque-new">2 300 ₽</span>
               </div>
@@ -270,11 +287,11 @@
         <aside class="apply-aside">
           <div class="apply-info-card">
             <h2>После отбора</h2>
-            <p>У прошедших видеоотбор есть 7 дней на оплату участия: соло - 10 000 ₽, батлы - 9 000 ₽, дуэты - 7 000 ₽/чел, команды - 4 500 ₽/чел.</p>
+            <p>После успешного прохождения видеоотбора откроется оплата взноса за участие в батлах — 9 000 ₽.</p>
           </div>
 
           <div class="price-plaque price-plaque--desktop">
-            <span class="price-plaque-badge">Видеоотбор · до 07.09</span>
+            <span class="price-plaque-badge">Видеоотбор · до 07.11 · только батлы</span>
             <div class="price-plaque-amount">
               <span class="price-plaque-new">2 300 ₽</span>
             </div>
@@ -391,7 +408,7 @@
 
   <script src="config.js?v=20260914e"></script>
   <script src="script.js?v=20260807a"></script>
-  <script src="apply.js?v=20260908b"></script>
+  <script src="apply.js?v=20261004a"></script>
   <script>
     if (location.hash === "#packages" || /(?:^|[?&])fee=/.test(location.search)) {
       location.replace("pay.html" + location.search + location.hash);
