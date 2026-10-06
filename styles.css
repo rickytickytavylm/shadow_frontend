@@ -2924,6 +2924,22 @@ img.calendar-card-bg {
   font-size: 13px;
 }
 
+.footer-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-dev {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.footer-dev:hover {
+  color: #ffffff;
+}
+
 .footer-legal {
   display: flex;
   gap: 24px;
