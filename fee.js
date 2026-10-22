@@ -59,7 +59,7 @@
           <div class="fee-app-head">
             <div>
               <div class="fee-app-name">${esc(q.fullName)}</div>
-              <div class="fee-app-cats">Нет батлов с открытой оплатой</div>
+              <div class="fee-app-cats">Нет категорий с открытой оплатой</div>
             </div>
             <span class="fee-badge">Недоступно</span>
           </div>
